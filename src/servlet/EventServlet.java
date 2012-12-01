@@ -39,7 +39,7 @@ public class EventServlet extends HttpServlet {
 		if(searchBy.equals("zip"))
 			eventMap = event.getEventsByZip(request.getParameter("zip"));
 		else if(searchBy.equals("cuisine"))
-			eventMap = event.getEventsByZip(request.getParameter("cuisine"));
+			eventMap = event.getEventsByCuisine(request.getParameter("cuisine"));
 		else if(searchBy.equals("zip_cuisine"))
 			eventMap = event.getEventsByCuisineAndZip(request.getParameter("cuisine"), request.getParameter("zip"));
 		else
@@ -62,8 +62,11 @@ public class EventServlet extends HttpServlet {
 		System.out.println("save new event: " + request.getParameterMap());
 		
 		Event newEvent = new Event();
-		newEvent.saveEvent(request);
-		
+		boolean eventSaved = newEvent.saveEvent(request);
+		if(!eventSaved)
+		{
+			throw new ServletException("event saving failed");
+		}
 		String contextPath = request.getContextPath();
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.sendRedirect(response.encodeRedirectURL(contextPath) + "/eventConfirm");
