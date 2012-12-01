@@ -13,7 +13,7 @@ import com.mongodb.Mongo;
 
 public class DBUtil {
 	
-	static final String DB_NAME = "myLittleRestaurant";
+	static final String DB_NAME = "socialfood";
 
 	public boolean insertintoDB(String collectionName, BasicDBObject doc) throws UnknownHostException
 	{
@@ -69,8 +69,9 @@ public class DBUtil {
 		}
 		
 		DB db = m.getDB(DB_NAME);
+		System.out.println("got db " + db.getName() );
 		DBCollection coll = db.getCollection(collectionName);
-		
+		System.out.println("does collection exists?" + db.collectionExists(collectionName));
 		return coll;
 	}
 }

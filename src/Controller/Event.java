@@ -16,7 +16,7 @@ public class Event {
 		DBUtil dbUtil = new DBUtil();
 		
 		Map reqParamMap = req.getParameterMap();
-		
+		System.out.println("event incoming param map: " + reqParamMap);
 		BasicDBObject eventDoc = new BasicDBObject();
 		BasicDBObject dishDoc = new BasicDBObject();
 		BasicDBObject eventaddrDoc = new BasicDBObject();
@@ -41,7 +41,9 @@ public class Event {
 		
 		boolean insertSuccessful = false;
 		try {
+			System.out.println("saving event");
 			insertSuccessful = dbUtil.insertintoDB(EVENT_COLLECTION, eventDoc);
+			System.out.println("event saved");
 		} catch (UnknownHostException e) {
 			throw e;
 		}

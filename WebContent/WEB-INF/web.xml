@@ -56,6 +56,10 @@
     <servlet-name>PaymentServlet</servlet-name>
     <servlet-class>servlet.PaymentServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>EventServlet</servlet-name>
+    <servlet-class>servlet.EventServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/login</url-pattern>
@@ -71,6 +75,10 @@
   <servlet-mapping>
     <servlet-name>PaymentServlet</servlet-name>
     <url-pattern>/payment</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>EventServlet</servlet-name>
+    <url-pattern>/event</url-pattern>
   </servlet-mapping>
   <security-role>
     <role-name>role1</role-name>
