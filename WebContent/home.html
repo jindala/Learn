@@ -45,6 +45,32 @@ $(document).ready(function(){
 		   		alert("response has come back");
 		   		$("#dinner_options").html(data);
 		   	});
+
+	  $("#search_dinner").click(function(){
+	   	var cuisine = $("#search_cuisine").val();
+	   	var zip = $("#search_zip").val();
+	   	alert("cuisine: " + cuisine + " and zip: " + zip);
+	   	var searchBy;
+	   	var url = "/Learn/event?searchBy=";
+	   	if(cuisine == undefined && zip != undefined)
+	   		url= url + "zip" +"&zip="+zip;
+	   	else if(cuisine != undefined && zip == undefined)
+	   		url= url + "cuisine" +"&cuisine="+cuisine;
+	   	else if(cuisine != undefined && zip != undefined)
+	   		url= url + "zip_cuisine" +"&cuisine="+cuisine+"&zip="+zip;
+	   	else
+	   		alert("no data");
+
+	   	
+	   	$("#dinner_options").load(url,function(data){
+	   	  	alert("response has come back with data "+ data );
+	   	  
+	   		var obj = jQuery.parseJSON(data);
+	   		alert( obj.result[0] );
+	   	  
+	   	  
+	   	  	$("#dinner_options").html(data);
+	   	  });
 	  });
 	});
 

@@ -52,12 +52,13 @@ public class DBUtil {
 		try {
 			JSONObject resultJSON = new JSONObject();
 			JSONArray resultArray = new JSONArray();
+			
             for(DBObject dbObject: dbObjectList) {
                 Map resultMap = dbObject.toMap();
                 resultArray.add(resultMap);
-                System.out.println("resultElement: " + resultMap);
             }
             resultJSON.put("result", resultArray);
+            System.out.println("result: "+ resultArray);
             return JSONValue.toJSONString(resultJSON);
         } finally {
             cursor.close();

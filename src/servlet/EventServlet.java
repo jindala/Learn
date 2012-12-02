@@ -34,7 +34,7 @@ public class EventServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Event event = new Event();
-		
+		System.out.println("search event: " + request.getParameterMap().toString());
 		String searchBy = request.getParameter("searchBy");
 		String eventMap;
 		if(searchBy.equals("zip"))
@@ -47,12 +47,21 @@ public class EventServlet extends HttpServlet {
 			eventMap = event.getEvent(request.getParameter("event_id"));
 		response.setStatus(HttpServletResponse.SC_OK);
 		
+		JSONObject jsonResponse = (JSONObject) JSONValue.parse(eventMap);
+		System.out.println("eventInfo json = " + eventMap);
 		response.setCharacterEncoding("utf8");
 		response.setContentType("application/json"); 
-		System.out.println("eventInfo json = " + eventMap);
 		
+		String responseJSON = eventMap.replaceAll(":", ":\"").replaceAll(",","\",");
+		System.out.println("replaced response: "+responseJSON);
+		String responseJSON2 = responseJSON.replaceAll("\"\\[", "\\[").replaceAll("\\]\"", "\\]");
+		System.out.println("replaced response2: "+responseJSON2);
+		String responseJSON3 = responseJSON2.replaceAll("\"\\{", "\\{").replaceAll("\\}\"", "\\}");
+		System.out.println("replaced response3: "+responseJSON3);
+		String responseJSON4 = responseJSON3.replaceAll("null\\}", "null\"\\}");
+		System.out.println("replaced response4: "+responseJSON4);
 		PrintWriter out = response.getWriter();
-		out.print(eventMap);
+		out.print(responseJSON4);
 	}
 
 	/**
