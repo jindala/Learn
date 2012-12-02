@@ -45,6 +45,7 @@ $(document).ready(function(){
 		   		alert("response has come back");
 		   		$("#dinner_options").html(data);
 		   	});
+	  });
 
 	  $("#search_dinner").click(function(){
 	   	var cuisine = $("#search_cuisine").val();
@@ -60,14 +61,12 @@ $(document).ready(function(){
 	   		url= url + "zip_cuisine" +"&cuisine="+cuisine+"&zip="+zip;
 	   	else
 	   		alert("no data");
-
 	   	
 	   	$("#dinner_options").load(url,function(data){
 	   	  	alert("response has come back with data "+ data );
 	   	  
 	   		var obj = jQuery.parseJSON(data);
-	   		alert( obj.result[0] );
-	   	  
+	   		alert( obj.result[0] );  	  
 	   	  
 	   	  	$("#dinner_options").html(data);
 	   	  });
