@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import Controller.Event;
 import Controller.User;
@@ -47,8 +48,8 @@ public class EventServlet extends HttpServlet {
 		response.setStatus(HttpServletResponse.SC_OK);
 		
 		response.setCharacterEncoding("utf8");
-		response.setContentType("application/json");   
-		JSONObject events = (JSONObject)eventMap;
+		response.setContentType("application/json"); 
+		String events = JSONValue.toJSONString(eventMap);//(JSONObject)eventMap;
 		System.out.println("eventInfo json = " + events);
 		
 		PrintWriter out = response.getWriter();
