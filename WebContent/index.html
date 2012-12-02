@@ -37,7 +37,7 @@
 				            $("#content_food").empty();
 				            for (var i=0; i<response.result.length; i++)
 				            {
-				            	$("#content_food").append('<div class="container" onclick="window.location=\'http://localhost:8080/Learn/meal.html?id='+ response.result[i]._id +'\'" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate'+ i+1 +'.jpg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
+				            	$("#content_food").append('<div class="container" onclick="window.location=\'http://localhost:8080/Learn/meal.html?id='+ response.result[i]._id +'\'" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="'+ response.result[i].host_id +'" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
 				            }
 					   		
 				        },
@@ -71,7 +71,7 @@
 					   		$("#content_food").empty();
 				            for (var i=0; i<response.result.length; i++)
 				            {
-				            	$("#content_food").append('<div class="container" onclick="window.location=\'http://localhost:8080/Learn/meal.html?id='+ response.result[i]._id +'\'" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate'+ i+1 +'.jpg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
+				            	$("#content_food").append('<div class="container" onclick="window.location=\'http://localhost:8080/Learn/meal.html?id='+ response.result[i]._id +'\'" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="'+ response.result[i].host_id +'" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
 				            }
 				        },
 				        // callback handler that will be called on error
@@ -231,6 +231,7 @@
 							<label for="comments">Comments</label>
 								<input type="text" name="comments"/>
 						</div>
+						<input type="hidden" value="images/plate06.jpg"/>
 						<p>By clicking "Save and Continue," you confirm that you accept the <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>.</p>
 						<input class="small_green_button" type="submit" value="Save and continue"/>
 						<a id="form_cancel" class="small_red_button" href="">Cancel</a>

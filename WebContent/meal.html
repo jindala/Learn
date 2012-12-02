@@ -23,6 +23,7 @@
 					   		$("#time").html("<span id='time' class='bold'>" + response.result[0].time + "</span>");
 					   		$("#totalseats").html("<span id='totalseats' class='bold'>" + response.result[0].seats +"</span>");
 					   		$("#description").html("<p id='description'>" + response.result[0].description +"</p>");
+					   		$("#dinner_img").html("<img id='dinner_img' src='" + response.result[0].host_id + "' alt='Plate1'>");
 					   		
 				        },
 				        // callback handler that will be called on error
@@ -78,7 +79,7 @@
 			<div id="content">
 				<div id="content_left">
 					<p><h2 id="dinnerTitle">Title created by the host</h2></p>
-					<img src="images/plate1.jpeg" alt="Plate1">
+					<img id="dinner_img" src="images/plate1.jpeg" alt="Plate1">
 					<div id="booking_form">
 						<h3>Booking details</h3>
 						<p id="date">Date: 12/03/2012</p>
