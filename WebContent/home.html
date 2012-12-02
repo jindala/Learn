@@ -26,7 +26,7 @@ $(document).ready(function(){
 	   	  	alert("response has come back with data "+ data );
 	   	  
 	   		var obj = jQuery.parseJSON(data);
-	   		alert( obj );
+	   		alert( obj.result[0] );
 	   	  
 	   	  
 	   	  	$("#dinner_options").html(data);
