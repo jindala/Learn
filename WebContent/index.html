@@ -37,7 +37,7 @@
 				            $("#content_food").empty();
 				            for (var i=0; i<response.result.length; i++)
 				            {
-				            	$("#content_food").append('<div class="container" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate1.jpeg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
+				            	$("#content_food").append('<div class="container" onclick="window.location=\'http://localhost:8080/Learn/meal.html?id='+ response.result[i]._id +'\'" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate1.jpeg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
 				            }
 					   		
 				        },
@@ -70,7 +70,7 @@
 		<div id="header_color">
 			<div id="header_wrapper">
 				<div id="header">
-					<img src="images/logo.png" alt="Social Food Logo">
+					<img onclick="window.location='http://localhost:8080/Learn/index.html'" src="images/logo.png" alt="Social Food Logo">
 					<button id="btn_hiw">How it works</button>
 				</div>
 				<div id="how_it_works">
