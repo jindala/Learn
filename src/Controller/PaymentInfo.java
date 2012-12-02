@@ -12,7 +12,7 @@ import Modal.DBUtil;
 public class PaymentInfo {
 
 	final static String PAYMENT_COLLECTION = "payment_info";
-	boolean savePaymentInfo(HttpServletRequest req) throws UnknownHostException
+	String savePaymentInfo(HttpServletRequest req) throws UnknownHostException
 	{
 		DBUtil dbUtil = new DBUtil();
 		
@@ -27,13 +27,13 @@ public class PaymentInfo {
 		paymentInfoDoc.put("cvv", reqParamMap.get("cvv"));
 		paymentInfoDoc.put("zip", reqParamMap.get("zip"));
 		
-		boolean insertSuccessful = false;
+		String id = null;
 		try {
-			insertSuccessful = dbUtil.insertintoDB(PAYMENT_COLLECTION, paymentInfoDoc);
+			id = dbUtil.insertintoDB(PAYMENT_COLLECTION, paymentInfoDoc);
 		} catch (UnknownHostException e) {
 			throw e;
 		}
-		return insertSuccessful;
+		return id;
 	}
 	
 	String getPaymentInfo(String email) throws UnknownHostException

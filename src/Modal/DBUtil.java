@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -19,11 +20,12 @@ public class DBUtil {
 	
 	static final String DB_NAME = "socialfood";
 
-	public boolean insertintoDB(String collectionName, BasicDBObject doc) throws UnknownHostException
+	public String insertintoDB(String collectionName, BasicDBObject doc) throws UnknownHostException
 	{
 		DBCollection coll = getCollection(collectionName);
 		coll.insert(doc);
-		return true;
+		ObjectId id = (ObjectId)doc.get( "_id" );
+		return id.toString();
 	}
 	
 	public Map getAllDocs(String collectionName) throws UnknownHostException
@@ -64,6 +66,7 @@ public class DBUtil {
             cursor.close();
         }
 	}
+	
 	
 	private DBCollection getCollection(String collectionName) throws UnknownHostException
 	{

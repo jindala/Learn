@@ -36,8 +36,11 @@ public class EventServlet extends HttpServlet {
 		Event event = new Event();
 		System.out.println("search event: " + request.getParameterMap().toString());
 		String searchBy = request.getParameter("searchBy");
+		String id = request.getParameter("id");
 		String eventMap;
-		if(searchBy.equals("zip"))
+		if(id != null)
+			eventMap = event.getEvent(id);
+		else if(searchBy.equals("zip"))
 			eventMap = event.getEventsByZip(request.getParameter("zip"));
 		else if(searchBy.equals("cuisine"))
 			eventMap = event.getEventsByCuisine(request.getParameter("cuisine"));
@@ -71,14 +74,14 @@ public class EventServlet extends HttpServlet {
 		System.out.println("save new event: " + request.getParameterMap());
 		
 		Event newEvent = new Event();
-		boolean eventSaved = newEvent.saveEvent(request);
-		if(!eventSaved)
+		String eventId = newEvent.saveEvent(request);
+		if(eventId == null)
 		{
 			throw new ServletException("event saving failed");
 		}
 		String contextPath = request.getContextPath();
 		response.setStatus(HttpServletResponse.SC_OK);	
-		response.sendRedirect(response.encodeRedirectURL(contextPath) + "/meal.html");
+		response.sendRedirect(response.encodeRedirectURL(contextPath) + "/meal.html?id=" + eventId);
 	}
 
 }
