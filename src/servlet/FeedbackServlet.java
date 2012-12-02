@@ -54,8 +54,17 @@ public class FeedbackServlet extends HttpServlet {
 		
 		System.out.println("feedback JSON info = " + feedbackMap);
 		
+		String responseJSON = feedbackMap.replaceAll(":", ":\"").replaceAll(",","\",");
+		System.out.println("replaced response: "+responseJSON);
+		String responseJSON2 = responseJSON.replaceAll("\"\\[", "\\[").replaceAll("\\]\"", "\\]");
+		System.out.println("replaced response2: "+responseJSON2);
+		String responseJSON3 = responseJSON2.replaceAll("\"\\{", "\\{").replaceAll("\\}\"", "\\}");
+		System.out.println("replaced response3: "+responseJSON3);
+		String responseJSON4 = responseJSON3.replaceAll("null\\}", "null\"\\}");
+		System.out.println("replaced response4: "+responseJSON4);
+		
 		PrintWriter out = response.getWriter();
-		out.print(feedbackMap);
+		out.print(responseJSON4);
 	}
 
 	/**
