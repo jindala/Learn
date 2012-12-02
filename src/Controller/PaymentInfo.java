@@ -36,12 +36,12 @@ public class PaymentInfo {
 		return insertSuccessful;
 	}
 	
-	Map getPaymentInfo(String email) throws UnknownHostException
+	String getPaymentInfo(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("email", email);
 		DBUtil dbUtil = new DBUtil();
-		Map paymentInfo = dbUtil.queryDocs(PAYMENT_COLLECTION, queryObj);
+		String paymentInfo = dbUtil.queryDocs(PAYMENT_COLLECTION, queryObj);
 		
 		return paymentInfo;
 	}

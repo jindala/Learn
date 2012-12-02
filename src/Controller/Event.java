@@ -50,43 +50,43 @@ public class Event {
 		return insertSuccessful;
 	}
 	
-	public Map getEvent(String eventId) throws UnknownHostException
+	public String getEvent(String eventId) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("_id", eventId);
 		DBUtil dbUtil = new DBUtil();
-		Map events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
 		return events;
 	}
 	
-	public Map getEventsByZip(String zip) throws UnknownHostException
+	public String getEventsByZip(String zip) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("address.zip", zip);
 		DBUtil dbUtil = new DBUtil();
-		Map events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
 		return events;
 	}
 	
-	public Map getEventsByCuisine(String cuisine) throws UnknownHostException
+	public String getEventsByCuisine(String cuisine) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("cuisine", cuisine);
 		DBUtil dbUtil = new DBUtil();
-		Map events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
 		return events;
 	}
 	
-	public Map getEventsByCuisineAndZip(String cuisine, String zip) throws UnknownHostException
+	public String getEventsByCuisineAndZip(String cuisine, String zip) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("cuisine", cuisine);
 		queryObj.put("address.zip", zip);
 		DBUtil dbUtil = new DBUtil();
-		Map events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
 		return events;
 	}

@@ -42,12 +42,12 @@ public class User {
 		return insertSuccessful;
 	}
 	
-	public Map getUserInfo(String email) throws UnknownHostException
+	public String getUserInfo(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("email", email);
 		DBUtil dbUtil = new DBUtil();
-		Map userInfo = dbUtil.queryDocs(USER_COLLECTION, queryObj);
+		String userInfo = dbUtil.queryDocs(USER_COLLECTION, queryObj);
 		
 		return userInfo;
 	}

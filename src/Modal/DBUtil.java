@@ -4,6 +4,10 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -40,22 +44,24 @@ public class DBUtil {
 		return null;
 	}
 	
-	public Map queryDocs(String collectionName,BasicDBObject basicdbObject) throws UnknownHostException
+	public String queryDocs(String collectionName,BasicDBObject basicdbObject) throws UnknownHostException
 	{
 		DBCollection coll = getCollection(collectionName);
 		DBCursor cursor = coll.find(basicdbObject);
 		List<DBObject> dbObjectList = cursor.toArray();
 		try {
+			JSONObject resultJSON = new JSONObject();
+			JSONArray resultArray = new JSONArray();
             for(DBObject dbObject: dbObjectList) {
                 Map resultMap = dbObject.toMap();
-                System.out.println("full map " + resultMap);
-                return resultMap;
+                resultArray.add(resultMap);
+                System.out.println("resultElement: " + resultMap);
             }
+            resultJSON.put("result", resultArray);
+            return JSONValue.toJSONString(resultJSON);
         } finally {
             cursor.close();
         }
-		
-		return null;
 	}
 	
 	private DBCollection getCollection(String collectionName) throws UnknownHostException

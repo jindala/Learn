@@ -32,7 +32,7 @@ public class FeebackServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Map feedbackMap;
+		String feedbackMap;
 		Feedback feedback = new Feedback();
 		String searchBy = request.getParameter("searchBy");
 		
@@ -52,11 +52,10 @@ public class FeebackServlet extends HttpServlet {
 		response.setCharacterEncoding("utf8");
 		response.setContentType("application/json"); 
 		
-		JSONObject feedbackJSON = (JSONObject)feedbackMap;
-		System.out.println("feedback JSON info = " + feedbackJSON);
+		System.out.println("feedback JSON info = " + feedbackMap);
 		
 		PrintWriter out = response.getWriter();
-		out.print(feedbackJSON);
+		out.print(feedbackMap);
 	}
 
 	/**

@@ -36,7 +36,7 @@ public class EventServlet extends HttpServlet {
 		Event event = new Event();
 		
 		String searchBy = request.getParameter("searchBy");
-		Map eventMap;
+		String eventMap;
 		if(searchBy.equals("zip"))
 			eventMap = event.getEventsByZip(request.getParameter("zip"));
 		else if(searchBy.equals("cuisine"))
@@ -49,11 +49,10 @@ public class EventServlet extends HttpServlet {
 		
 		response.setCharacterEncoding("utf8");
 		response.setContentType("application/json"); 
-		String events = JSONValue.toJSONString(eventMap);//(JSONObject)eventMap;
-		System.out.println("eventInfo json = " + events);
+		System.out.println("eventInfo json = " + eventMap);
 		
 		PrintWriter out = response.getWriter();
-		out.print(events);
+		out.print(eventMap);
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = new User();
 		
-		Map userInfoMap = user.getUserInfo(request.getParameter("email"));
+		String userInfoMap = user.getUserInfo(request.getParameter("email"));
 		System.out.println("userInfoMap = " + userInfoMap);
 		
 		String contextPath = request.getContextPath();
@@ -43,11 +43,10 @@ public class LoginServlet extends HttpServlet {
 		
 		response.setCharacterEncoding("utf8");
 		response.setContentType("application/json");   
-		JSONObject userInfo = (JSONObject)userInfoMap;
-		System.out.println("userInfo json = " + userInfo);
+		System.out.println("userInfo json = " + userInfoMap);
 		
 		PrintWriter out = response.getWriter();
-		out.print(userInfo);
+		out.print(userInfoMap);
 	}
 
 	/**

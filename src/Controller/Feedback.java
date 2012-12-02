@@ -39,36 +39,36 @@ public class Feedback {
 		return insertSuccessful;
 	}
 	
-	public Map getOrganizerFeedback(String email) throws UnknownHostException
+	public String getOrganizerFeedback(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("revieweeEmail", email);
 		
 		DBUtil dbUtil = new DBUtil();
-		Map feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
+		String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 		
 		return feedback;
 	}
 
-	public Map getCustomerFeedback(String email) throws UnknownHostException
+	public String getCustomerFeedback(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("reviewerEmail", email);
 		
 		DBUtil dbUtil = new DBUtil();
-		Map feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
+		String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 		
 		return feedback;
 	}
 	
-	public Map getOrganizerFeedbackByCuisine(String email, String cuisine) throws UnknownHostException
+	public String getOrganizerFeedbackByCuisine(String email, String cuisine) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("reviewerEmail", email);
 		queryObj.put("feedback_cuisine", cuisine);
 		
 		DBUtil dbUtil = new DBUtil();
-		Map feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
+		String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 		
 		return feedback;
 	}
