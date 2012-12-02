@@ -28,30 +28,18 @@
 				   		searchBy = "zip_cuisine";*/
 				   	else
 				   		alert("no data");
-				   	
-					//GET
-				   	/*$("#eventSearchList").load("/Learn/event?searchBy="+searchBy+"&zip="+searchZIPcode,function(data){
-				   		var obj = jQuery.parseJSON(data);
-				   		alert( obj.result[0] ); 
-				   		
-				   		//$("#eventSearchList").style.display='block';
-				   		$("#eventSearchList").show();
-				   		$("#eventSearchList").html(data);
-				   	});*/
 					
 				   	$.ajax({
 				   		url:"/Learn/event?searchBy="+searchBy+"&zip="+searchZIPcode,
 				   		type: "get",
 				   		success: function(response, textStatus, jqXHR){
 				            // log a message to the console
-				            alert("Hooray, it worked! " + response);
-					   		alert( response.result[0].title );
-					   		$("#eventSearchList").show();
+				            $("#content_food").empty();
+				            for (var i=0; i<response.result.length; i++)
+				            {
+				            	$("#content_food").append('<div class="container" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate1.jpeg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
+				            }
 					   		
-					   		$("#eventTitle").html(response.result[0].title);
-					   		$("#eventCity").html(response.result[0].city);
-					   		$("#eventDate").html(response.result[0].date);
-					   		$("#eventPrice").html(response.result[0].price);
 				        },
 				        // callback handler that will be called on error
 				        error: function(jqXHR, textStatus, errorThrown){
@@ -63,6 +51,14 @@
 				        }
 				   	});
                 });
+				
+				$(".container").click(function(){
+					var divId = $(this).id;
+					var id = divId.split("_")[0];
+					window.location = "/Learn/meal.html?id=" + id;
+				});
+				
+				
 				$("#form_cancel").click(function(){
 					$("#form_wrapper").slideUp();
 					return false;
@@ -230,13 +226,6 @@
 					<div class="clear"></div>				
 				</div>
 				<div id="content_food">
-					<div class="container" style="DISPLAY: none" id="eventSearchList">
-						<img src="images/plate1.jpeg" alt="Empanadas">
-						<h3 id="eventTitle">Title</h3>
-						<h4 id="eventCity">Meal - City</h4>
-						<h4 id="eventDate">Date and time</h4>
-						<h2 id="eventPrice">$15</h2>
-					</div>
 				</div>				
 			<div id="footer">
 			</div>
