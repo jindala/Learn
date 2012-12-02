@@ -10,28 +10,19 @@
 				var param = window.location.search;
 				var id = param.split("=")[1];
 				if(id != "" && id != undefined)
-				{
-				   	/*$("#content").load("/Learn/event?id="+id,function(data){
-				   		alert("response has come back with data " + data);
-				   		
-				   		var obj = jQuery.parseJSON(data);
-				   		alert( obj.result[0].cuisine );
-				   	});*/
-				   	
+				{  	
 				   	$.ajax({
 				   		url:"/Learn/event?id="+id,
 				   		type: "get",
-				   		success: function(response, textStatus, jqXHR){
-				            // log a message to the console
-				            alert("Hooray, it worked! " + response);
-					   		alert( response.result[0].cuisine );
-					   		$("h2").html(response.result[0].title);
-					   		$("#firstCuisine").html(response.result[0].cuisine);
-					   		$("#date").html(response.result[0].date);
-					   		$("#cost").html(response.result[0].price);
-					   		$("#time").html(response.result[0].cuisine);
-					   		$("#totalseats").html(response.result[0].seats);
-					   		
+				   		success: function(response, textStatus, jqXHR){					   		
+					   		$("#dinnerTitle").html("<h2>" + response.result[0].title + "</h2>");
+					   		$("#date").html("<p id='date'>Date: " + response.result[0].date + "</p>");
+					   		$("#cost").html("<p id='cost'>Cost: $" + response.result[0].price + "</p>");
+					   		$("#firstCuisine").html("<a id='firstCuisine' href='#'>" + response.result[0].cuisine + "</a>");
+					   		$("#location").html("<span id='location' class='bold'>" + response.result[0].address.city + ", " + response.result[0].address.state +"</span>");
+					   		$("#time").html("<span id='time' class='bold'>" + response.result[0].time + "</span>");
+					   		$("#totalseats").html("<span id='totalseats' class='bold'>" + response.result[0].seats +"</span>");
+					   		$("#description").html("<p id='description'>" + response.result[0].description +"</p>");
 					   		
 				        },
 				        // callback handler that will be called on error
@@ -44,6 +35,13 @@
 				        }
 				   	});
 				}
+				
+				$("#form_submit").submit(function() {
+					  $("#book_form").slideToggle('fast', function() {
+						  $("#book_form").html($('select.seats option:selected').val() + "<h3> Confirmed!</h3>")
+					  });
+					});
+				
 				$("#submitFeedbackBtn").click(function(){
 				   	/*var orgEmail = $("#organizerEmail").val();
 				   	var custEmail = $("#customerEmail").val();*/
@@ -79,13 +77,13 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="content_left">
-					<p><h2>Title created by the host</h2></p>
+					<p><h2 id="dinnerTitle">Title created by the host</h2></p>
 					<img src="images/plate1.jpeg" alt="Plate1">
 					<div id="booking_form">
 						<h3>Booking details</h3>
 						<p id="date">Date: 12/03/2012</p>
 						<p id="cost">Cost: $15</p>
-						<form action="">
+						<form action="#" id="book_form">
 							<label>Seats:</label>
 							<select name="seats">
 								<option value="1">1</option>
@@ -105,7 +103,7 @@
 							<li><a href="#">Healthy</a></li>
 							<li><a href="#">French</a></li>
 						</ul>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel augue mauris, ut laoreet est. Praesent metus nisl, luctus a dapibus vitae, hendrerit non lacus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin commodo, lacus ac sollicitudin vehicula, nulla arcu ultrices tellus, ac mattis nisi lectus adipiscing ligula. Duis dictum viverra est, at euismod leo mattis sit amet. Etiam consequat varius turpis, viverra gravida magna ullamcorper vel. Etiam vel arcu et eros mattis dapibus.</p>
+						<p id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel augue mauris, ut laoreet est. Praesent metus nisl, luctus a dapibus vitae, hendrerit non lacus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin commodo, lacus ac sollicitudin vehicula, nulla arcu ultrices tellus, ac mattis nisi lectus adipiscing ligula. Duis dictum viverra est, at euismod leo mattis sit amet. Etiam consequat varius turpis, viverra gravida magna ullamcorper vel. Etiam vel arcu et eros mattis dapibus.</p>
 					</div>
 					<div id="date_time_map">
 						<div id="date_time">
@@ -123,7 +121,7 @@
 					<p><h2>Meet your chef</h2></p>
 					<div id="chef_profile" class="chef_class">
 						<img src="images/chef1.png" alt="Chef Name" class="profile_img">
-						<p>Chef Name</p>
+						<p>Andrew</p>
 						<button href="mailto:" class="small_green_button">Contact</button>
 					</div>
 					<div id="chef_desc" class="chef_class">
