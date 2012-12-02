@@ -26,17 +26,20 @@ public class Event {
 		eventaddrDoc.put("city", reqParamMap.get("city"));
 		eventaddrDoc.put("state", reqParamMap.get("state"));
 		eventaddrDoc.put("zip", reqParamMap.get("zip"));
+		eventaddrDoc.put("country", reqParamMap.get("country"));
 		
 		eventDoc.put("host_id", reqParamMap.get("email"));
-		eventDoc.put("capacity", reqParamMap.get("capacity"));
+		eventDoc.put("seats", reqParamMap.get("seats"));
 		eventDoc.put("cuisine", reqParamMap.get("cuisine"));
-		eventDoc.put("timming", reqParamMap.get("timming"));
+		eventDoc.put("time", reqParamMap.get("time"));
+		eventDoc.put("date", reqParamMap.get("date"));
 		eventDoc.put("cutOffTime", reqParamMap.get("cutOffTime"));
 		eventDoc.put("dish", dishDoc);
 		eventDoc.put("address", eventaddrDoc);
-		eventDoc.put("cost", reqParamMap.get("cost"));
-		eventDoc.put("sponsor", reqParamMap.get("sponsor"));
+		eventDoc.put("price", reqParamMap.get("price"));
+		eventDoc.put("title", reqParamMap.get("title"));
 		eventDoc.put("description", reqParamMap.get("description"));
+		eventDoc.put("sponsor", reqParamMap.get("sponsor"));
 		
 		
 		boolean insertSuccessful = false;

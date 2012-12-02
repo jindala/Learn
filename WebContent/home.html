@@ -26,7 +26,7 @@ $(document).ready(function(){
 	   	  	alert("response has come back with data "+ data );
 	   	  
 	   		var obj = jQuery.parseJSON(data);
-	   		alert( obj.result[0] );
+	   		alert( obj.result[0].cuisine );
 	   	  
 	   	  
 	   	  	$("#dinner_options").html(data);
@@ -56,7 +56,7 @@ $(document).ready(function(){
 	</form>
 	<br>
 	Search: 
-	<input type="text" id="search_cusine">
+	<input type="text" id="search_cuisine">
 	<input type="text" id="search_zip">
 	<button id="search_dinner">Search Dinner</button>
 	
