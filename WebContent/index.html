@@ -37,7 +37,7 @@
 				            $("#content_food").empty();
 				            for (var i=0; i<response.result.length; i++)
 				            {
-				            	$("#content_food").append('<div class="container" onclick="window.location=\'http://localhost:8080/Learn/meal.html?id='+ response.result[i]._id +'\'" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate1.jpeg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
+				            	$("#content_food").append('<div class="container" onclick="window.location=\'http://localhost:8080/Learn/meal.html?id='+ response.result[i]._id +'\'" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate'+ i+1 +'.jpg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
 				            }
 					   		
 				        },
@@ -51,29 +51,27 @@
 				        }
 				   	});
                 });
-				$("#listItalian").click(function(event){
+				$("#listItalian, #listMexican, #listFrench, #listMediterranean, #listVegetarian").click(function(event){
 					var URL = "/Learn/event?searchBy=";
 					
+					var cuisine = $(this).html();
 					if(searchZIPcode) {
 						searchBy="zip_cuisine";
-						URL= URL + searchBy +"&cuisine=italian"+"&zip="+searchZIPcode;
+						URL= URL + searchBy +"&cuisine="+ cuisine +"&zip="+searchZIPcode;
 					} else {
 						searchBy="cuisine";
-						URL= URL + searchBy +"&cuisine=italian";
+						URL= URL + searchBy +"&cuisine=" + cuisine;
 					}
-					alert("hereeee: " + URL);
 					$.ajax({
 				   		url:URL,
-				   		async: false,
 				   		type: "get",
 				   		success: function(response, textStatus, jqXHR){
 				            // log a message to the console
-					   		alert( response.result.length );
 				            
 					   		$("#content_food").empty();
 				            for (var i=0; i<response.result.length; i++)
 				            {
-				            	$("#content_food").append('<div class="container" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate1.jpeg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
+				            	$("#content_food").append('<div class="container" onclick="window.location=\'http://localhost:8080/Learn/meal.html?id='+ response.result[i]._id +'\'" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate'+ i+1 +'.jpg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
 				            }
 				        },
 				        // callback handler that will be called on error
@@ -86,11 +84,7 @@
 				        }
 				   	});
                 });
-				$(".container").click(function(){
-					var divId = $(this).id;
-					var id = divId.split("_")[0];
-					window.location = "/Learn/meal.html?id=" + id;
-				});
+
 				$("#form_cancel").click(function(){
 					$("#form_wrapper").slideUp();
 					return false;
@@ -248,11 +242,11 @@
 					</div>
 					<div class="content_tags_body" id="cuisineFilter">
 						<ul>
-							<li><a href="" id="listItalian">Italian</a></li>
-							<li><a href="" id="listMexican">Mexican</a></li>
-							<li><a href="" id="listSpanish">Spanish</a></li>
-							<li><a href="" id="listMediterranean">Mediterranean</a></li>
-							<li><a href="" id="listVegetarian">Vegetarian</a></li>
+							<li><a href="#" id="listItalian">italian</a></li>
+							<li><a href="#" id="listMexican">mexican</a></li>
+							<li><a href="#" id="listFrench">french</a></li>
+							<li><a href="#" id="listMediterranean">mediterranean</a></li>
+							<li><a href="#" id="listVegetarian">vegetarian</a></li>
 						</ul>
 					</div>
 					<div class="clear"></div>				
