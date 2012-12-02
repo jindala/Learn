@@ -16,6 +16,53 @@
 				$("#create_dinner").click(function(event){
 					$("#form_wrapper").slideDown();
                 });
+				$("#listEvents").click(function(event){
+					var searchBy;
+				   	var searchZIPcode = $("#search_Events").val();
+				   	
+				   	if(searchZIPcode != undefined)
+				   		searchBy = "zip";
+				   	/*else if(cuisine != undefined && zip == undefined)
+				   		searchBy = "cuisine";
+				   	else if(cuisine != undefined && zip != undefined)
+				   		searchBy = "zip_cuisine";*/
+				   	else
+				   		alert("no data");
+				   	
+					//GET
+				   	/*$("#eventSearchList").load("/Learn/event?searchBy="+searchBy+"&zip="+searchZIPcode,function(data){
+				   		var obj = jQuery.parseJSON(data);
+				   		alert( obj.result[0] ); 
+				   		
+				   		//$("#eventSearchList").style.display='block';
+				   		$("#eventSearchList").show();
+				   		$("#eventSearchList").html(data);
+				   	});*/
+					
+				   	$.ajax({
+				   		url:"/Learn/event?searchBy="+searchBy+"&zip="+searchZIPcode,
+				   		type: "get",
+				   		success: function(response, textStatus, jqXHR){
+				            // log a message to the console
+				            alert("Hooray, it worked! " + response);
+					   		alert( response.result[0].title );
+					   		$("#eventSearchList").show();
+					   		
+					   		$("#eventTitle").html(response.result[0].title);
+					   		$("#eventCity").html(response.result[0].city);
+					   		$("#eventDate").html(response.result[0].date);
+					   		$("#eventPrice").html(response.result[0].price);
+				        },
+				        // callback handler that will be called on error
+				        error: function(jqXHR, textStatus, errorThrown){
+				            // log the error to the console
+				            alert(
+				                "The following error occured: "+
+				                textStatus, errorThrown
+				            );
+				        }
+				   	});
+                });
 				$("#form_cancel").click(function(){
 					$("#form_wrapper").slideUp();
 					return false;
@@ -49,8 +96,8 @@
 						<div id="foodie" class="options">
 							<h2>I eat</h2>
 							<p>Find homemade food.</p>
-							<p>Near: <input name="where" type="text" value="Zip Code, City"></p>
-							<button class="green_button">Find a dinner</button>
+							<p>Near: <input name="where" type="text" id="search_Events" value="Zip Code, City"></p>
+							<button class="green_button" id="listEvents">Find a dinner</button>
 						</div>
 					</div>
 					<div class="clear"></div>
@@ -183,12 +230,12 @@
 					<div class="clear"></div>				
 				</div>
 				<div id="content_food">
-					<div class="container">
+					<div class="container" style="DISPLAY: none" id="eventSearchList">
 						<img src="images/plate1.jpeg" alt="Empanadas">
-						<h3>Title</h3>
-						<h4>Meal - City</h4>
-						<h4>Date and time</h4>
-						<h2>$15</h2>
+						<h3 id="eventTitle">Title</h3>
+						<h4 id="eventCity">Meal - City</h4>
+						<h4 id="eventDate">Date and time</h4>
+						<h2 id="eventPrice">$15</h2>
 					</div>
 				</div>				
 			<div id="footer">
