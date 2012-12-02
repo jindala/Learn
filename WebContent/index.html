@@ -16,6 +16,29 @@
 				$("#create_dinner").click(function(event){
 					$("#form_wrapper").dialog({ modal: true, minWidth: 600, minHeight: 400 });
                 });
+				$("#listEvents").click(function(event){
+					var searchBy;
+				   	var searchZIPcode = $("#search_Events").val();
+				   	
+				   	if(searchZIPcode != undefined)
+				   		searchBy = "zip";
+				   	/*else if(cuisine != undefined && zip == undefined)
+				   		searchBy = "cuisine";
+				   	else if(cuisine != undefined && zip != undefined)
+				   		searchBy = "zip_cuisine";*/
+				   	else
+				   		alert("no data");
+				   	
+					//GET
+				   	$("#eventSearchList").load("/Learn/event?searchBy="+searchBy+"&zip="+searchZIPcode,function(data){
+				   		var obj = jQuery.parseJSON(data);
+				   		alert( obj.result[0] ); 
+				   		
+				   		//$("#eventSearchList").style.display='block';
+				   		$("#eventSearchList").show();
+				   		$("#eventSearchList").html(data);
+				   	});
+                });
 			});
 		</script>
 	</head>
@@ -45,8 +68,8 @@
 						<div id="foodie" class="options">
 							<h2>I eat</h2>
 							<p>Find homemade food.</p>
-							<p>Near: <input name="where" type="text" value="Zip Code, City"></p>
-							<button class="green_button">Find a dinner</button>
+							<p>Near: <input name="where" type="text" id="search_Events" value="Zip Code, City"></p>
+							<button class="green_button" id="listEvents">Find a dinner</button>
 						</div>
 					</div>
 				</div>
@@ -66,7 +89,7 @@
 					<div class="clear"></div>				
 				</div>
 				<div id="content_food">
-					<div class="container">
+					<div class="container" style="DISPLAY: none" id="eventSearchList">
 						<img src="images/plate1.jpeg" alt="Empanadas">
 						<h3>Title</h3>
 						<h4>Meal - City</h4>
