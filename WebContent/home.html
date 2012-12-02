@@ -2,6 +2,34 @@
 <html>
 <head>
 <title>home</title>
+
+<script src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	  $("#search_dinner").click(function(){
+	   	var cuisine = $("#search_cuisine").val();
+	   	var zip = $("#search_zip").val();
+	   	alert("cuisine: " + cuisine + " and zip: " + zip);
+	   	var searchBy;
+	   	if(cuisine == undefined && zip != undefined)
+	   		searchBy = "zip";
+	   	else if(cuisine != undefined && zip == undefined)
+	   		searchBy = "cuisine";
+	   	else if(cuisine != undefined && zip != undefined)
+	   		searchBy = "zip_cuisine";
+	   	else
+	   		alert("no data");
+	   	
+	   	$("#dinner_options").load("/Learn/event", {"searchBy":searchBy, 
+	   		"zip":zip,
+	   		"cuisine":cuisine},function(data){
+	   		alert("response has come back");
+	   		$("#dinner_options").html(data)
+	   	});
+	  });
+	});
+
+</script>
 </head>
 
 <body>
@@ -20,7 +48,13 @@
 		<br>
 		<input type="submit" value="Submit">
 	</form>
+	<br>
+	Search: 
+	<input type="text" id="search_cusine">
+	<input type="text" id="search_zip">
+	<button id="search_dinner">Search Dinner</button>
 	
+	<div id="dinner_options"></div>
 	
 </body>
 

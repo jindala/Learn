@@ -68,9 +68,7 @@ public class EventServlet extends HttpServlet {
 			throw new ServletException("event saving failed");
 		}
 		String contextPath = request.getContextPath();
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.sendRedirect(response.encodeRedirectURL(contextPath) + "/eventConfirm");
-		
+		response.setStatus(HttpServletResponse.SC_OK);		
 	}
 
 }
