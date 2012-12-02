@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="style.css">
+		<title>One foodie in particular</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$("#submitFeedbackBtn").click(function(){
+				   	/*var orgEmail = $("#organizerEmail").val();
+				   	var custEmail = $("#customerEmail").val();*/
+				   	var comment = $("#feedbackComment").val();
+				   	var rating = $("#feedbackRating").val();
+					
+				   	//POST
+				   	$("#feedbackPost_success").load("/Learn/feedback", { 
+				   		//"revieweeEmail":orgEmail,
+				   		//"reviewerEmail":custEmail,
+				   		"comment":comment,
+				   		"rating":rating},function(data){
+					   		$("#feedbackPost_success").html(comment);
+				   	});
+				   	$("#feedbackComment").val("");
+				   	$("#feedbackRating").val("");
+			    });
+			});
+		</script>
+	</head>
+	<body>
+		<div id="header_color">
+			<div id="header_wrapper">
+				<div id="header">
+					<img src="images/logo.png" alt="Social Food Logo">
+					<div id="search">	
+						<button class="small_green_button">Go</button>
+						<h4>Find homemade food near: <input name="where" type="text" value="Zip Code, City"></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="wrapper">
+			<div id="content">
+				<div id="content_left">
+					<p><h2>Title created by the host</h2></p>
+					<img src="images/plate1.jpeg" alt="Plate1">
+					<div id="booking_form">
+						<h3>Booking details</h3>
+						<p>Date: 12/03/2012</p>
+						<p>Cost: $15</p>
+						<form action="">
+							<label>Seats:</label>
+							<select name="seats">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+							</select>
+							<div id="form_submit">
+								<input class="green_button"type="submit" value="Book" />
+							</div>
+						</form>
+					</div>
+					<div class="clear"></div>
+					<div id="description">
+						<ul class="content_tags">
+							<li><a href="">Baguettes</a></li>
+							<li><a href="">Healthy</a></li>
+							<li><a href="">French</a></li>
+						</ul>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel augue mauris, ut laoreet est. Praesent metus nisl, luctus a dapibus vitae, hendrerit non lacus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin commodo, lacus ac sollicitudin vehicula, nulla arcu ultrices tellus, ac mattis nisi lectus adipiscing ligula. Duis dictum viverra est, at euismod leo mattis sit amet. Etiam consequat varius turpis, viverra gravida magna ullamcorper vel. Etiam vel arcu et eros mattis dapibus.</p>
+					</div>
+					<div id="date_time_map">
+						<div id="date_time">
+							<p>Meal: <span class="bold">Dinner<span></p>
+							<p>Time: <span class="bold">6 PM<span></p>
+							<p>Location: <span class="bold">Mountain View, CA<span></p>
+							<p>Total guest: <span class="bold">10<span></p>
+						</div>
+						<div id="map">
+							<iframe width="250" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=PayPal,+North+1st+Street,+San+Jose,+CA&amp;aq=0&amp;oq=paypa&amp;sll=36.914764,-119.311523&amp;sspn=10.569242,19.753418&amp;ie=UTF8&amp;hq=PayPal,+North+1st+Street,+San+Jose,+CA&amp;t=m&amp;ll=37.376455,-121.922616&amp;spn=0.017734,0.032015&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=PayPal,+North+1st+Street,+San+Jose,+CA&amp;aq=0&amp;oq=paypa&amp;sll=36.914764,-119.311523&amp;sspn=10.569242,19.753418&amp;ie=UTF8&amp;hq=PayPal,+North+1st+Street,+San+Jose,+CA&amp;t=m&amp;ll=37.376455,-121.922616&amp;spn=0.017734,0.032015" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+						</div>
+					</div>
+				</div>
+				<div id="content_right">
+					<p><h2>Meet your chef</h2></p>
+					<div id="chef_profile" class="chef_class">
+						<img src="images/chef1.png" alt="Chef Name" class="profile_img">
+						<p>Chef Name</p>
+						<button href="mailto:" class="small_green_button">Contact</button>
+					</div>
+					<div id="chef_desc" class="chef_class">
+						<h4>About the host<meta>:</h4>
+						<p>	Morbi adipiscing tortor dignissim justo auctor sagittis. Etiam sollicitudin mi enim. Sed iaculis turpis sed libero gravida pretium. Vivamus fringilla ipsum ac quam congue eget cursus ligula congue. Suspendisse potenti.</p>
+					</div>
+					<div id="chef_rating" class="chef_class">
+						<h3>Rating:</h3> <img src="images/rating3.png" alt="Rating image" />
+					</div>
+					<div id="chef_reviews" class="chef_class">
+						<p><h4>Reviews:</h4></p>
+						<div class="reviews">
+							<p>Morbi adipiscing tortor dignissim justo auctor sagittis. Etiam sollicitudin mi enim. Sed iaculis turpis sed libero gravida pretium.</p>
+							<p class="date">8 hours ago</p>
+							<p class="by_user">by Nora Jones</p>
+						</div>
+						<div class="reviews">
+							<p>Morbi adipiscing tortor dignissim justo auctor sagittis. Etiam sollicitudin mi enim. Sed iaculis turpis sed libero gravida pretium.</p>
+							<p class="date">1 days ago</p>
+							<p class="by_user">by John Wu</p>
+						</div>
+						<div class="reviews">
+							<p>Morbi adipiscing tortor dignissim justo auctor sagittis. Etiam sollicitudin mi enim. Sed iaculis turpis sed libero gravida pretium.</p>
+							<p class="date">3 days ago</p>
+							<p class="by_user">by James Hy</p>
+						</div>
+						<div class="reviews" id="feedbackPost_success"></div>
+						Post Feedback:<br>
+							<!-- Organizer (reviewee): <input type="text" name="revieweeEmail" id="organizerEmail"><br>
+							Customer (reviewer): <input type="text" name="reviewerEmail" id="customerEmail"><br> -->
+							Comment: <input type="text" name="comment" id="feedbackComment"><br>
+							Rating: <input type="text" name="rating" id="feedbackRating"><br>
+							<input type="submit" value="Submit" id="submitFeedbackBtn">
+						<button href="mailto:" class="small_green_button">Write a review</button>
+					</div>
+				</div>
+			</div>
+			<div id="footer">
+			</div>
+		</div>
+	</body>
+</html>

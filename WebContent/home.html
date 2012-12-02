@@ -41,13 +41,16 @@ $(document).ready(function(){
 		   		alert("no data");
 		   	
 			//GET
-		   	$("#dinner_options").load("/Learn/feedback?searchBy="+searchBy+"&revieweeEmail="+orgFeedback,function(data){
+		   	$("#feedback_list").load("/Learn/feedback?searchBy="+searchBy+"&revieweeEmail="+orgFeedback,function(data){
 		   		alert("response has come back");
-		   		$("#dinner_options").html(data);
+		   		var obj = jQuery.parseJSON(data);
+		   		alert( obj.result[0] ); 
+		   		
+		   		$("#feedback_list").html(data);
 		   	});
 	  });
 
-	  $("#search_dinner").click(function(){
+	  /*$("#search_dinner").click(function(){
 	   	var cuisine = $("#search_cuisine").val();
 	   	var zip = $("#search_zip").val();
 	   	alert("cuisine: " + cuisine + " and zip: " + zip);
@@ -70,7 +73,7 @@ $(document).ready(function(){
 	   	  
 	   	  	$("#dinner_options").html(data);
 	   	  });
-	  });
+	  });*/
 	});
 
 </script>
@@ -98,12 +101,12 @@ $(document).ready(function(){
 	<div id="feedbackPost_success"></div>
 	
 	<br>
-	List Feedback: <br>
+	List Feedbackk: <br>
 	<input type="text" id="search_orgFeedback">
 	<!-- <input type="text" id="search_zip"> -->
 	<button id="listOrganizerFeedback">List Feedback</button>
 	
-	<div id="dinner_options"></div>
+	<div id="feedback_list"></div>
 	
 </body>
 
