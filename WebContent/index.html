@@ -10,6 +10,7 @@
         <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>	
 		<script>
 			$(document).ready(function(){
+				var searchZIPcode, searchBy;
 		  		$("#btn_hiw").click(function(event){
 		    		$("#how_it_works").slideToggle();
 				});
@@ -17,8 +18,7 @@
 					$("#form_wrapper").slideDown();
                 });
 				$("#listEvents").click(function(event){
-					var searchBy;
-				   	var searchZIPcode = $("#search_Events").val();
+				   	searchZIPcode = $("#search_Events").val();
 				   	
 				   	if(searchZIPcode != undefined)
 				   		searchBy = "zip";
@@ -51,14 +51,46 @@
 				        }
 				   	});
                 });
-				
+				$("#listItalian").click(function(event){
+					var URL = "/Learn/event?searchBy=";
+					
+					if(searchZIPcode) {
+						searchBy="zip_cuisine";
+						URL= URL + searchBy +"&cuisine=italian"+"&zip="+searchZIPcode;
+					} else {
+						searchBy="cuisine";
+						URL= URL + searchBy +"&cuisine=italian";
+					}
+					alert("hereeee: " + URL);
+					$.ajax({
+				   		url:URL,
+				   		async: false,
+				   		type: "get",
+				   		success: function(response, textStatus, jqXHR){
+				            // log a message to the console
+					   		alert( response.result.length );
+				            
+					   		$("#content_food").empty();
+				            for (var i=0; i<response.result.length; i++)
+				            {
+				            	$("#content_food").append('<div class="container" style="float: left;" id="' + response.result[i]._id + '_eventSearchList"><img src="images/plate1.jpeg" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +  +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
+				            }
+				        },
+				        // callback handler that will be called on error
+				        error: function(jqXHR, textStatus, errorThrown){
+				            // log the error to the console
+				            alert(
+				                "The following error occured: "+
+				                textStatus, errorThrown
+				            );
+				        }
+				   	});
+                });
 				$(".container").click(function(){
 					var divId = $(this).id;
 					var id = divId.split("_")[0];
 					window.location = "/Learn/meal.html?id=" + id;
 				});
-				
-				
 				$("#form_cancel").click(function(){
 					$("#form_wrapper").slideUp();
 					return false;
@@ -214,13 +246,13 @@
 					<div id="content_tags_title">
 						<h2>What are you craving for?</h2>
 					</div>
-					<div class="content_tags_body">
+					<div class="content_tags_body" id="cuisineFilter">
 						<ul>
-							<li><a href="">Italian</a></li>
-							<li><a href="">Mexican</a></li>
-							<li><a href="">Spanish</a></li>
-							<li><a href="">Mediterranean</a></li>
-							<li><a href="">Vegetarian</a></li>
+							<li><a href="" id="listItalian">Italian</a></li>
+							<li><a href="" id="listMexican">Mexican</a></li>
+							<li><a href="" id="listSpanish">Spanish</a></li>
+							<li><a href="" id="listMediterranean">Mediterranean</a></li>
+							<li><a href="" id="listVegetarian">Vegetarian</a></li>
 						</ul>
 					</div>
 					<div class="clear"></div>				
