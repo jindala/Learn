@@ -36,7 +36,7 @@
 				   	});
 				}
 				
-				$("#form_submit").submit(function() {
+				$("#form_submit").click(function() {
 					  $("#book_form").slideToggle('fast', function() {
 						  $("#book_form").html($('select.seats option:selected').val() + "<h3> Confirmed!</h3>")
 					  });
