@@ -13,7 +13,7 @@ import Modal.DBUtil;
 public class Feedback {
 	
 	final static String FEEDBACK_COLLECTION = "feedback";
-	public boolean saveFeedback(HttpServletRequest req) throws UnknownHostException
+	public String saveFeedback(HttpServletRequest req) throws UnknownHostException
 	{
 		DBUtil dbUtil = new DBUtil();
 		
@@ -30,13 +30,13 @@ public class Feedback {
 		feedbackDoc.put("feedback_type", reqParamMap.get("feedback_type")); 		//customer or organizer
 		feedbackDoc.put("feedback_cuisine", reqParamMap.get("feedback_cuisine")); 	//feedback for a particular cuisine in general
 		
-		boolean insertSuccessful = false;
+		String id=null;
 		try {
-			insertSuccessful = dbUtil.insertintoDB(FEEDBACK_COLLECTION, feedbackDoc);
+			id = dbUtil.insertintoDB(FEEDBACK_COLLECTION, feedbackDoc);
 		} catch (UnknownHostException e) {
 			throw e;
 		}
-		return insertSuccessful;
+		return id;
 	}
 	
 	public String getOrganizerFeedback(String email) throws UnknownHostException

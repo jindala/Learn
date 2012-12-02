@@ -38,9 +38,12 @@ body {
 	margin:20px;
 }
 #how_it_works {
-	text-align: center;
 	display: none;
 }
+#how_it_works img {
+	margin-left: 67.5px;
+}
+
 #content_header_title {
 	text-align: center;
 }

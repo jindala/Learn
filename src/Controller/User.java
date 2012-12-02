@@ -12,7 +12,7 @@ import Modal.DBUtil;
 
 public class User {
 	final static String USER_COLLECTION = "user";
-	public boolean saveUserInfo(HttpServletRequest req) throws UnknownHostException
+	public String saveUserInfo(HttpServletRequest req) throws UnknownHostException
 	{
 		DBUtil dbUtil = new DBUtil();
 		
@@ -33,13 +33,13 @@ public class User {
 		userDoc.put("phone", reqParamMap.get("phone"));
 		userDoc.put("address", useraddrDoc);
 		
-		boolean insertSuccessful = false;
+		String id = null;
 		try {
-			insertSuccessful = dbUtil.insertintoDB(USER_COLLECTION, userDoc);
+			id = dbUtil.insertintoDB(USER_COLLECTION, userDoc);
 		} catch (UnknownHostException e) {
 			throw e;
 		}
-		return insertSuccessful;
+		return id;
 	}
 	
 	public String getUserInfo(String email) throws UnknownHostException

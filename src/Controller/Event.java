@@ -5,13 +5,15 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.types.ObjectId;
+
 import Modal.DBUtil;
 
 import com.mongodb.BasicDBObject;
 
 public class Event {
 	final static String EVENT_COLLECTION = "event";
-	public boolean saveEvent(HttpServletRequest req) throws UnknownHostException
+	public String saveEvent(HttpServletRequest req) throws UnknownHostException
 	{
 		DBUtil dbUtil = new DBUtil();
 		
@@ -42,21 +44,25 @@ public class Event {
 		eventDoc.put("sponsor", reqParamMap.get("sponsor"));
 		
 		
-		boolean insertSuccessful = false;
+		String id = null;
 		try {
 			System.out.println("saving event");
-			insertSuccessful = dbUtil.insertintoDB(EVENT_COLLECTION, eventDoc);
+			id = dbUtil.insertintoDB(EVENT_COLLECTION, eventDoc);
 			System.out.println("event saved");
+			
+			
 		} catch (UnknownHostException e) {
 			throw e;
 		}
-		return insertSuccessful;
+		return id;
 	}
 	
 	public String getEvent(String eventId) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
-		queryObj.put("_id", eventId);
+		ObjectId objId = ObjectId.massageToObjectId(eventId);
+		System.out.println("event objectId=" + objId);
+		queryObj.put("_id", objId);
 		DBUtil dbUtil = new DBUtil();
 		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
