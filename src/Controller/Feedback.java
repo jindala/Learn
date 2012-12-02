@@ -13,7 +13,7 @@ import Modal.DBUtil;
 public class Feedback {
 	
 	final static String FEEDBACK_COLLECTION = "feedback";
-	boolean saveFeedback(HttpServletRequest req) throws UnknownHostException
+	public boolean saveFeedback(HttpServletRequest req) throws UnknownHostException
 	{
 		DBUtil dbUtil = new DBUtil();
 		
@@ -21,12 +21,14 @@ public class Feedback {
 		
 		BasicDBObject feedbackDoc = new BasicDBObject();
 		
-		feedbackDoc.put("email", reqParamMap.get("email"));
-		feedbackDoc.put("feedback_by_email", reqParamMap.get("feedback_by_email"));
+		feedbackDoc.put("revieweeEmail", reqParamMap.get("revieweeEmail")); 		//reviewee: organizer/customer
+		feedbackDoc.put("reviewerEmail", reqParamMap.get("reviewerEmail")); 		//reviewer
 		feedbackDoc.put("comment", reqParamMap.get("comment"));
-		feedbackDoc.put("rating", reqParamMap.get("rating"));
-		feedbackDoc.put("oneLiner", reqParamMap.get("oneLiner"));
-		feedbackDoc.put("feedback_type", reqParamMap.get("feedback_type"));
+		//To-DO: verify 'rating' is integer
+		feedbackDoc.put("rating", reqParamMap.get("rating"));						
+		feedbackDoc.put("oneLiner", reqParamMap.get("oneLiner"));					//title?
+		feedbackDoc.put("feedback_type", reqParamMap.get("feedback_type")); 		//customer or organizer
+		feedbackDoc.put("feedback_cuisine", reqParamMap.get("feedback_cuisine")); 	//feedback for a particular cuisine in general
 		
 		boolean insertSuccessful = false;
 		try {
@@ -37,14 +39,37 @@ public class Feedback {
 		return insertSuccessful;
 	}
 	
-	Map getFeedback(String email) throws UnknownHostException
+	public Map getOrganizerFeedback(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
-		queryObj.put("email", email);
+		queryObj.put("revieweeEmail", email);
+		
 		DBUtil dbUtil = new DBUtil();
 		Map feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 		
 		return feedback;
 	}
 
+	public Map getCustomerFeedback(String email) throws UnknownHostException
+	{
+		BasicDBObject queryObj = new BasicDBObject();
+		queryObj.put("reviewerEmail", email);
+		
+		DBUtil dbUtil = new DBUtil();
+		Map feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
+		
+		return feedback;
+	}
+	
+	public Map getOrganizerFeedbackByCuisine(String email, String cuisine) throws UnknownHostException
+	{
+		BasicDBObject queryObj = new BasicDBObject();
+		queryObj.put("reviewerEmail", email);
+		queryObj.put("feedback_cuisine", cuisine);
+		
+		DBUtil dbUtil = new DBUtil();
+		Map feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
+		
+		return feedback;
+	}
 }

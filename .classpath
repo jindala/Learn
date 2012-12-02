@@ -8,8 +8,8 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="/Users/anupamjindal/development/workspace/mongo-2.9.3.jar"/>
-	<classpathentry kind="lib" path="/Users/anupamjindal/development/tomcat/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="/Users/anupamjindal/Downloads/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/veersingh/Desktop/Projects/softwares/mongo-2.7.3.jar"/>
+	<classpathentry kind="lib" path="/Library/Tomcat/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/KidGames/WebContent/WEB-INF/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
