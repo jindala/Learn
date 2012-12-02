@@ -6,6 +6,47 @@
 <script src="jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	  $("#submitFeedbackBtn").click(function(){
+		   	var orgEmail = $("#organizerEmail").val();
+		   	var custEmail = $("#customerEmail").val();
+		   	var comment = $("#feedbackComment").val();
+		   	var rating = $("#feedbackRating").val();
+		   	alert("organizerEmail: " + orgEmail + " and customerEmail: " + custEmail);
+			
+		   	//POST
+		   	$("#feedbackPost_success").load("/Learn/feedback", { 
+		   		"revieweeEmail":orgEmail,
+		   		"reviewerEmail":custEmail,
+		   		"comment":comment,
+		   		"rating":rating},function(data){
+			   		alert("response has come back");
+			   		$("#feedbackPost_success").html("WOOTTTT")
+		   	});
+	  });
+	  
+	  //GET
+	  $("#listOrganizerFeedback").click(function(){
+			var searchBy;
+		   	var orgFeedback = $("#search_orgFeedback").val();
+		   	//var cuisine = $("#search_cusine").val();
+		   	alert("organizerEmail: " + orgFeedback);
+		   	
+		   	if(orgFeedback != undefined)
+		   		searchBy = "revieweeEmail";
+		   	/*else if(cuisine != undefined && zip == undefined)
+		   		searchBy = "cuisine";
+		   	else if(cuisine != undefined && zip != undefined)
+		   		searchBy = "zip_cuisine";*/
+		   	else
+		   		alert("no data");
+		   	
+			//GET
+		   	$("#dinner_options").load("/Learn/feedback?searchBy="+searchBy+"&revieweeEmail="+orgFeedback,function(data){
+		   		alert("response has come back");
+		   		$("#dinner_options").html(data);
+		   	});
+	  });
+
 	  $("#search_dinner").click(function(){
 	   	var cuisine = $("#search_cuisine").val();
 	   	var zip = $("#search_zip").val();
@@ -20,7 +61,6 @@ $(document).ready(function(){
 	   		url= url + "zip_cuisine" +"&cuisine="+cuisine+"&zip="+zip;
 	   	else
 	   		alert("no data");
-
 	   	
 	   	$("#dinner_options").load(url,function(data){
 	   	  	alert("response has come back with data "+ data );
@@ -28,10 +68,8 @@ $(document).ready(function(){
 	   		var obj = jQuery.parseJSON(data);
 	   		alert( obj.result[0].cuisine );
 	   	  
-	   	  
 	   	  	$("#dinner_options").html(data);
 	   	  });
-	   	
 	  });
 	});
 
@@ -47,18 +85,25 @@ $(document).ready(function(){
 	<input type="button" name="visitDinner" id="visitDinner" value="Visit Dinner"/>
 	<br>
 	<br>
-	<form action="/Learn/event"
-      method="POST">
-		Zip: <input type="text" name="zip"><br>
-		Cuisine: <input type="text" name="cuisine">
-		<br>
-		<input type="submit" value="Submit">
-	</form>
+	<!-- <form action="/Learn/feedback"
+      method="POST"> -->
+    Post Feedback:<br>
+		Organizer (reviewee): <input type="text" name="revieweeEmail" id="organizerEmail"><br>
+		Customer (reviewer): <input type="text" name="reviewerEmail" id="customerEmail"><br>
+		Comment: <input type="text" name="comment" id="feedbackComment"><br>
+		Rating: <input type="text" name="rating" id="feedbackRating"><br>
+		<!-- <input type="submit" value="Submit" id="submitBtn" onclick=ÓcheckName();Ó> -->
+		<input type="submit" value="Submit" id="submitFeedbackBtn">
+	<!-- </form> -->
+	<div id="feedbackPost_success"></div>
+	
 	<br>
 	Search: 
 	<input type="text" id="search_cuisine">
 	<input type="text" id="search_zip">
 	<button id="search_dinner">Search Dinner</button>
+	List Feedback: <br>
+	<input type="text" id="search_orgFeedback">
 	
 	<div id="dinner_options"></div>
 	
