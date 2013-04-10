@@ -30,7 +30,7 @@ public class Event {
 		eventaddrDoc.put("zip", reqParamMap.get("zip"));
 		eventaddrDoc.put("country", reqParamMap.get("country"));
 		
-		eventDoc.put("host_id", reqParamMap.get("email"));
+		eventDoc.put("host_id", reqParamMap.get("host_id"));
 		eventDoc.put("seats", reqParamMap.get("seats"));
 		eventDoc.put("cuisine", reqParamMap.get("cuisine"));
 		eventDoc.put("time", reqParamMap.get("time"));

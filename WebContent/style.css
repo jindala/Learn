@@ -64,6 +64,9 @@ body {
 	padding:20px;
 	margin-bottom: 20px;
 }
+.options_text {
+	height: 120px;
+}
 .green_button {
 	background-color:#00C90D;
 	color:white;
@@ -89,6 +92,13 @@ body {
 	box-shadow: 0 -20px #05af0a inset;
 	text-decoration: none;
 	margin:0px;
+}
+.green_button:disabled {
+	background-color:#C8C8C8 ;
+	border-bottom-style:  solid;
+	border-right-style:  solid;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 -20px #A0A0A0 inset;
 }
 #cook {
 	float: left;
@@ -175,7 +185,7 @@ body {
 }
 	#content_left img {
 		padding: 0px 20px 15px;
-		width: 330px;
+		width: 340px;
 		height: 220px;
 	}
 	#booking_form {
@@ -192,7 +202,7 @@ body {
 			text-align: center;
 		} 
 	#description {
-		margin: 0px 20px;
+		margin:20px;
 		clear:both;
 	}
 	#date_time_map{
@@ -256,8 +266,11 @@ body {
 	}
 	.profile_img {
 		width: 100px;
-		height: 100px;
 		float:left;
+		margin:10px;
+	}
+	#chef_desc {
+		clear:both;
 	}
 		.reviews {
 			font-size: 12px;
@@ -281,8 +294,9 @@ body {
 
 #form_wrapper {
 	margin:10px auto;
-	background-color: #E4E4E4;	
+	background-color: white;	
 	display:none;
+	border:2px solid #E4E4E4;
 }
 #form_wrapper .small_green_button {
 	margin:20px 25px;
@@ -295,17 +309,15 @@ body {
 	margin:10px 20px;
 }
 .instructions_form {
-	background-color: black;
+	background-color: #E4E4E4;
 	padding:1px 20px;
-	color:white;
+	color:black;
 }
 	.instructions_form img{
 		float:right;
 		width: 20px;
 	}
-	.instructions_form h3 {
-		color:#ffcc44;
-	}
+
 .small_red_button {
 	background-color:#FF0000;
 	color:white;
