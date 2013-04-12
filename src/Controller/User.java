@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.*;
 
+import org.json.simple.JSONObject;
+
 import com.mongodb.BasicDBObject;
 
 import Modal.DBUtil;
@@ -42,14 +44,14 @@ public class User {
 		return id;
 	}
 	
-	public String getUserInfo(String email) throws UnknownHostException
+	public JSONObject getUserInfo(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("email", email);
 		DBUtil dbUtil = new DBUtil();
-		String userInfo = dbUtil.queryDocs(USER_COLLECTION, queryObj);
+		//String userInfo = dbUtil.queryDocs(USER_COLLECTION, queryObj);
 		
-		return userInfo;
+		return dbUtil.queryDocs(USER_COLLECTION, queryObj);
 	}
 
 }

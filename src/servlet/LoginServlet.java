@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = new User();
 		
-		String userInfoMap = user.getUserInfo(request.getParameter("email"));
+		JSONObject userInfoMap = user.getUserInfo(request.getParameter("email"));
 		System.out.println("userInfoMap = " + userInfoMap);
 		
 		String contextPath = request.getContextPath();
