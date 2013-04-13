@@ -26,7 +26,7 @@
 					   		$("#time").html("<span id='time' class='bold'>" + response.result[0].time + "</span>");
 					   		$("#totalseats").html("<span id='totalseats' class='bold'>" + response.result[0].seats +"</span>");
 					   		$("#description").html("<p id='description'>" + response.result[0].description +"</p>");
-					   		$("#dinner_img").attr("src",response.result[0].host_id);
+					   		$("#dinner_img").attr("src","http://localhost:8080/Learn" +response.result[0].picture1);
 				        },
 				        // callback handler that will be called on error
 				        error: function(jqXHR, textStatus, errorThrown){

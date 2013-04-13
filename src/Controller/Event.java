@@ -1,50 +1,70 @@
 package Controller;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.Map;
+import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONObject;
 
 import Modal.DBUtil;
+import Utilities.FileUtilities;
 
 import com.mongodb.BasicDBObject;
 
 public class Event {
 	final static String EVENT_COLLECTION = "event";
-	public String saveEvent(HttpServletRequest req) throws UnknownHostException
+	public String saveEvent(HttpServletRequest req) throws IOException, ServletException
 	{
 		DBUtil dbUtil = new DBUtil();
 		
-		Map<String, String[]> reqParamMap = req.getParameterMap();
-		System.out.println("event incoming param map: " + reqParamMap);
+		System.out.println("incoming content type: " + req.getContentType());
+		//Map<String, String[]> reqParamMap = req.getParameterMap();
 		BasicDBObject eventDoc = new BasicDBObject();
 		BasicDBObject dishDoc = new BasicDBObject();
 		BasicDBObject eventaddrDoc = new BasicDBObject();
+	 
+		 try {
+		        List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(req);
+		        for (FileItem item : items) {
+		            if (item.isFormField()) {
+		                // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
+		                String fieldname = item.getFieldName();
+		                String fieldvalue = item.getString();
+		                System.out.println("save fieldname =" + fieldname);
+		        		if(fieldname.equals("street1")) eventaddrDoc.put("street1", fieldvalue);
+		        		else if(fieldname.equals("street2")) eventaddrDoc.put("street2", fieldvalue);
+		        		else if(fieldname.equals("city")) eventaddrDoc.put("city", fieldvalue);
+		        		else if(fieldname.equals("state")) eventaddrDoc.put("state", fieldvalue);
+		        		else if(fieldname.equals("zip")) eventaddrDoc.put("zip", fieldvalue);
+		        		else if(fieldname.equals("country")) eventaddrDoc.put("country", fieldvalue);
+		        		else {
+		        			eventDoc.put(fieldname, fieldvalue);
+		        		}
+		                
+		            } else {
+		                // Process form file field (input type="file").
+		                String fieldname = item.getFieldName();
+		                String filename = item.getName();
+		                eventDoc.put(fieldname, "/" + filename);
+		                
+		                FileUtilities fileUtility = new FileUtilities();
+		                fileUtility.saveFile(item);
+		            }
+		        }
+		    } catch (FileUploadException e) {
+		        throw new ServletException("Cannot parse multipart request.", e);
+		    } 
 		
-		System.out.println("inserting street1: " + reqParamMap.get("street1")[0]);
-		if(reqParamMap.get("street1") != null) eventaddrDoc.put("street1", reqParamMap.get("street1")[0]);
-		if(reqParamMap.get("street2") != null) eventaddrDoc.put("street2", reqParamMap.get("street2")[0]);
-		if(reqParamMap.get("city") != null) eventaddrDoc.put("city", reqParamMap.get("city")[0]);
-		if(reqParamMap.get("state") != null) eventaddrDoc.put("state", reqParamMap.get("state")[0]);
-		if(reqParamMap.get("zip") != null) eventaddrDoc.put("zip", reqParamMap.get("zip")[0]);
-		if(reqParamMap.get("country") != null) eventaddrDoc.put("country", reqParamMap.get("country")[0]);
-		
-		if(reqParamMap.get("host_id") != null) eventDoc.put("host_id", reqParamMap.get("host_id")[0]);
-		if(reqParamMap.get("seats") != null) eventDoc.put("seats", reqParamMap.get("seats")[0]);
-		if(reqParamMap.get("cuisine") != null) eventDoc.put("cuisine", reqParamMap.get("cuisine")[0]);
-		if(reqParamMap.get("time") != null) eventDoc.put("time", reqParamMap.get("time")[0]);
-		if(reqParamMap.get("date") != null)eventDoc.put("date", reqParamMap.get("date")[0]);
-		if(reqParamMap.get("cutOffTime") != null)eventDoc.put("cutOffTime", reqParamMap.get("cutOffTime")[0]);
 		if(!dishDoc.isEmpty()) eventDoc.put("dish", dishDoc);
 		if(!eventaddrDoc.isEmpty()) eventDoc.put("address", eventaddrDoc);
-		if(reqParamMap.get("price") != null) eventDoc.put("price", reqParamMap.get("price")[0]);
-		if(reqParamMap.get("title") != null) eventDoc.put("title", reqParamMap.get("title")[0]);
-		if(reqParamMap.get("description") != null) eventDoc.put("description", reqParamMap.get("description")[0]);
-		if(reqParamMap.get("sponsor") != null) eventDoc.put("sponsor", reqParamMap.get("sponsor")[0]);
-		
 		
 		String id = null;
 		try {
