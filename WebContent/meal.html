@@ -3,13 +3,21 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="style.css">
-		<title>One foodie in particular</title>
+		<title>Meal Details</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
     	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    	<script src="http://localhost:8080/Learn/jquery-google-map/jquery.ui.map.full.min.js" type="text/javascript"></script>
+    	<script type="text/javascript"
+      		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALkSLnaemaMAxu9Y2aQ25jAY3PoRdDlek&sensor=false">
+   		</script>
+    	
 		<script>
 			$(document).ready(function(){
+				var yourStartLatLng = new google.maps.LatLng(59.3426606750, 18.0736160278);
+                $('#map').gmap({'center': yourStartLatLng});
+
 				var param = window.location.search;
 				var id = param.split("=")[1];
 				if(id != "" && id != undefined)
@@ -27,6 +35,30 @@
 					   		$("#totalseats").html("<span id='totalseats' class='bold'>" + response.result[0].seats +"</span>");
 					   		$("#description").html("<p id='description'>" + response.result[0].description +"</p>");
 					   		$("#dinner_img").attr("src","http://localhost:8080/Learn" +response.result[0].picture1);
+					   		
+					   		var googleFormattedAddress = "";
+					   		if(response.result[0].address.street1 != null || response.result[0].address.street1 != undefined) {
+					   			googleFormattedAddress += response.result[0].address.street1.replace(/ /g, '+');
+					   		}
+					   		if(response.result[0].address.city != null || response.result[0].address.city != undefined) {
+					   			googleFormattedAddress += ',' + response.result[0].address.city.replace(/ /g, '+');
+					   		}
+					   		if(response.result[0].address.state != null || response.result[0].address.state != undefined) {
+					   			googleFormattedAddress += ',' + response.result[0].address.state.replace(/ /g, '+');
+					   		}
+					   		if(response.result[0].address.country != null || response.result[0].address.country != undefined) {
+					   			googleFormattedAddress += ',' + response.result[0].address.country.replace(/ /g, '+');
+					   		}					   		
+					   		//$("#locationImage").attr("src", "http://maps.googleapis.com/maps/api/staticmap?center=" +googleFormattedAddress);
+					   		//$("#locationLink").attr("href","https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=" +googleFormattedAddress )
+					        /*var mapOptions = {
+					                center: new google.maps.LatLng(-34.397, 150.644),
+					                zoom: 8,
+					                mapTypeId: google.maps.MapTypeId.ROADMAP
+					              };
+					              var map = new google.maps.Map(document.getElementById("map"),
+					                  mapOptions);*/
+
 				        },
 				        // callback handler that will be called on error
 				        error: function(jqXHR, textStatus, errorThrown){
@@ -120,8 +152,12 @@
 							<p>Location: <span id="location" class="bold">Mountain View, CA<span></p>
 							<p>Total guest: <span id="totalseats" class="bold">10<span></p>
 						</div>
-						<div id="map">
-							<iframe width="250" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=PayPal,+North+1st+Street,+San+Jose,+CA&amp;aq=0&amp;oq=paypa&amp;sll=36.914764,-119.311523&amp;sspn=10.569242,19.753418&amp;ie=UTF8&amp;hq=PayPal,+North+1st+Street,+San+Jose,+CA&amp;t=m&amp;ll=37.376455,-121.922616&amp;spn=0.017734,0.032015&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=PayPal,+North+1st+Street,+San+Jose,+CA&amp;aq=0&amp;oq=paypa&amp;sll=36.914764,-119.311523&amp;sspn=10.569242,19.753418&amp;ie=UTF8&amp;hq=PayPal,+North+1st+Street,+San+Jose,+CA&amp;t=m&amp;ll=37.376455,-121.922616&amp;spn=0.017734,0.032015" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+						<div id="map" style="width:250px;height:250px">
+							<!-- 
+							<img id="locationImage" src=""/>
+							
+							<iframe width="250" height="250" frameborder="0" id="locationSmallMap" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=PayPal,+North+1st+Street,+San+Jose,+CA&amp;aq=0&amp;oq=paypa&amp;sll=36.914764,-119.311523&amp;sspn=10.569242,19.753418&amp;ie=UTF8&amp;hq=PayPal,+North+1st+Street,+San+Jose,+CA&amp;t=m&amp;ll=37.376455,-121.922616&amp;spn=0.017734,0.032015&amp;output=embed"></iframe><br /><small><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=PayPal,+North+1st+Street,+San+Jose,+CA&amp;aq=0&amp;oq=paypa&amp;sll=36.914764,-119.311523&amp;sspn=10.569242,19.753418&amp;ie=UTF8&amp;hq=PayPal,+North+1st+Street,+San+Jose,+CA&amp;t=m&amp;ll=37.376455,-121.922616&amp;spn=0.017734,0.032015" id="locationLink" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+							-->
 						</div>
 					</div>
 				</div>

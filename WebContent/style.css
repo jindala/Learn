@@ -332,3 +332,46 @@ body {
 	text-decoration: none;
 	margin:0px;
 }
+
+#login_form {
+	display:none;
+	margin-left: 700px;
+	width: 30px;
+}
+
+#reg_form {
+	display: none;
+	margin-left: 750px;
+	width: 30px;
+}
+
+#btn_login {
+	float: right;
+	margin:35px;
+	background-color: #ffcc44;
+	border:none;
+	color:white;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#btn_register {
+	float: right;
+	margin:35px;
+	background-color: #ffcc44;
+	border:none;
+	color:white;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#btn_logout {
+	float: right;
+	margin:35px;
+	background-color: #ffcc44;
+	border:none;
+	color:white;
+	font-size: 20px;
+	font-weight: bold;
+	display:none;
+}
