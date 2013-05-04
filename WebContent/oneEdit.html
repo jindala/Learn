@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome!</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+  
+  <!-- Include CodeMirror -->
+  <link rel="stylesheet" href="codemirror.css" />
+  <script src="codemirror.js"></script>
+
+  <!-- Include Firepad -->
+  <link rel="stylesheet" href="firepad.css" />
+  <script src="firepad.js"></script>
+</head>
+<body>
+	<!-- <div id='messagesDiv'></div>
+		<input type='text' id='nameInput' placeholder='Name'>
+    	<input type='text' id='messageInput' placeholder='Message'> -->
+    
+    <div id="firepad"></div>
+    
+    <script>
+      var myDataRef = new Firebase('https://cpsh7qsnpsa.firebaseio-demo.com/');
+	  var editDataRef;
+	  
+	  //Initialize Firebase
+	  var firepadRef = new Firebase('https://realcollaboration.firebaseio.com/');
+	  var firepadDiv = document.getElementById('firepad');
+	  
+	  //Create CodeMirror
+	  var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true });
+	  
+	  //Create Firepad (with rich text toolbar and shortcuts enabled)
+	  var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
+	      { richTextShortcuts: true, richTextToolbar: true });
+	  
+      /*$('#messageInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          var name = $('#nameInput').val();
+          var text = $('#messageInput').val();
+          //myDataRef.set('User ' + name + ' says ' + text);
+          editDataRef = myDataRef.push({name: name, text: text});
+          $('#messageInput').val('');
+        }
+      });
+ 
+      myDataRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        //alert("push ref: " + editDataRef);
+        //alert("tostring: " + message.toString());
+        //alert("valueof: " + message.valueOf());
+		displayChatMessage(message.name, message.text);
+      });
+
+      function displayChatMessage(name, text) {
+        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };*/
+      
+      firepad.on('ready', function() {
+          if (firepad.isHistoryEmpty()) {
+            var f = Firepad.Formatting().fontSize(24);
+            firepad.setText([
+              Firepad.Text("Rich-text", f.italic(true).color('green')),
+              Firepad.Text(" editing with ", f),
+              Firepad.Text("Firepad!", f.color('red'))
+            ]);
+          }
+        });
+    </script>
+</body>
+</html>
