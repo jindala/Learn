@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
+
 import com.mongodb.BasicDBObject;
 
 import Modal.DBUtil;
@@ -36,13 +38,13 @@ public class PaymentInfo {
 		return id;
 	}
 	
-	String getPaymentInfo(String email) throws UnknownHostException
+	JSONObject getPaymentInfo(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("email", email);
 		DBUtil dbUtil = new DBUtil();
-		String paymentInfo = dbUtil.queryDocs(PAYMENT_COLLECTION, queryObj);
+		//String paymentInfo = dbUtil.queryDocs(PAYMENT_COLLECTION, queryObj);
 		
-		return paymentInfo;
+		return dbUtil.queryDocs(PAYMENT_COLLECTION, queryObj);
 	}
 }

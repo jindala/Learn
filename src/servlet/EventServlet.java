@@ -1,14 +1,24 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -37,7 +47,7 @@ public class EventServlet extends HttpServlet {
 		System.out.println("search event: " + request.getParameterMap().toString());
 		String searchBy = request.getParameter("searchBy");
 		String id = request.getParameter("id");
-		String eventMap;
+		JSONObject eventMap;
 		if(id != null)
 			eventMap = event.getEvent(id);
 		else if(searchBy.equals("zip"))
@@ -49,22 +59,13 @@ public class EventServlet extends HttpServlet {
 		else
 			eventMap = event.getEvent(request.getParameter("event_id"));
 		response.setStatus(HttpServletResponse.SC_OK);
-		
-		JSONObject jsonResponse = (JSONObject) JSONValue.parse(eventMap);
-		System.out.println("eventInfo json = " + eventMap);
+				
+		System.out.println("event map json object = " +eventMap);
 		response.setCharacterEncoding("utf8");
 		response.setContentType("application/json"); 
 		
-		String responseJSON = eventMap.replaceAll(":", ":\"").replaceAll(",","\",");
-		System.out.println("replaced response: "+responseJSON);
-		String responseJSON2 = responseJSON.replaceAll("\"\\[", "\\[").replaceAll("\\]\"", "\\]");
-		System.out.println("replaced response2: "+responseJSON2);
-		String responseJSON3 = responseJSON2.replaceAll("\"\\{", "\\{").replaceAll("\\}\"", "\\}");
-		System.out.println("replaced response3: "+responseJSON3);
-		String responseJSON4 = responseJSON3.replaceAll("null\\}", "null\"\\}");
-		System.out.println("replaced response4: "+responseJSON4);
 		PrintWriter out = response.getWriter();
-		out.print(responseJSON4);
+		out.print(eventMap);
 	}
 
 	/**

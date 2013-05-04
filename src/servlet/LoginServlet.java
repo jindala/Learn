@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Controller.User;
@@ -33,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = new User();
 		
-		String userInfoMap = user.getUserInfo(request.getParameter("email"));
+		JSONObject userInfoMap = user.getUserInfo(request.getParameter("email"));
 		System.out.println("userInfoMap = " + userInfoMap);
 		
 		String contextPath = request.getContextPath();
@@ -53,15 +55,34 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+				
+		Map<String, String[]> reqParamMap = request.getParameterMap();
 		
-		System.out.println("login user: " + request.getParameterMap());
+		String email = reqParamMap.get("email")[0];
+		String password = reqParamMap.get("password")[0];
 		
-		User newUser = new User();
-		newUser.saveUserInfo(request);
+		User incomingUser = new User();
+		JSONObject userInfo = incomingUser.verifyUserInfo(email, password);
+				
+		//Form response object
+		JSONArray userArray = (JSONArray)userInfo.get("result");
+		LinkedHashMap firstUser = (LinkedHashMap) userArray.get(0);
+		
+		JSONObject responseJson = new JSONObject();
+		responseJson.put("name", firstUser.get("name"));
 		
 		String contextPath = request.getContextPath();
 		response.setStatus(HttpServletResponse.SC_OK);
-		response.sendRedirect(response.encodeRedirectURL(contextPath) + "/home");
+		response.setCharacterEncoding("utf8");
+		response.setContentType("application/json"); 
+		
+		if(userInfo != null)
+			response.setHeader("Set-Cookie", "socialfooduid=" + firstUser.get("unique_id") + "; path=/Learn");
+		
+		//PrintWriter out = response.getWriter();
+		//out.print(userInfo);
+		
+		response.sendRedirect(response.encodeRedirectURL(contextPath) + "/index.html");
 	}
 
 }

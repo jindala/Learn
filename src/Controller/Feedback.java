@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
+
 import com.mongodb.BasicDBObject;
 
 import Modal.DBUtil;
@@ -39,37 +41,37 @@ public class Feedback {
 		return id;
 	}
 	
-	public String getOrganizerFeedback(String email) throws UnknownHostException
+	public JSONObject getOrganizerFeedback(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("revieweeEmail", email);
 		
 		DBUtil dbUtil = new DBUtil();
-		String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
+		//String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 		
-		return feedback;
+		return dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 	}
 
-	public String getCustomerFeedback(String email) throws UnknownHostException
+	public JSONObject getCustomerFeedback(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("reviewerEmail", email);
 		
 		DBUtil dbUtil = new DBUtil();
-		String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
+		//String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 		
-		return feedback;
+		return dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 	}
 	
-	public String getOrganizerFeedbackByCuisine(String email, String cuisine) throws UnknownHostException
+	public JSONObject getOrganizerFeedbackByCuisine(String email, String cuisine) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("reviewerEmail", email);
 		queryObj.put("feedback_cuisine", cuisine);
 		
 		DBUtil dbUtil = new DBUtil();
-		String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
+		//String feedback = dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 		
-		return feedback;
+		return dbUtil.queryDocs(FEEDBACK_COLLECTION, queryObj);
 	}
 }

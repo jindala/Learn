@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.*;
 
+import org.json.simple.JSONObject;
+
 import com.mongodb.BasicDBObject;
 
 import Modal.DBUtil;
@@ -16,22 +18,22 @@ public class User {
 	{
 		DBUtil dbUtil = new DBUtil();
 		
-		Map reqParamMap = req.getParameterMap();
+		Map<String, String[]> reqParamMap = req.getParameterMap();
 		
 		BasicDBObject userDoc = new BasicDBObject();
 		BasicDBObject useraddrDoc = new BasicDBObject();
 		
-		useraddrDoc.put("street1", reqParamMap.get("street1"));
+		/*useraddrDoc.put("street1", reqParamMap.get("street1"));
 		useraddrDoc.put("street2", reqParamMap.get("street2"));
 		useraddrDoc.put("city", reqParamMap.get("city"));
 		useraddrDoc.put("state", reqParamMap.get("state"));
-		useraddrDoc.put("zip", reqParamMap.get("zip"));
+		useraddrDoc.put("zip", reqParamMap.get("zip"));*/
 		
-		userDoc.put("email", reqParamMap.get("email"));
-		userDoc.put("name", reqParamMap.get("name"));
-		userDoc.put("password", reqParamMap.get("password"));
-		userDoc.put("phone", reqParamMap.get("phone"));
-		userDoc.put("address", useraddrDoc);
+		userDoc.put("email", reqParamMap.get("email")[0]);
+		userDoc.put("name", reqParamMap.get("name")[0]);
+		userDoc.put("password", reqParamMap.get("password")[0]);
+		//userDoc.put("phone", reqParamMap.get("phone"));
+		//userDoc.put("address", useraddrDoc);
 		
 		String id = null;
 		try {
@@ -42,14 +44,30 @@ public class User {
 		return id;
 	}
 	
-	public String getUserInfo(String email) throws UnknownHostException
+	public JSONObject getUserInfo(String email) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("email", email);
 		DBUtil dbUtil = new DBUtil();
-		String userInfo = dbUtil.queryDocs(USER_COLLECTION, queryObj);
+		//String userInfo = dbUtil.queryDocs(USER_COLLECTION, queryObj);
 		
-		return userInfo;
+		return dbUtil.queryDocs(USER_COLLECTION, queryObj);
+	}
+	
+	public JSONObject verifyUserInfo(String email, String password) throws UnknownHostException
+	{
+		BasicDBObject queryObj = new BasicDBObject();
+		queryObj.put("email", email);
+		queryObj.put("password", password);
+		DBUtil dbUtil = new DBUtil();
+		JSONObject returnUser = dbUtil.queryDocs(USER_COLLECTION, queryObj);
+		
+		if(returnUser.isEmpty()) {
+			System.out.println("user Not Found");
+			return null;
+		}
+		System.out.println("user Found" + returnUser);
+		return returnUser;
 	}
 
 }

@@ -1,48 +1,70 @@
 package Controller;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.Map;
+import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.bson.types.ObjectId;
+import org.json.simple.JSONObject;
 
 import Modal.DBUtil;
+import Utilities.FileUtilities;
 
 import com.mongodb.BasicDBObject;
 
 public class Event {
 	final static String EVENT_COLLECTION = "event";
-	public String saveEvent(HttpServletRequest req) throws UnknownHostException
+	public String saveEvent(HttpServletRequest req) throws IOException, ServletException
 	{
 		DBUtil dbUtil = new DBUtil();
 		
-		Map reqParamMap = req.getParameterMap();
-		System.out.println("event incoming param map: " + reqParamMap);
+		System.out.println("incoming content type: " + req.getContentType());
+		//Map<String, String[]> reqParamMap = req.getParameterMap();
 		BasicDBObject eventDoc = new BasicDBObject();
 		BasicDBObject dishDoc = new BasicDBObject();
 		BasicDBObject eventaddrDoc = new BasicDBObject();
+	 
+		 try {
+		        List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(req);
+		        for (FileItem item : items) {
+		            if (item.isFormField()) {
+		                // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
+		                String fieldname = item.getFieldName();
+		                String fieldvalue = item.getString();
+		                System.out.println("save fieldname =" + fieldname);
+		        		if(fieldname.equals("street1")) eventaddrDoc.put("street1", fieldvalue);
+		        		else if(fieldname.equals("street2")) eventaddrDoc.put("street2", fieldvalue);
+		        		else if(fieldname.equals("city")) eventaddrDoc.put("city", fieldvalue);
+		        		else if(fieldname.equals("state")) eventaddrDoc.put("state", fieldvalue);
+		        		else if(fieldname.equals("zip")) eventaddrDoc.put("zip", fieldvalue);
+		        		else if(fieldname.equals("country")) eventaddrDoc.put("country", fieldvalue);
+		        		else {
+		        			eventDoc.put(fieldname, fieldvalue);
+		        		}
+		                
+		            } else {
+		                // Process form file field (input type="file").
+		                String fieldname = item.getFieldName();
+		                String filename = item.getName();
+		                eventDoc.put(fieldname, "/" + filename);
+		                
+		                FileUtilities fileUtility = new FileUtilities();
+		                fileUtility.saveFile(item);
+		            }
+		        }
+		    } catch (FileUploadException e) {
+		        throw new ServletException("Cannot parse multipart request.", e);
+		    } 
 		
-		eventaddrDoc.put("street1", reqParamMap.get("street1"));
-		eventaddrDoc.put("street2", reqParamMap.get("street2"));
-		eventaddrDoc.put("city", reqParamMap.get("city"));
-		eventaddrDoc.put("state", reqParamMap.get("state"));
-		eventaddrDoc.put("zip", reqParamMap.get("zip"));
-		eventaddrDoc.put("country", reqParamMap.get("country"));
-		
-		eventDoc.put("host_id", reqParamMap.get("email"));
-		eventDoc.put("seats", reqParamMap.get("seats"));
-		eventDoc.put("cuisine", reqParamMap.get("cuisine"));
-		eventDoc.put("time", reqParamMap.get("time"));
-		eventDoc.put("date", reqParamMap.get("date"));
-		eventDoc.put("cutOffTime", reqParamMap.get("cutOffTime"));
-		eventDoc.put("dish", dishDoc);
-		eventDoc.put("address", eventaddrDoc);
-		eventDoc.put("price", reqParamMap.get("price"));
-		eventDoc.put("title", reqParamMap.get("title"));
-		eventDoc.put("description", reqParamMap.get("description"));
-		eventDoc.put("sponsor", reqParamMap.get("sponsor"));
-		
+		if(!dishDoc.isEmpty()) eventDoc.put("dish", dishDoc);
+		if(!eventaddrDoc.isEmpty()) eventDoc.put("address", eventaddrDoc);
 		
 		String id = null;
 		try {
@@ -57,47 +79,47 @@ public class Event {
 		return id;
 	}
 	
-	public String getEvent(String eventId) throws UnknownHostException
+	public JSONObject getEvent(String eventId) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		ObjectId objId = ObjectId.massageToObjectId(eventId);
 		System.out.println("event objectId=" + objId);
 		queryObj.put("_id", objId);
 		DBUtil dbUtil = new DBUtil();
-		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		//String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
-		return events;
+		return dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 	}
 	
-	public String getEventsByZip(String zip) throws UnknownHostException
+	public JSONObject getEventsByZip(String zip) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("address.zip", zip);
 		DBUtil dbUtil = new DBUtil();
-		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		//String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
-		return events;
+		return dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 	}
 	
-	public String getEventsByCuisine(String cuisine) throws UnknownHostException
+	public JSONObject getEventsByCuisine(String cuisine) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("cuisine", cuisine);
 		DBUtil dbUtil = new DBUtil();
-		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		//String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
-		return events;
+		return dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 	}
 	
-	public String getEventsByCuisineAndZip(String cuisine, String zip) throws UnknownHostException
+	public JSONObject getEventsByCuisineAndZip(String cuisine, String zip) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();
 		queryObj.put("cuisine", cuisine);
 		queryObj.put("address.zip", zip);
 		DBUtil dbUtil = new DBUtil();
-		String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		//String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
-		return events;
+		return dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 	}
 
 }

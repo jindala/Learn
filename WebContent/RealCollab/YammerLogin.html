@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>home</title>
+	<link rel="stylesheet" href="../style.css">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<script type="text/javascript" data-app-id="Lei9oAybqAlZ2ii2gZpYxw" src="https://assets.yammer.com/platform/yam.js"></script>
+
+	<script>
+	$(document).ready(function(){
+		yam.getLoginStatus(
+				  function(response) {
+				    if (response.authResponse) {
+				      console.log("logged in");
+				      yam.request({
+				        url: "https://www.yammer.com/api/v1/users/current.json",     //this is one of many REST endpoints that are available
+				        method: "GET",
+				        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+				        	"include_group_memberships":"TRUE"
+				        },
+				        success: function (user) { //print message response information to the console
+				          $("#user_name").html(user.full_name);
+				          $("#user_department").html(user.department);
+				          
+				          var groups = user.group_memberships;
+				          if(groups.length > 0) {
+				        	  $("#user_groups").html("Select A Group");
+				          }
+				          for(var i=0;i<groups.length;i++) {
+				        	  $("#user_groups").append('<div><input type="button" id="'+groups[i].id +'" name="'+ groups[i].full_name +'" value="'+ groups[i].full_name +'" /></div>');
+				          }
+				          console.dir(user);
+				          
+				          if(groups.length > 0) {
+				          	$("input[type=button]").click(function() {
+				     			var selected_group_name= this.value;
+				          		console.dir("group selected: " +this.id);
+				          	  // Get users of a group
+							  yam.request({
+							        url: "https://www.yammer.com/api/v1/users/in_group/"+ this.id +".json",     //this is one of many REST endpoints that are available
+							        method: "GET",
+							        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+							        	
+							        },
+							        success: function (group_users) { //print message response information to the console
+							          
+							          console.dir(group_users);
+							          $("#user_groups").hide();
+							          $("#user_group_users").html(selected_group_name);
+							          for(var i=0;i<group_users.users.length;i++) {
+							        	  
+							        	  $("#user_group_users").append('<div>'+ group_users.users[i].full_name +'<input type="checkbox" id="'+ group_users.users[i].id +'"/></div>');
+							          }
+							          $("#user_group_users").append("<input type='submit' value='Collaborate'>");
+							          
+							          $("input[type=submit]").click(function() {
+							        	  var selected_users = new Array();
+							        	  $('#user_group_users input:checked').each(function() {
+							        		  selected_users.push($(this).attr('id'));
+							        	  });
+							        	  
+							        	  // Send Messaged to users
+							        	  yam.request({
+										        url: "https://www.yammer.com/api/v1/messages.json",     //this is one of many REST endpoints that are available
+										        method: "POST",
+										        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/index.html",
+										        	"direct_to_id":selected_users[0]
+										        },
+										        success: function (message) { //print message response information to the console
+										          
+										          console.dir(message);
+										          alert("message sent successfully");
+										        },
+										        error: function (message) {
+										          alert("message:There was an error with the request.");
+										        }
+										      });
+							          });
+							        },
+							        error: function (group_users) {
+							          alert("group_users:There was an error with the request.");
+							        }
+							      });
+							});
+				          }
+				        },
+				        error: function (user) {
+				          alert("There was an error with the request.");
+				        }
+				      });
+				    }
+				    else {
+				        yam.login(function (response) { //prompt user to login and authorize your app, as necessary
+				            if (response.authResponse) {
+				              console.dir(response); //print user information to the console
+				            }
+				          });
+				    }
+				  }
+				);
+		
+		
+	});
+	</script>
+
+
+</head>
+
+<body>
+	<div id="page_title">
+		Real Collab
+	</div>
+	<div id="user_info">
+		<div id="user_name">
+		</div>
+		<div id="user_department">
+		</div>
+		<div id="user_groups">
+		</div>
+		<div id="user_group_users">
+		</div>
+	</div>
+	
+	
+	
+</body>
+
+</html>
