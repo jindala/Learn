@@ -60,6 +60,11 @@
     <servlet-name>EventServlet</servlet-name>
     <servlet-class>servlet.EventServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>saveFileServlet</servlet-name>
+    <servlet-class>servlet.saveFileServlet</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/login</url-pattern>
@@ -80,12 +85,18 @@
     <servlet-name>EventServlet</servlet-name>
     <url-pattern>/event</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>saveFileServlet</servlet-name>
+    <url-pattern>/saveDoc</url-pattern>
+  </servlet-mapping>
+  
   <security-role>
     <role-name>role1</role-name>
   </security-role>
   <security-role>
     <role-name>tomcat</role-name>
   </security-role>
+  
   <env-entry>
     <env-entry-name>minExemptions</env-entry-name>
     <env-entry-type>java.lang.Integer</env-entry-type>

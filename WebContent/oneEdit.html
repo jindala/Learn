@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <script src='https://cdn.firebase.com/v0/firebase.js'></script>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+  <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
   
   <!-- Include CodeMirror -->
   <link rel="stylesheet" href="codemirror.css" />
@@ -14,7 +15,7 @@
   <link rel="stylesheet" href="firepad.css" />
   <script src="firepad.js"></script>
   
-  
+  <script type="text/javascript" src="downloadify.min.js"></script>
   
   <style type="text/css">
 	.navigationBtn{
@@ -62,21 +63,28 @@
 			<li><a href="#" id="docuEdit">Page</a></li>
 			<li><a href="#" id="gridEdit">Grid</a></li>
 			<li><a href="#" id="drawEdit">Draw</a></li>
+			<li><a href="#" id="Save" onclick="saveContent()">Save</a></li>
 		</ul>
 	</div>
     
-    <div id="drawing_tools" class="tools_class">
+    <div id="drawing_tools" class="tools_class" style="float: left;">
     	<div id="rightArrow" >
-			<img src="images/rightArrow.tiff"/>
+			<img src="images/rightArrow.png"/>
+		</div>
+		<div id="circle" >
+			<img src="images/circle.png"/>
+		</div>
+		<div id="square" >
+			<img src="images/square.png"/>
 		</div>
 	</div>
 					
-    <div id="drawpad">
+    <div id="drawpad" style="float: left;">
     	<canvas id="drawing-canvas" width="480" height="420"></canvas>
     </div>
     <div id="colorholder"></div>
     
-    <div id="firepad"></div>
+    <div id="firepad" style="clear: both"></div>
     
     <script>
       var myDataRef = new Firebase('https://cpsh7qsnpsa.firebaseio-demo.com/');
@@ -116,6 +124,7 @@
         $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
       };*/
       
+      //Text editing
       firepad.on('ready', function() {
           if (firepad.isHistoryEmpty()) {
             var f = Firepad.Formatting().fontSize(24);
@@ -126,6 +135,35 @@
             ]);
           }
         });
+      
+      function saveContent(){
+    	 var docData = firepad.getText();
+    	 
+    	 document.location = 'data:Application/octet-stream,' +
+         encodeURIComponent(docData);
+    	 
+    	 /*filepicker.setKey('ALK8vuoaLTvGTRfHpn7nrz');
+    	 
+    	 //fire off the request to /saveDoc
+	     var request = $.ajax({
+	        url: "/Learn/saveDoc",
+	        type: "post",
+	        data: docData,
+	        
+	        success: function(response, textStatus, jqXHR){
+	            // log a message to the console
+	            alert("beep reep: " + response);  		
+		    },
+	        // callback handler that will be called on error
+	        error: function(jqXHR, textStatus, errorThrown){
+	            // log the error to the console
+	            alert(
+	                "The following error occured: "+
+	                textStatus, errorThrown
+	            );
+	        }
+	     });*/
+      };
       
       //Drawing canvas
 	  //$(document).ready(function () {
