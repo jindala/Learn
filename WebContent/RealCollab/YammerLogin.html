@@ -53,7 +53,7 @@
 							        	
 							        },
 							        success: function (group_users) { //print message response information to the console
-							          
+							        	$("#user_group_users").empty();
 							          console.dir(group_users);
 							          for(var i=0;i<group_users.users.length;i++) {
 							        	  var usr_replaced_width_src = group_users.users[i].mugshot_url_template.replace("{width}", "260");
@@ -122,8 +122,8 @@
 			</div>
 		</div>
 		<div id="wrapper">
-			<div id="content">
-				<div id="content_left">
+			<div id="content" class="ylogin_main">
+				<div id="content_left" style="width:970px">
 					<p><h2 id="user_name">User</h2></p>
 					<img id="user_img" class="plate_image" src="" alt="User">
 					<div id="booking_form">

@@ -30,8 +30,8 @@
  	  position: relative;
 	}
 	.firepad {
-      width: 970px;
-      height: 850px;
+      width: 880px;
+      height: 720px;
       /*background-color: #f62; *//* dark orange background */
     }
     #colorholder {
@@ -57,7 +57,8 @@
 	$(document).ready(function(){
 		var sPageURL = window.location.search.substring(1);
 		var user_id = sPageURL.replace("id=", "");		
-		$("#firepad").hide();
+		$("#drawpad").hide();
+		$("#colorholder").hide();
 		
   		$("#btn_hiw").click(function(event){
     		$("#firepad").slideToggle();
@@ -118,30 +119,18 @@
 				<div id="canvas_content_left">
 				    <div class="content_tags_body" id="navigationBar">
 						<button id="btn_hiw">Text Editor</button>
-						<button id="Save" class="invite_green_button" style="float:right;" onclick="saveContent()">Save</button>
-						<button id="Email" class="invite_green_button" style="float:right;" onclick="saveContent()">Email</button>
+						<button id="Save" class="send_green_button" style="float:right;" onclick="saveContent()">Save</button>
+						<button id="Email" class="send_green_button" style="float:right;" onclick="saveContent()">Email</button>
 					</div>
-				    
-				    <!-- <div id="drawing_tools" class="tools_class" style="float: left;">
-				    	<div id="rightArrow" >
-							<img src="images/rightArrow.png"/>
-						</div>
-						<div id="circle" >
-							<img src="images/circle.png"/>
-						</div>
-						<div id="square" >
-							<img src="images/square.png"/>
-						</div>
-					</div> -->
 									
 				    <div id="drawpad">
-				    	<canvas id="drawing-canvas" width="970" height="850"></canvas>
+				    	<canvas id="drawing-canvas" width="880" height="720"></canvas>
 				    </div>
 				    <div id="colorholder"></div>
 				    
-				    <div id="firepad" style="border: 2px solid #999;width:970px;height:850px;clear:both;"></div>
+				    <div id="firepad" style="border: 2px solid #999;width:880px;height:720px;clear:both;"></div>
 				 </div>
-				 <div style="float: right;">
+				 <div class="rightPane">
 					 <div id="content_right">
 					 <p><h2>Collaborating with:</h2></p>
 					 </div>
