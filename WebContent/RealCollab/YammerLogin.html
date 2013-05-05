@@ -12,7 +12,9 @@
 	$(document).ready(function(){
 		$("#user_name").hide();
 		$("#user_img").hide();
+		$("#user_group_users_header").hide();
 		var loggedin_user;
+		var final_id;
 		yam.getLoginStatus(
 				  function(response) {
 				    if (response.authResponse) {
@@ -53,30 +55,33 @@
 							        	
 							        },
 							        success: function (group_users) { //print message response information to the console
-							        	$("#user_group_users").empty();
+							        	$("#user_group_users_collection").empty();
+							        	$("#group_title").html(selected_group_name);
+							        	$("#user_group_users_header").show();
+							        	$("#done_button").hide();
 							          console.dir(group_users);
 							          for(var i=0;i<group_users.users.length;i++) {
 							        	  var usr_replaced_width_src = group_users.users[i].mugshot_url_template.replace("{width}", "260");
 								          var usr_replaced_src = usr_replaced_width_src.replace("{height}", "210");
-							        	  $("#user_group_users").append('<div class="container" style="float:left;"><img class="each_user_img" src="'+usr_replaced_src+'"/><h3>'+ group_users.users[i].full_name +'</h3><button class="invite_green_button" name="'+group_users.users[i].full_name+'" id="'+ group_users.users[i].id +'" value="Invite">Invite</button></div>');
+							        	  $("#user_group_users_collection").append('<div class="container" style="float:left;"><img class="each_user_img" src="'+usr_replaced_src+'"/><h3>'+ group_users.users[i].full_name +'</h3><button class="invite_green_button" name="'+group_users.users[i].full_name+'" id="'+ group_users.users[i].id +'" value="Invite">Invite</button></div>');
 							          }
 							          
 							          $("button").click(function() {
 							        	  $(this).attr("disabled", "disabled");
 							        	  $(this).addClass("disabled_green_button");
 							        	  $(this).html("Request Sent");
-							        	  var final_id=$(this).attr('id');
+							        	  $("#done_button").show();
+							        	  final_id=$(this).attr('id');
 							        	  // Send Messaged to users
 							        	  yam.request({
 										        url: "https://www.yammer.com/api/v1/messages.json",     //this is one of many REST endpoints that are available
 										        method: "POST",
 										        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/oneEdit.html?id="+loggedin_user,
+										        	"body":"I would like to share collaborative document with you. Please follow this link + http://10.69.47.152:8080/Learn/oneEdit.html?id="+loggedin_user,
 										        	"direct_to_id":final_id
 										        },
 										        success: function (message) { //print message response information to the console
 										          console.dir(message);	
-										          window.location.replace("http://localhost:8080/Learn/oneEdit.html?id="+final_id);
 										        },
 										        error: function (message) {
 										          alert("message:There was an error with the request.");
@@ -106,6 +111,9 @@
 				  }
 				);
 		
+		$("#done_button").click(function() {
+			window.location.replace("http://localhost:8080/Learn/oneEdit.html?id="+final_id);
+		});
 		
 	});
 	</script>
@@ -132,6 +140,15 @@
 					</div>
 					<div class="clear"></div>						
 					<div id="user_group_users">
+						<div id="user_group_users_header">
+							<div style="float:left;"><p><h3 id="group_title"></h3><p></div>
+							<div id="done_selecting" style="float:right">
+								<input type="button" class="small_green_button" id="done_button" name="Done" value="Done" />
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div id="user_group_users_collection">
+						</div>
 					</div>
 				</div>
 			</div>
