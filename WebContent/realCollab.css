@@ -456,17 +456,24 @@ body {
 .problem_wrapper_left {
 	float: left;
 	width: 600px;
-	height: 300px;
-	margin: 100px 0 0;
+	height: 240px;
+	margin: 50px 0 0;
 }
 
 .problem_wrapper_right {
 	float: right;
 	width: 600px;
-	height: 300px;
-	 margin: 100px 0 0;
+	height: 240px;
+	 margin: 50px 0 0;
 }
 
 #getStartedButton {
-	width:900px;
+    margin: 15px 410px;
+    width: 970px;
+}
+
+#prod_img {
+	margin: 5px;
+	width: 200px;
+	height: 280px;
 }
