@@ -14,8 +14,8 @@ body {
 	margin:0px auto;
 }
 #header img {
-	width: 150px;
-	margin:10px 40px;
+	width: 200px;
+	margin:16px 30px;
 }
 #btn_hiw {
 	float: left;
@@ -451,4 +451,22 @@ body {
 
 .ylogin_main {
 	padding: 50px 15px 0 200px;
+}
+
+.problem_wrapper_left {
+	float: left;
+	width: 600px;
+	height: 300px;
+	margin: 100px 0 0;
+}
+
+.problem_wrapper_right {
+	float: right;
+	width: 600px;
+	height: 300px;
+	 margin: 100px 0 0;
+}
+
+#getStartedButton {
+	width:900px;
 }

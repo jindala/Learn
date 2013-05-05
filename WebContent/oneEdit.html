@@ -61,15 +61,17 @@
 		$("#drawpad").hide();
 		$("#colorholder").hide();
 		
-  		$("#btn_hiw").click(function(event){
+  		$("#switch_editor").click(function(event){
     		$("#firepad").slideToggle();
     		$("#drawpad").slideToggle();
     		$("#colorholder").slideToggle();
-    		if($("#btn_hiw").html() == "Text Editor") {
-    			$("#btn_hiw").html("Draw Editor");
+    		if($("#switch_editor").html() == "Text Editor") {
+    			$("#switch_editor").html("White board");
+    			$("#btn_hiw").html("Text Editor");
     		}
     		else {
-    			$("#btn_hiw").html("Text Editor");
+    			$("#switch_editor").html("Text Editor");
+    			$("#btn_hiw").html("White board");
     		}
     		if($("#Save").html() == "Save Doc") {
     			$("#Save").html("Save Image");
@@ -128,6 +130,7 @@
 						<button id="btn_hiw">Text Editor</button>
 						<button id="Save" class="send_green_button" style="float:right;" onclick="saveContent()">Save Doc</button>
 						<button id="Email" class="send_green_button" style="float:right;" onclick="saveContent()">Email</button>
+						<button id="switch_editor" class="send_green_button" style="float:right;">White board</button>
 					</div>
 									
 				    <div id="drawpad">
