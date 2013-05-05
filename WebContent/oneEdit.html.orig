@@ -126,8 +126,13 @@
 				<div id="canvas_content_left">
 				    <div class="content_tags_body" id="navigationBar">
 						<button id="btn_hiw">Text Editor</button>
-						<button id="Save" class="send_green_button" style="float:right;" onclick="saveContent()">Save Doc</button>
+<<<<<<< HEAD
+						<button id="Save" class="send_green_button" style="float:right;" onclick="saveContent()">Save</button>
 						<button id="Email" class="send_green_button" style="float:right;" onclick="saveContent()">Email</button>
+=======
+						<button id="Save" class="invite_green_button" style="float:right;" onclick="saveContent()">Save Doc</button>
+						<button id="Email" class="invite_green_button" style="float:right;" onclick="saveContent()">Email</button>
+>>>>>>> 61110f2c78edb6a9b1e1297a45d6f22e28268650
 					</div>
 									
 				    <div id="drawpad">
