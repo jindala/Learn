@@ -9,6 +9,7 @@
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
   <script src='https://cdn.firebase.com/v0/firebase.js'></script>
   <script type="text/javascript" data-app-id="Lei9oAybqAlZ2ii2gZpYxw" src="https://assets.yammer.com/platform/yam.js"></script>
+  <script src='https://swww.tokbox.com/v1.1/js/TB.min.js'></script>
   
   <!-- Include CodeMirror -->
   <link rel="stylesheet" href="codemirror.css" />
@@ -126,14 +127,19 @@
 					</div>-->
 									
 				    <div id="drawpad">
-				    	<canvas id="drawing-canvas" width="980" height="850"></canvas>
+				    	<canvas id="drawing-canvas" width="970" height="850"></canvas>
 				    </div>
 				    <div id="colorholder"></div>
 				    
-				    <div id="firepad" style="border: 2px solid #999;width:980px;height:850px;clear:both;"></div>
+				    <div id="firepad" style="border: 2px solid #999;width:970px;height:850px;clear:both;"></div>
 				 </div>
-				 <div id="content_right">
-				 <p><h2>Collaborating with:</h2></p>
+				 <div style="float: right;">
+					 <div id="content_right">
+					 <p><h2>Collaborating with:</h2></p>
+					 </div>
+					 <div id="content_right_bottom">
+					     <div id="myPublisherDiv" style="width:234px;"></div>
+					 </div>
 				 </div>
 			</div>
 		</div>
@@ -152,29 +158,6 @@
 	  //Create Firepad (with rich text toolbar and shortcuts enabled)
 	  var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
 	      { richTextShortcuts: true, richTextToolbar: true });
-	  
-      /*$('#messageInput').keypress(function (e) {
-        if (e.keyCode == 13) {
-          var name = $('#nameInput').val();
-          var text = $('#messageInput').val();
-          //myDataRef.set('User ' + name + ' says ' + text);
-          editDataRef = myDataRef.push({name: name, text: text});
-          $('#messageInput').val('');
-        }
-      });
- 
-      myDataRef.on('child_added', function(snapshot) {
-        var message = snapshot.val();
-        //alert("push ref: " + editDataRef);
-        //alert("tostring: " + message.toString());
-        //alert("valueof: " + message.valueOf());
-		displayChatMessage(message.name, message.text);
-      });
-
-      function displayChatMessage(name, text) {
-        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-      };*/
       
       firepad.on('ready', function() {
           if (firepad.isHistoryEmpty()) {
@@ -200,7 +183,7 @@
 	    var myContext = myCanvas.getContext ? myCanvas.getContext('2d') : null;
 	    if (myContext == null) {
 	      alert("You must use a browser that supports HTML5 Canvas to run this demo.");
-	      return;
+	      //return;
 	    }
 	
 	    //Setup each color palette & add it to the screen
@@ -270,5 +253,56 @@
 	    pixelDataRef.on('child_removed', clearPixel);
 	  //});
     </script>
+    
+    
+
+        <script type="text/javascript">
+          // Initialize API key, session, and token...
+          // Think of a session as a room, and a token as the key to get in to the room
+          // Sessions and tokens are generated on your server and passed down to the client
+          var apiKey = "28249152";
+          var sessionId = "2_MX4yODI0OTE1Mn4xMjcuMC4wLjF-U3VuIE1heSAwNSAwMDoyMzo0MCBQRFQgMjAxM34wLjYyMzExMzZ-";
+          var token = "T1==cGFydG5lcl9pZD0yODI0OTE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz1kN2NiYzYyMjI0NDllMjBiNWRhZTY5YmQzZjU0ZDMxOGNmNjg5ZWM0OnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjc3Mzg2MjAmbm9uY2U9MC45Mzc3MjU5NjgzODAyMjEyJmV4cGlyZV90aW1lPTEzNjc4MjUwMjAmY29ubmVjdGlvbl9kYXRhPQ==";
+
+          // Enable console logs for debugging
+          TB.setLogLevel(TB.DEBUG);
+          
+       // Initialize session, set up event listeners, and connect
+          var session = TB.initSession(sessionId);
+          session.addEventListener('sessionConnected', sessionConnectedHandler);
+          session.addEventListener('streamCreated', streamCreatedHandler);
+          session.connect(apiKey, token);
+          function sessionConnectedHandler(event) {
+            var publisher = TB.initPublisher(apiKey, 'myPublisherDiv');
+            session.publish(publisher);
+
+            // Subscribe to streams that were in the session when we connected
+            subscribeToStreams(event.streams);
+          }
+
+          function streamCreatedHandler(event) {
+            // Subscribe to any new streams that are created
+            subscribeToStreams(event.streams);
+          }
+
+          function subscribeToStreams(streams) {
+            for (var i = 0; i < streams.length; i++) {
+              // Make sure we don't subscribe to ourself
+              if (streams[i].connection.connectionId == session.connection.connectionId) {
+                return;
+              }
+
+              // Create the div to put the subscriber element in to
+              var div = document.createElement('div');
+              div.setAttribute('id', 'stream' + streams[i].streamId);
+              div.setAttribute('style', 'width:234px;');
+              document.getElementById("content_right_bottom").appendChild(div);
+
+              // Subscribe to the stream
+              session.subscribe(streams[i], div.id);
+            }
+          }
+          
+        </script>
 </body>
 </html>

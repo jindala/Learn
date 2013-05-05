@@ -274,9 +274,7 @@ body {
 	border:3px solid #ffcc44;
 	padding: 0px 10px;
 	background-color: #ffffff;
-	width: 250px;
-	float: right;
-	height: 850px;
+	width: 280px;
 	margin-bottom: 10px;
 }
 	#content_right h2 {
@@ -284,6 +282,7 @@ body {
 	}
 	.chef_class {
 		padding: 0px 10px;
+		height: 130px;
 	}
 	.profile_img {
 		width: 100px;
@@ -415,8 +414,19 @@ body {
 #canvas_content_left {
 	border-radius: 10px;
 	border:3px solid #ffcc44;
-	width: 1020px;
+	width: 990px;
 	float: left;
 	padding: 0px 20px;
 	margin-bottom: 10px;
+}
+
+#content_right_bottom {
+	border-radius: 10px;
+	border:3px solid #ffcc44;
+	padding: 2px 8px;
+	background-color: #ffffff;
+	width: 280px;
+	float: right;
+	margin-bottom: 10px;
+	text-align: center;
 }
