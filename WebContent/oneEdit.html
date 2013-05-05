@@ -128,6 +128,7 @@
 				<div id="canvas_content_left">
 				    <div class="content_tags_body" id="navigationBar">
 						<button id="btn_hiw">Text Editor</button>
+						<a onclick="bookmarkDoc()"><img src="images/bookmark.png" alt="bookmark" style="float:right;"></a>
 						<button id="Save" class="send_green_button" style="float:right;" onclick="saveContent()">Save Doc</button>
 						<button id="Email" class="send_green_button" style="float:right;" onclick="saveContent()">Email</button>
 						<button id="switch_editor" class="send_green_button" style="float:right;">White board</button>
@@ -152,11 +153,9 @@
 		</div>
     
     <script>
-      var myDataRef = new Firebase('https://cpsh7qsnpsa.firebaseio-demo.com/');
-	  var editDataRef;
-	  
-	  //Initialize Firebase
-	  var firepadRef = new Firebase('https://realcollaboration.firebaseio.com/');
+	  //Initialize Firebase 
+	  //var firepadRef = new Firebase('https://realcollaboration.firebaseio.com/');
+      var firepadRef = new Firebase('https://realcollab.firebaseio.com/');
 	  var firepadDiv = document.getElementById('firepad');
 	  
 	  //Create CodeMirror
@@ -178,6 +177,7 @@
           }
         });
       
+      //Save on Client end
       function saveContent(){
     	 var btn_Type = document.getElementById("Save").innerHTML;
     	 
@@ -208,13 +208,37 @@
 		        }
 		     });*/
       	 } else {
-      		alert("oooo");
       		var mycanvas = document.getElementById("drawing-canvas"); //get your canvas
       		//var image = mycanvas.toDataURL("image/asas");
       		Canvas2Image.saveAsPNG(mycanvas);
-      		alert("IMAGE");
       	 }
       };
+      
+      //Bookmark documents
+      function bookmarkDoc(){
+    	 alert("inside bookmark!");
+    	 var bookData = firepad.getText(); 
+    	 
+    	 //fire off the request to /saveDoc
+	     var request = $.ajax({
+	        url: "/Learn/saveDoc",
+	        type: "post",
+	        data: docData,
+	        
+	        success: function(response, textStatus, jqXHR){
+	            // log a message to the console
+	            alert("beep heap: " + response);  		
+		    },
+	        // callback handler that will be called on error
+	        error: function(jqXHR, textStatus, errorThrown){
+	            // log the error to the console
+	            alert(
+	                "The following error occured: "+
+	                textStatus, errorThrown
+	            );
+	        }
+	     });
+      }
       
       //Drawing canvas
 	  //$(document).ready(function () {
@@ -222,7 +246,8 @@
 	    var pixSize = 2, lastPoint = null, currentColor = "000", mouseDown = 0;
 	
 	    //Create a reference to the pixel data for our drawing.
-	    var pixelDataRef = new Firebase('https://realcollaboration.firebaseio.com/');
+	    //var pixelDataRef = new Firebase('https://realcollaboration.firebaseio.com/');
+	    var pixelDataRef = new Firebase('https://realcollab.firebaseio.com/');
 	
 	    // Set up our canvas
 	    var myCanvas = document.getElementById('drawing-canvas');
