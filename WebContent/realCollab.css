@@ -3,7 +3,7 @@ body {
 	margin:0px;
 }
 #wrapper {
-	width: 960px;
+	width: 1370px;
 	margin: 0px auto;
 }
 #header_color {
@@ -20,9 +20,9 @@ body {
 #btn_hiw {
 	float: right;
 	margin:35px;
-	background-color: #ffcc44;
+	background-color: white;
 	border:none;
-	color:white;
+	color:#ffcc44;
 	font-size: 20px;
 	font-weight: bold;
 }
@@ -274,7 +274,7 @@ body {
 	border:3px solid #ffcc44;
 	padding: 0px 10px;
 	background-color: #ffffff;
-	width: 270px;
+	width: 250px;
 	float: right;
 	height: 850px;
 	margin-bottom: 10px;
@@ -410,4 +410,13 @@ body {
     -khtml-opacity: 0.5;
     opacity: 0.5;
     z-index: 10000;
+}
+
+#canvas_content_left {
+	border-radius: 10px;
+	border:3px solid #ffcc44;
+	width: 1020px;
+	float: left;
+	padding: 0px 20px;
+	margin-bottom: 10px;
 }

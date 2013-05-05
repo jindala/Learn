@@ -56,7 +56,7 @@
 							          for(var i=0;i<group_users.users.length;i++) {
 							        	  var usr_replaced_width_src = group_users.users[i].mugshot_url_template.replace("{width}", "260");
 								          var usr_replaced_src = usr_replaced_width_src.replace("{height}", "210");
-							        	  $("#user_group_users").append('<div class="container" style="float:left;"><img class="each_user_img" src="'+usr_replaced_src+'"/><h3>'+ group_users.users[i].full_name +'</h3><button class="invite_green_button" id="'+ group_users.users[i].id +'" value="Invite">Invite</button></div>');
+							        	  $("#user_group_users").append('<div class="container" style="float:left;"><img class="each_user_img" src="'+usr_replaced_src+'"/><h3>'+ group_users.users[i].full_name +'</h3><button class="invite_green_button" name="'+group_users.users[i].full_name+'" id="'+ group_users.users[i].id +'" value="Invite">Invite</button></div>');
 							          }
 							          
 							          $("button").click(function() {
@@ -68,7 +68,7 @@
 										        url: "https://www.yammer.com/api/v1/messages.json",     //this is one of many REST endpoints that are available
 										        method: "POST",
 										        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/index.html?id="+$(this).attr('id'),
+										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/oneEdit.html?id="+$(this).attr('id'),
 										        	"direct_to_id":$(this).attr('id')
 
 										        },
