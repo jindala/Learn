@@ -468,15 +468,15 @@ body {
 }
 
 #getStartedButton {
-    margin: 15px 410px;
+    margin: 15px 370px;
     width: 970px;
 }
 
 #get_started_button {
-	background: url(images/yammer-signin.png) no-repeat;
+	background: url(images/login.png) no-repeat;
     cursor:pointer;
     border: none;
-    width: 200px;
+    width: 270px;
     height:50px;
 }
 
