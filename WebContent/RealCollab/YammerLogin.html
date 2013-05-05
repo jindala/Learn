@@ -12,6 +12,7 @@
 	$(document).ready(function(){
 		$("#user_name").hide();
 		$("#user_img").hide();
+		var loggedin_user;
 		yam.getLoginStatus(
 				  function(response) {
 				    if (response.authResponse) {
@@ -24,6 +25,7 @@
 				        },
 				        success: function (user) { //print message response information to the console
 				          $("#user_name").html(user.full_name);
+				          loggedin_user = user.id;
 				          var replaced_width_src = user.mugshot_url_template.replace("{width}", "300");
 				          var replaced_src = replaced_width_src.replace("{height}", "200");
 				          $("#user_img").attr('src', replaced_src);
@@ -63,17 +65,18 @@
 							        	  $(this).attr("disabled", "disabled");
 							        	  $(this).addClass("disabled_green_button");
 							        	  $(this).html("Request Sent");
+							        	  var final_id=$(this).attr('id');
 							        	  // Send Messaged to users
 							        	  yam.request({
 										        url: "https://www.yammer.com/api/v1/messages.json",     //this is one of many REST endpoints that are available
 										        method: "POST",
 										        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/oneEdit.html?id="+$(this).attr('id'),
-										        	"direct_to_id":$(this).attr('id')
-
+										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/oneEdit.html?id="+loggedin_user,
+										        	"direct_to_id":final_id
 										        },
 										        success: function (message) { //print message response information to the console
-										          console.dir(message);										          
+										          console.dir(message);	
+										          window.location.replace("http://localhost:8080/Learn/oneEdit.html?id="+final_id);
 										        },
 										        error: function (message) {
 										          alert("message:There was an error with the request.");

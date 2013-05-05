@@ -62,7 +62,12 @@
     		$("#firepad").slideToggle();
     		$("#drawpad").slideToggle();
     		$("#colorholder").slideToggle();
-    		$("#btn_hiw").html("Draw Editor");
+    		if($("#btn_hiw").html() == "Text Editor") {
+    			$("#btn_hiw").html("Draw Editor");
+    		}
+    		else {
+    			$("#btn_hiw").html("Text Editor");
+    		}
 		});
   		
 		yam.getLoginStatus(
@@ -125,7 +130,7 @@
 				    </div>
 				    <div id="colorholder"></div>
 				    
-				    <div id="firepad" style="border: 2px solid #999;width:980px;height:850px;"></div>
+				    <div id="firepad" style="border: 2px solid #999;width:980px;height:850px;clear:both;"></div>
 				 </div>
 				 <div id="content_right">
 				 <p><h2>Collaborating with:</h2></p>
