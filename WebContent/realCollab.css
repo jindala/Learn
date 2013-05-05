@@ -472,6 +472,14 @@ body {
     width: 970px;
 }
 
+#get_started_button {
+	background: url(images/yammer-signin.png) no-repeat;
+    cursor:pointer;
+    border: none;
+    width: 200px;
+    height:50px;
+}
+
 #prod_img {
 	margin: 5px;
 	width: 200px;
