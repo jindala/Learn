@@ -82,17 +82,41 @@ body {
 .small_green_button {
 	background-color:#00C90D;
 	color:white;
-	font-size: 14px;
+	font-size: 28px;
 	border:2px gray;
-	padding:10px;
+	padding:10px 18px 18px;
 	border-radius: 6px;
 	border-bottom-style:  solid;
 	border-right-style:  solid;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 	box-shadow: 0 -20px #05af0a inset;
 	text-decoration: none;
-	margin:0px;
+	margin:5px;
 }
+
+.invite_green_button {
+	background-color:#00C90D;
+	color:white;
+	font-size: 28px;
+	border:2px gray;
+	padding:0 18px 0;
+	border-radius: 6px;
+	border-bottom-style:  solid;
+	border-right-style:  solid;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 -20px #05af0a inset;
+	text-decoration: none;
+	margin:5px;
+}
+
+.disabled_green_button {
+	background-color:#C8C8C8 ;
+	border-bottom-style:  solid;
+	border-right-style:  solid;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 -20px #A0A0A0 inset;
+}
+
 .green_button:disabled {
 	background-color:#C8C8C8 ;
 	border-bottom-style:  solid;
@@ -177,25 +201,22 @@ body {
 #content_left {
 	border-radius: 10px;
 	border:3px solid #ffcc44;
-	width: 580px;
+	width: 800px;
 	float: left;
 	padding: 0px 20px;
-	height: 850px;
 	margin-bottom: 10px;
 }
 	#content_left img {
-		padding: 0px 20px 15px;
-		width: 340px;
-		height: 220px;
+		padding: 10px 20px 15px;
+		width: 260px;
+		height: 210px;
 	}
 	#booking_form {
 		float: right;
 		border-radius: 6px;
 		background-color:#E4E4E4; 
-		width: 16	0px;
-		height: 220px;
 		padding: 0px 20px;
-		text-align: right
+		text-align: left;
 	}
 		#form_submit {
 			margin-top:5px;
@@ -299,7 +320,7 @@ body {
 	border:2px solid #E4E4E4;
 }
 #form_wrapper .small_green_button {
-	margin:20px 25px;
+	margin:20px 25px 10px;
 }
 #form_wrapper p {
 	margin:20px;

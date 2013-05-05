@@ -10,6 +10,8 @@
 
 	<script>
 	$(document).ready(function(){
+		$("#user_name").hide();
+		$("#user_img").hide();
 		yam.getLoginStatus(
 				  function(response) {
 				    if (response.authResponse) {
@@ -22,14 +24,18 @@
 				        },
 				        success: function (user) { //print message response information to the console
 				          $("#user_name").html(user.full_name);
-				          $("#user_department").html(user.department);
+				          var replaced_width_src = user.mugshot_url_template.replace("{width}", "300");
+				          var replaced_src = replaced_width_src.replace("{height}", "200");
+				          $("#user_img").attr('src', replaced_src);
+				          $("#user_name").show();
+				          $("#user_img").show();				          
 				          
 				          var groups = user.group_memberships;
 				          if(groups.length > 0) {
-				        	  $("#user_groups").html("Select A Group");
+				        	  $("#user_groups").html("<h3>Select a group:</h3>");
 				          }
 				          for(var i=0;i<groups.length;i++) {
-				        	  $("#user_groups").append('<div><input type="button" id="'+groups[i].id +'" name="'+ groups[i].full_name +'" value="'+ groups[i].full_name +'" /></div>');
+				        	  $("#user_groups").append('<div><input type="button" class="small_green_button" id="'+groups[i].id +'" name="'+ groups[i].full_name +'" value="'+ groups[i].full_name +'" /></div>');
 				          }
 				          console.dir(user);
 				          
@@ -47,32 +53,26 @@
 							        success: function (group_users) { //print message response information to the console
 							          
 							          console.dir(group_users);
-							          $("#user_groups").hide();
-							          $("#user_group_users").html(selected_group_name);
 							          for(var i=0;i<group_users.users.length;i++) {
-							        	  
-							        	  $("#user_group_users").append('<div>'+ group_users.users[i].full_name +'<input type="checkbox" id="'+ group_users.users[i].id +'"/></div>');
+							        	  var usr_replaced_width_src = group_users.users[i].mugshot_url_template.replace("{width}", "260");
+								          var usr_replaced_src = usr_replaced_width_src.replace("{height}", "210");
+							        	  $("#user_group_users").append('<div class="container" style="float:left;"><img class="each_user_img" src="'+usr_replaced_src+'"/><h3>'+ group_users.users[i].full_name +'</h3><button class="invite_green_button" id="'+ group_users.users[i].id +'" value="Invite">Invite</button></div>');
 							          }
-							          $("#user_group_users").append("<input type='submit' value='Invite'>");
 							          
-							          $("input[type=submit]").click(function() {
-							        	  var selected_users = new Array();
-							        	  $('#user_group_users input:checked').each(function() {
-							        		  selected_users.push($(this).attr('id'));
-							        	  });
-							        	  
+							          $("button").click(function() {
+							        	  $(this).attr("disabled", "disabled");
+							        	  $(this).addClass("disabled_green_button");
+							        	  $(this).html("Request Sent");
 							        	  // Send Messaged to users
 							        	  yam.request({
 										        url: "https://www.yammer.com/api/v1/messages.json",     //this is one of many REST endpoints that are available
 										        method: "POST",
 										        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/index.html",
-										        	"direct_to_ids":selected_users
+										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/index.html?id="+$(this).attr('id'),
+										        	"direct_to_id":$(this).attr('id')
 										        },
 										        success: function (message) { //print message response information to the console
-										          
-										          console.dir(message);
-										          alert("message sent successfully");
+										          console.dir(message);										          
 										        },
 										        error: function (message) {
 										          alert("message:There was an error with the request.");
@@ -113,26 +113,20 @@
 		<div id="header_color">
 			<div id="header_wrapper">
 				<div id="header">
-					<a href="index.html"><img src="images/logo.png" alt="Social Food Logo"></a>
-					<div id="search">	
-						<button class="small_green_button" id="quickSearch">Go</button>
-						<h4>Find homemade food near: <input name="where" type="text" value="Zip Code, City"></h4>
-					</div>
+					<a href="RealCollab/YammerLogin.html"><img src="../images/logo_comp.jpg" alt="RealCollab Logo"></a>
 				</div>
 			</div>
 		</div>
 		<div id="wrapper">
 			<div id="content">
-				<div id="page_title">
-					Real Collab
-				</div>
-				<div id="user_info">
-					<div id="user_name">
+				<div id="content_left">
+					<p><h2 id="user_name">User</h2></p>
+					<img id="user_img" class="plate_image" src="" alt="User">
+					<div id="booking_form">
+						<div id="user_groups">
+						</div>
 					</div>
-					<div id="user_department">
-					</div>
-					<div id="user_groups">
-					</div>
+					<div class="clear"></div>						
 					<div id="user_group_users">
 					</div>
 				</div>
