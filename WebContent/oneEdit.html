@@ -19,7 +19,8 @@
   <link rel="stylesheet" href="firepad.css" />
   <script src="firepad.js"></script>
   
-  <script type="text/javascript" src="downloadify.min.js"></script>
+  <script src="Canvas2Image.js"></script>
+  <script src="base64.js"></script>
   
   <style type="text/css">
 	.navigationBtn{
@@ -68,6 +69,12 @@
     		}
     		else {
     			$("#btn_hiw").html("Text Editor");
+    		}
+    		if($("#Save").html() == "Save Doc") {
+    			$("#Save").html("Save Image");
+    		}
+    		else {
+    			$("#Save").html("Save Doc");
     		}
 		});
   		
@@ -118,7 +125,7 @@
 				<div id="canvas_content_left">
 				    <div class="content_tags_body" id="navigationBar">
 						<button id="btn_hiw">Text Editor</button>
-						<button id="Save" class="invite_green_button" style="float:right;" onclick="saveContent()">Save</button>
+						<button id="Save" class="invite_green_button" style="float:right;" onclick="saveContent()">Save Doc</button>
 						<button id="Email" class="invite_green_button" style="float:right;" onclick="saveContent()">Email</button>
 					</div>
 				    
@@ -180,32 +187,41 @@
         });
       
       function saveContent(){
-    	 var docData = firepad.getText();
+    	 var btn_Type = document.getElementById("Save").innerHTML;
     	 
-    	 document.location = 'data:Application/octet-stream,' +
-         encodeURIComponent(docData);
-    	 
-    	 /*filepicker.setKey('ALK8vuoaLTvGTRfHpn7nrz');
-    	 
-    	 //fire off the request to /saveDoc
-	     var request = $.ajax({
-	        url: "/Learn/saveDoc",
-	        type: "post",
-	        data: docData,
-	        
-	        success: function(response, textStatus, jqXHR){
-	            // log a message to the console
-	            alert("beep reep: " + response);  		
-		    },
-	        // callback handler that will be called on error
-	        error: function(jqXHR, textStatus, errorThrown){
-	            // log the error to the console
-	            alert(
-	                "The following error occured: "+
-	                textStatus, errorThrown
-	            );
-	        }
-	     });*/
+    	 if(btn_Type == 'Save Doc'){
+	    	 var docData = firepad.getText();    	 
+	    	 document.location = 'data:Application/octet-stream,' +
+	         encodeURIComponent(docData);
+
+	    	 /*filepicker.setKey('ALK8vuoaLTvGTRfHpn7nrz');
+	    	 
+	    	 //fire off the request to /saveDoc
+		     var request = $.ajax({
+		        url: "/Learn/saveDoc",
+		        type: "post",
+		        data: docData,
+		        
+		        success: function(response, textStatus, jqXHR){
+		            // log a message to the console
+		            alert("beep reep: " + response);  		
+			    },
+		        // callback handler that will be called on error
+		        error: function(jqXHR, textStatus, errorThrown){
+		            // log the error to the console
+		            alert(
+		                "The following error occured: "+
+		                textStatus, errorThrown
+		            );
+		        }
+		     });*/
+      	 } else {
+      		alert("oooo");
+      		var mycanvas = document.getElementById("drawing-canvas"); //get your canvas
+      		//var image = mycanvas.toDataURL("image/asas");
+      		Canvas2Image.saveAsPNG(mycanvas);
+      		alert("IMAGE");
+      	 }
       };
       
       //Drawing canvas
