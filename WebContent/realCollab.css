@@ -18,8 +18,8 @@ body {
 	margin:10px 40px;
 }
 #btn_hiw {
-	float: right;
-	margin:35px;
+	float: left;
+	margin:15px 0 15px 0;
 	background-color: white;
 	border:none;
 	color:#ffcc44;
@@ -147,7 +147,8 @@ body {
 	text-align: left;
 }
 .content_tags_body {
-	float: right;
+	float: left;
+	width: 970px;
 }
 .content_tags_body ul {
 	list-style-type: none;

@@ -8,13 +8,8 @@
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
   <script src='https://cdn.firebase.com/v0/firebase.js'></script>
-<<<<<<< HEAD
-  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
-  <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
-=======
   <script type="text/javascript" data-app-id="Lei9oAybqAlZ2ii2gZpYxw" src="https://assets.yammer.com/platform/yam.js"></script>
   <script src='https://swww.tokbox.com/v1.1/js/TB.min.js'></script>
->>>>>>> d995186b82c47a84f036542aa8313e8dbdf15a09
   
   <!-- Include CodeMirror -->
   <link rel="stylesheet" href="codemirror.css" />
@@ -114,7 +109,7 @@
     	<div id="header_color">
 			<div id="header_wrapper">
 				<div id="header">
-					<a href="RealCollab/YammerLogin.html"><img src="images/logo_comp.jpg" alt="RealCollab Logo"></a>
+					<a href="RealCollab/YammerLogin.html"><img src="images/realCollab_logo.png" alt="RealCollab Logo"></a>
 				</div>
 			</div>
 		</div>
@@ -123,10 +118,11 @@
 				<div id="canvas_content_left">
 				    <div class="content_tags_body" id="navigationBar">
 						<button id="btn_hiw">Text Editor</button>
-						<a href="#" id="Save" onclick="saveContent()">Save</a>
+						<button id="Save" class="invite_green_button" style="float:right;" onclick="saveContent()">Save</button>
+						<button id="Email" class="invite_green_button" style="float:right;" onclick="saveContent()">Email</button>
 					</div>
 				    
-				    <div id="drawing_tools" class="tools_class" style="float: left;">
+				    <!-- <div id="drawing_tools" class="tools_class" style="float: left;">
 				    	<div id="rightArrow" >
 							<img src="images/rightArrow.png"/>
 						</div>
@@ -136,7 +132,7 @@
 						<div id="square" >
 							<img src="images/square.png"/>
 						</div>
-					</div>
+					</div> -->
 									
 				    <div id="drawpad">
 				    	<canvas id="drawing-canvas" width="970" height="850"></canvas>
