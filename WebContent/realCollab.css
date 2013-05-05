@@ -1,0 +1,392 @@
+body {
+	font-family:Tahoma, Geneva, sans-serif;
+	margin:0px;
+}
+#wrapper {
+	width: 960px;
+	margin: 0px auto;
+}
+#header_color {
+	background-color:#ffcc44;
+}
+#header_wrapper {
+	width: 960px;
+	margin:0px auto;
+}
+#header img {
+	width: 150px;
+	margin:10px 40px;
+}
+#btn_hiw {
+	float: right;
+	margin:35px;
+	background-color: #ffcc44;
+	border:none;
+	color:white;
+	font-size: 20px;
+	font-weight: bold;
+}
+#btn_hiw:hover {
+	text-decoration:underline;
+	color:black	;
+}
+#search {
+	float:right;
+}
+#search button {
+	float:right;
+	margin:20px;
+}
+#how_it_works {
+	display: none;
+}
+#how_it_works img {
+	margin-left: 67.5px;
+}
+
+#content_header_title {
+	text-align: center;
+}
+#content_header_options {
+	margin: 0px auto;
+	width: 600px;
+	height: 200px;
+}
+.clear {
+	clear: both;
+}
+.options {
+	background-color: #E4E4E4;
+	border-radius: 10px;
+	width: 250px;
+	height:200px;
+	text-align: center;
+	padding:20px;
+	margin-bottom: 20px;
+}
+.options_text {
+	height: 120px;
+}
+.green_button {
+	background-color:#00C90D;
+	color:white;
+	font-size: 20px;
+	border:2px gray;
+	padding:10px;
+	border-radius: 6px;
+	border-bottom-style:  solid;
+	border-right-style:  solid;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 -20px #05af0a inset;
+}
+.small_green_button {
+	background-color:#00C90D;
+	color:white;
+	font-size: 14px;
+	border:2px gray;
+	padding:10px;
+	border-radius: 6px;
+	border-bottom-style:  solid;
+	border-right-style:  solid;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 -20px #05af0a inset;
+	text-decoration: none;
+	margin:0px;
+}
+.green_button:disabled {
+	background-color:#C8C8C8 ;
+	border-bottom-style:  solid;
+	border-right-style:  solid;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 -20px #A0A0A0 inset;
+}
+#cook {
+	float: left;
+}
+#foodie {
+	float: right;
+}
+#content_tags {
+	clear: both;
+	width: 960	px;
+	margin: 0px auto;
+	background-color: #ffcc44;
+	padding: 0px 80px;
+	color:black	;
+	margin:30px 0px		;
+}
+#content_tags {
+	
+}
+#content_tags_title {
+	float: left;
+	text-align: left;
+}
+.content_tags_body {
+	float: right;
+}
+.content_tags_body ul {
+	list-style-type: none;
+}
+.content_tags_body ul li {
+	display: inline-table;
+	background-color: white;	
+	border-radius: 6px;
+	padding:5px;
+}
+.content_tags_body ul li:hover {
+	background-color:#f9ae06 ;
+}
+.content_tags_body ul li a {
+	text-decoration: none;
+	color:black;
+}
+.content_tags_body ul li a:hover {
+	color:white;
+	font-weight: bold;
+}
+.container {
+	border: 1px solid silver;
+	width: 300px;
+	height: 320px;
+	margin:9px;
+}
+	.container img {
+		height: 200px;
+		width: 300px;
+	}
+	.container h3 {
+		margin: 0px 7px;
+	} 
+	.container h4 {
+		margin:7px;
+		color:gray;
+		font-weight:normal;
+
+	}
+	.container h2 {
+		text-align: right;
+		margin:10px;
+		color:gray;
+	}
+
+/* START STYLE FOR MEAL PAGE */
+#content {
+	margin:10px;	
+}
+#content_left {
+	border-radius: 10px;
+	border:3px solid #ffcc44;
+	width: 580px;
+	float: left;
+	padding: 0px 20px;
+	height: 850px;
+	margin-bottom: 10px;
+}
+	#content_left img {
+		padding: 0px 20px 15px;
+		width: 340px;
+		height: 220px;
+	}
+	#booking_form {
+		float: right;
+		border-radius: 6px;
+		background-color:#E4E4E4; 
+		width: 16	0px;
+		height: 220px;
+		padding: 0px 20px;
+		text-align: right
+	}
+		#form_submit {
+			margin-top:5px;
+			text-align: center;
+		} 
+	#description {
+		margin:20px;
+		clear:both;
+	}
+	#date_time_map{
+		padding: 0px 20px;
+	}	
+			.content_tags {
+				padding:0px;
+				list-style-type: none;
+				margin:0px;
+				clear:both;
+			}
+			.content_tags li {
+				display: inline-table;
+				background-color: #E4E4E4;	
+				border-radius: 6px;
+				padding:5px;
+				font-size: 14px;
+			}
+			.content_tags li:hover {
+				background-color:#f9ae06 ;
+			}
+			.content_tags li a {
+
+				text-decoration: none;
+				color:black;
+			}
+			.content_tags li a:hover {
+				color:white;
+			}
+		#date_time {
+			float: left;
+			border-radius: 6px;
+			background-color:#E4E4E4; 
+			padding:20px;
+			width: 230px;
+		}
+		.bold {
+			font-weight: bold;
+		}
+		#map {
+			float: right;
+			margin-bottom: 10px;
+		}
+			#map iframe {
+			}
+#content_right {
+	border-radius: 10px;
+	border:3px solid #ffcc44;
+	padding: 0px 10px;
+	background-color: #ffffff;
+	width: 270px;
+	float: right;
+	height: 850px;
+	margin-bottom: 10px;
+}
+	#content_right h2 {
+		text-align: center;
+	}
+	.chef_class {
+		padding: 0px 10px;
+	}
+	.profile_img {
+		width: 100px;
+		float:left;
+		margin:10px;
+	}
+	#chef_desc {
+		clear:both;
+	}
+		.reviews {
+			font-size: 12px;
+			background-color: #E4E4E4;
+			border-radius: 3px;
+			padding: 5px;
+			margin:25px 0px;
+		}
+		.reviews p{
+			margin:5px;
+		}
+		.by_user {
+			color:silver;
+			float:right;
+		}
+		.date {
+			color:silver;
+			float:right;
+		}
+/* START STYLE FOR FORM */
+
+#form_wrapper {
+	margin:10px auto;
+	background-color: white;	
+	display:none;
+	border:2px solid #E4E4E4;
+}
+#form_wrapper .small_green_button {
+	margin:20px 25px;
+}
+#form_wrapper p {
+	margin:20px;
+}
+.question{
+	display:block;
+	margin:10px 20px;
+}
+.instructions_form {
+	background-color: #E4E4E4;
+	padding:1px 20px;
+	color:black;
+}
+	.instructions_form img{
+		float:right;
+		width: 20px;
+	}
+
+.small_red_button {
+	background-color:#FF0000;
+	color:white;
+	font-size: 14px;
+	border:2px gray;
+	padding:10px;
+	border-radius: 6px;
+	border-bottom-style:  solid;
+	border-right-style:  solid;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 -20px #cc0000 inset;
+	text-decoration: none;
+	margin:0px;
+}
+
+#login_form {
+	display:none;
+	margin-left: 700px;
+	width: 30px;
+}
+
+#reg_form {
+	display: none;
+	margin-left: 750px;
+	width: 30px;
+}
+
+#btn_login {
+	float: right;
+	margin:35px;
+	background-color: #ffcc44;
+	border:none;
+	color:white;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#btn_register {
+	float: right;
+	margin:35px;
+	background-color: #ffcc44;
+	border:none;
+	color:white;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#btn_logout {
+	float: right;
+	margin:35px;
+	background-color: #ffcc44;
+	border:none;
+	color:white;
+	font-size: 20px;
+	font-weight: bold;
+	display:none;
+}
+
+#paymentFormDiv {
+	display:none;
+	position: fixed;
+    top: 200;
+    left: 500;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+    z-index: 10000;
+}

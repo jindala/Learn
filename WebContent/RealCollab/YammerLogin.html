@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>home</title>
-	<link rel="stylesheet" href="../style.css">
+	<link rel="stylesheet" href="../realCollab.css">
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
@@ -53,7 +53,7 @@
 							        	  
 							        	  $("#user_group_users").append('<div>'+ group_users.users[i].full_name +'<input type="checkbox" id="'+ group_users.users[i].id +'"/></div>');
 							          }
-							          $("#user_group_users").append("<input type='submit' value='Collaborate'>");
+							          $("#user_group_users").append("<input type='submit' value='Invite'>");
 							          
 							          $("input[type=submit]").click(function() {
 							        	  var selected_users = new Array();
@@ -67,7 +67,7 @@
 										        method: "POST",
 										        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
 										        	"body":"I would like to share collaborative document with you. Please follow this link + http://localhost:8080/Learn/index.html",
-										        	"direct_to_id":selected_users[0]
+										        	"direct_to_ids":selected_users
 										        },
 										        success: function (message) { //print message response information to the console
 										          
