@@ -94,8 +94,28 @@
 				        success: function (user) { //print message response information to the console
 					          var replaced_width_src = user.mugshot_url_template.replace("{width}", "100");
 					          var replaced_src = replaced_width_src.replace("{height}", "100");
-				        	$("#content_right").append('<div id="chef_profile" class="chef_class"><img src="'+ replaced_src +'" alt="Name" class="profile_img"><p>'+ user.full_name +'</p></div>');			
-
+				        	  $("#content_right").append('<div id="chef_profile" class="chef_class"><img src="'+ replaced_src +'" alt="Name" class="profile_img"><p>'+ user.full_name +'</p></div>');			
+							
+				        	// Get Invite Suggestion
+						      yam.request({
+							        url: "https://www.yammer.com/api/v1/suggestions.json",     //this is one of many REST endpoints that are available
+							        method: "GET",
+							        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+							        	"limit":"3"
+							        },
+							        success: function (suggestions) { //print message response information to the console
+										  for (var i=0;i<suggestions.length;i++) {
+											  var replaced_width_src = suggestions[i].suggested.mugshot_url_template.replace("{width}", "55");
+									          var replaced_src = replaced_width_src.replace("{height}", "55");
+									          
+									          $("#suggestions").append('<div id="chef_profile" class="invite_individual_class"><div style="float:left;"><img src="'+ replaced_src +'" alt="Name" class="profile_img"></div><div style="float:left;"><div><p>'+ suggestions[i].suggested.full_name +'</p></div><div><button id="invite_friend" class="invite_green_button">Invite</button></div></div></div>');
+										  }
+							        	
+							        },
+							        error: function (suggestions) {
+							          alert("There was an error with the request.");
+							        }
+							      });
 				        },
 				        error: function (user) {
 				          alert("There was an error with the request.");
@@ -110,7 +130,8 @@
 				          });
 				    }
 				  }
-				);
+				);		
+
 	});
 	</script>
 
@@ -130,7 +151,7 @@
 						<button id="btn_hiw">Text Editor</button>
 						<a onclick="bookmarkDoc()"><img src="images/bookmark.png" alt="bookmark" style="float:right;"></a>
 						<button id="Save" class="send_green_button" style="float:right;" onclick="saveContent()">Save Doc</button>
-						<button id="Email" class="send_green_button" style="float:right;" onclick="saveContent()">Email</button>
+						<!-- <button id="Email" class="send_green_button" style="float:right;">Email</button> -->
 						<button id="switch_editor" class="send_green_button" style="float:right;">White board</button>
 					</div>
 									
@@ -143,7 +164,11 @@
 				 </div>
 				 <div class="rightPane">
 					 <div id="content_right">
-					 <p><h2>Collaborating with:</h2></p>
+					 <p><h4>Collaborating with:</h4></p>
+					 </div>
+					 <div id="content_right_middle">
+					 	<p><h4>Invite friends to RealCollab</h4></p>
+					     <div id="suggestions" style="width:234px;"></div>
 					 </div>
 					 <div id="content_right_bottom">
 					     <div id="myPublisherDiv" style="width:234px;"></div>
@@ -185,31 +210,8 @@
 	    	 var docData = firepad.getText();    	 
 	    	 document.location = 'data:Application/octet-stream,' +
 	         encodeURIComponent(docData);
-
-	    	 /*filepicker.setKey('ALK8vuoaLTvGTRfHpn7nrz');
-	    	 
-	    	 //fire off the request to /saveDoc
-		     var request = $.ajax({
-		        url: "/Learn/saveDoc",
-		        type: "post",
-		        data: docData,
-		        
-		        success: function(response, textStatus, jqXHR){
-		            // log a message to the console
-		            alert("beep reep: " + response);  		
-			    },
-		        // callback handler that will be called on error
-		        error: function(jqXHR, textStatus, errorThrown){
-		            // log the error to the console
-		            alert(
-		                "The following error occured: "+
-		                textStatus, errorThrown
-		            );
-		        }
-		     });*/
       	 } else {
       		var mycanvas = document.getElementById("drawing-canvas"); //get your canvas
-      		//var image = mycanvas.toDataURL("image/asas");
       		Canvas2Image.saveAsPNG(mycanvas);
       	 }
       };
@@ -332,8 +334,8 @@
           // Think of a session as a room, and a token as the key to get in to the room
           // Sessions and tokens are generated on your server and passed down to the client
           var apiKey = "28249152";
-          var sessionId = "2_MX4yODI0OTE1Mn4xMjcuMC4wLjF-U3VuIE1heSAwNSAwMDoyMzo0MCBQRFQgMjAxM34wLjYyMzExMzZ-";
-          var token = "T1==cGFydG5lcl9pZD0yODI0OTE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz1kN2NiYzYyMjI0NDllMjBiNWRhZTY5YmQzZjU0ZDMxOGNmNjg5ZWM0OnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjc3Mzg2MjAmbm9uY2U9MC45Mzc3MjU5NjgzODAyMjEyJmV4cGlyZV90aW1lPTEzNjc4MjUwMjAmY29ubmVjdGlvbl9kYXRhPQ==";
+          var sessionId = "2_MX4yODI0OTE1Mn4xMjcuMC4wLjF-V2VkIE1heSAwOCAwNzo1NzowOCBQRFQgMjAxM34wLjI4MzE4MTA3fg";
+          var token = "T1==cGFydG5lcl9pZD0yODI0OTE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz1jNzBiMWQ4YWQ4ZTg0NmZmZGU4NmYyZGFjZmFkN2M5OTFmNWY2NmRkOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjgwMjUwMjgmbm9uY2U9MC44OTU0NDQyODYyNzk4Mjc4JmV4cGlyZV90aW1lPTEzNjgxMTE0MjgmY29ubmVjdGlvbl9kYXRhPQ==";
 
           // Enable console logs for debugging
           TB.setLogLevel(TB.DEBUG);
