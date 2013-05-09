@@ -15,6 +15,7 @@
 		$("#user_group_users_header").hide();
 		var loggedin_user;
 		var final_id;
+		var selected_user_list = "";
 		yam.getLoginStatus(
 				  function(response) {
 				    if (response.authResponse) {
@@ -69,24 +70,10 @@
 							          $("button").click(function() {
 							        	  $(this).attr("disabled", "disabled");
 							        	  $(this).addClass("disabled_green_button");
-							        	  $(this).html("Request Sent");
+							        	  $(this).html("Selected");
 							        	  $("#done_button").show();
 							        	  final_id=$(this).attr('id');
-							        	  // Send Messaged to users
-							        	  yam.request({
-										        url: "https://www.yammer.com/api/v1/messages.json",     //this is one of many REST endpoints that are available
-										        method: "POST",
-										        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-										        	"body":"I would like to collaborate with you in real time. Please click to join \n http://10.69.47.152:8080/Learn/oneEdit.html?id="+loggedin_user,
-										        	"direct_to_id":final_id
-										        },
-										        success: function (message) { //print message response information to the console
-										          console.dir(message);	
-										        },
-										        error: function (message) {
-										          alert("message:There was an error with the request.");
-										        }
-										      });
+							        	  selected_user_list += final_id + ",";
 							          });
 							        },
 							        error: function (group_users) {
@@ -112,7 +99,22 @@
 				);
 		
 		$("#done_button").click(function() {
-			window.location.replace("http://localhost:8080/Learn/oneEdit.html?id="+final_id);
+      	  // Send Messaged to users
+      	  yam.request({
+			        url: "https://www.yammer.com/api/v1/messages.json",     //this is one of many REST endpoints that are available
+			        method: "POST",
+			        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+			        	"body":"I would like to collaborate with you in real time. Please click to join \n http://10.69.47.152:8080/Learn/oneEdit.html?id="+selected_user_list,
+			        	"direct_to_ids":selected_user_list
+			        },
+			        success: function (message) { //print message response information to the console
+			          console.dir(message);	
+			        },
+			        error: function (message) {
+			          alert("message:There was an error with the request.");
+			        }
+			      });
+			window.location.replace("http://localhost:8080/Learn/oneEdit.html?id="+selected_user_list);
 		});
 		
 	});

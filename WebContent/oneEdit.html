@@ -57,7 +57,8 @@
 	<script>
 	$(document).ready(function(){
 		var sPageURL = window.location.search.substring(1);
-		var user_id = sPageURL.replace("id=", "");		
+		var user_id_string = sPageURL.replace("id=", "");
+		var user_id_array = user_id_string.split(',');
 		$("#drawpad").hide();
 		$("#colorholder").hide();
 		
@@ -85,42 +86,47 @@
 				  function(response) {
 				    if (response.authResponse) {
 				      console.log("logged in");
+				      
+				      for(var i=0; i<user_id_array.length-1;i++) {
+				    	  yam.request({
+						        url: "https://www.yammer.com/api/v1/users/" + user_id_array[i] + ".json",     //this is one of many REST endpoints that are available
+						        method: "GET",
+						        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+						        	"include_group_memberships":"TRUE"
+						        },
+						        success: function (user) { //print message response information to the console
+							          var replaced_width_src = user.mugshot_url_template.replace("{width}", "100");
+							          var replaced_src = replaced_width_src.replace("{height}", "100");
+						        	  $("#content_right").append('<div id="chef_profile" class="chef_class"><img src="'+ replaced_src +'" alt="Name" class="profile_img"><p>'+ user.full_name +'</p></div>');			
+									
+						        },
+						        error: function (user) {
+						          alert("There was an error with the request.");
+						        }
+						      });
+				      }
+			        	
+				      // Get Invite Suggestion
 				      yam.request({
-				        url: "https://www.yammer.com/api/v1/users/" + user_id + ".json",     //this is one of many REST endpoints that are available
-				        method: "GET",
-				        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-				        	"include_group_memberships":"TRUE"
-				        },
-				        success: function (user) { //print message response information to the console
-					          var replaced_width_src = user.mugshot_url_template.replace("{width}", "100");
-					          var replaced_src = replaced_width_src.replace("{height}", "100");
-				        	  $("#content_right").append('<div id="chef_profile" class="chef_class"><img src="'+ replaced_src +'" alt="Name" class="profile_img"><p>'+ user.full_name +'</p></div>');			
-							
-				        	// Get Invite Suggestion
-						      yam.request({
-							        url: "https://www.yammer.com/api/v1/suggestions.json",     //this is one of many REST endpoints that are available
-							        method: "GET",
-							        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-							        	"limit":"3"
-							        },
-							        success: function (suggestions) { //print message response information to the console
-										  for (var i=0;i<suggestions.length;i++) {
-											  var replaced_width_src = suggestions[i].suggested.mugshot_url_template.replace("{width}", "55");
-									          var replaced_src = replaced_width_src.replace("{height}", "55");
-									          
-									          $("#suggestions").append('<div id="chef_profile" class="invite_individual_class"><div style="float:left;"><img src="'+ replaced_src +'" alt="Name" class="profile_img"></div><div style="float:left;"><div><p>'+ suggestions[i].suggested.full_name +'</p></div><div><button id="invite_friend" class="invite_green_button">Invite</button></div></div></div>');
-										  }
-							        	
-							        },
-							        error: function (suggestions) {
-							          alert("There was an error with the request.");
-							        }
-							      });
-				        },
-				        error: function (user) {
-				          alert("There was an error with the request.");
-				        }
-				      });
+					        url: "https://www.yammer.com/api/v1/suggestions.json",     //this is one of many REST endpoints that are available
+					        method: "GET",
+					        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+					        	"limit":"3"
+					        },
+					        success: function (suggestions) { //print message response information to the console
+								  for (var i=0;i<suggestions.length;i++) {
+									  var replaced_width_src = suggestions[i].suggested.mugshot_url_template.replace("{width}", "55");
+							          var replaced_src = replaced_width_src.replace("{height}", "55");
+							          
+							          $("#suggestions").append('<div id="chef_profile" class="invite_individual_class"><div style="float:left;"><img src="'+ replaced_src +'" alt="Name" class="profile_img"></div><div style="float:left;"><div><p>'+ suggestions[i].suggested.full_name +'</p></div><div><button id="invite_friend" class="invite_green_button">Invite</button></div></div></div>');
+								  }
+					        	
+					        },
+					        error: function (suggestions) {
+					          alert("There was an error with the request.");
+					        }
+					      });
+				      
 				    }
 				    else {
 				        yam.login(function (response) { //prompt user to login and authorize your app, as necessary
