@@ -40,12 +40,12 @@
 				        	  $("#user_groups").html("<h3>Select a group:</h3>");
 				          }
 				          for(var i=0;i<groups.length;i++) {
-				        	  $("#user_groups").append('<div><input type="button" class="small_green_button" id="'+groups[i].id +'" name="'+ groups[i].full_name +'" value="'+ groups[i].full_name +'" /></div>');
+				        	  $("#user_groups").append('<div><input type="button" class="small_green_button" id="'+groups[i].id +'" name="'+ 'user_group_name' +'" value="'+ groups[i].full_name +'" /></div>');
 				          }
 				          console.dir(user);
 				          
 				          if(groups.length > 0) {
-				          	$("input[type=button]").click(function() {
+				          	$("input[name=user_group_name]").click(function() {
 				     			var selected_group_name= this.value;
 				          		console.dir("group selected: " +this.id);
 				          	  // Get users of a group
@@ -104,17 +104,18 @@
 			        url: "https://www.yammer.com/api/v1/messages.json",     //this is one of many REST endpoints that are available
 			        method: "POST",
 			        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
-			        	"body":"I would like to collaborate with you in real time. Please click to join \n http://10.69.47.152:8080/Learn/oneEdit.html?id="+selected_user_list,
+			        	"body":"I would like to collaborate with you in real time. Please click to join \n http://localhost:8080/Learn/oneEdit.html?id="+selected_user_list,
 			        	"direct_to_ids":selected_user_list
 			        },
 			        success: function (message) { //print message response information to the console
 			          console.dir(message);	
+			          window.location.replace("http://localhost:8080/Learn/oneEdit.html?id="+selected_user_list);
 			        },
 			        error: function (message) {
 			          alert("message:There was an error with the request.");
 			        }
 			      });
-			window.location.replace("http://localhost:8080/Learn/oneEdit.html?id="+selected_user_list);
+			
 		});
 		
 	});

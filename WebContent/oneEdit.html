@@ -59,6 +59,12 @@
 		var sPageURL = window.location.search.substring(1);
 		var user_id_string = sPageURL.replace("id=", "");
 		var user_id_array = user_id_string.split(',');
+		var activity_string = {'activity':{'action': 'create','object':{'url':'http://localhost:8080/Learn/getStarted.html',
+			'title':'Real-time collaborative meeting'}, 'actor':{}},'message': 'I am collaborating with ',
+				'users': [
+				          {'name': 'Ganesh Guttikonda', 'email' : 'gani@hp.com'},
+				          {'name': 'Ganesh Guttikonda', 'email' : 'anupam.jindal@hp.com'}
+				        ]};
 		$("#drawpad").hide();
 		$("#colorholder").hide();
 		
@@ -86,7 +92,25 @@
 				  function(response) {
 				    if (response.authResponse) {
 				      console.log("logged in");
-				      
+				      activity_string.activity.actor['name'] = response.user.full_name;
+				      activity_string.activity.actor['email'] = response.user.contact.email_addresses[0].address;
+				      var final_activity_string = JSON.stringify(activity_string);
+				      // Post Activity to user's feed
+			      	  yam.request({
+					        url: "https://www.yammer.com/api/v1/activity.json",     //this is one of many REST endpoints that are available
+					        method: "POST",
+					        dataType: "json",
+					        data: {    //use the data object literal to specify parameters, as documented in the REST API section of this developer site
+					        	"body":activity_string
+					        },
+					        success: function (activity) { //print message response information to the console
+					          console.dir(activity);	
+					        },
+					        error: function (activity) {
+					          alert("activity:There was an error with the request.");
+					        }
+					      });
+			      	  
 				      for(var i=0; i<user_id_array.length-1;i++) {
 				    	  yam.request({
 						        url: "https://www.yammer.com/api/v1/users/" + user_id_array[i] + ".json",     //this is one of many REST endpoints that are available
@@ -340,8 +364,8 @@
           // Think of a session as a room, and a token as the key to get in to the room
           // Sessions and tokens are generated on your server and passed down to the client
           var apiKey = "28249152";
-          var sessionId = "2_MX4yODI0OTE1Mn4xMjcuMC4wLjF-V2VkIE1heSAwOCAwNzo1NzowOCBQRFQgMjAxM34wLjI4MzE4MTA3fg";
-          var token = "T1==cGFydG5lcl9pZD0yODI0OTE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz1jNzBiMWQ4YWQ4ZTg0NmZmZGU4NmYyZGFjZmFkN2M5OTFmNWY2NmRkOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjgwMjUwMjgmbm9uY2U9MC44OTU0NDQyODYyNzk4Mjc4JmV4cGlyZV90aW1lPTEzNjgxMTE0MjgmY29ubmVjdGlvbl9kYXRhPQ==";
+          var sessionId = "1_MX4yODI0OTE1Mn4xMjcuMC4wLjF-VGh1IE1heSAwOSAxNjowNjowOCBQRFQgMjAxM34wLjE3MzYzMjA5fg";
+          var token = "T1==cGFydG5lcl9pZD0yODI0OTE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0xYzliMjY0NmVjNjJkMjQ3ODc1ZTMzMjRlYjMxZTg2MWI1ODBmNGZiOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9JmNyZWF0ZV90aW1lPTEzNjgxNDA3Njgmbm9uY2U9MC41OTI5NDE1MTI5NzcxMjEmZXhwaXJlX3RpbWU9MTM2ODIyNzE2OCZjb25uZWN0aW9uX2RhdGE9";
 
           // Enable console logs for debugging
           TB.setLogLevel(TB.DEBUG);
