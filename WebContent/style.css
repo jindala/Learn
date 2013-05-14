@@ -377,7 +377,6 @@ body {
 }
 
 #paymentFormDiv {
-	display:none;
 	position: fixed;
     top: 200;
     left: 500;
