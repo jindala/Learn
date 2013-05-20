@@ -3,6 +3,7 @@ package Controller;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.bson.types.ObjectId;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Modal.DBUtil;
@@ -120,6 +122,37 @@ public class Event {
 		//String events = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 		
 		return dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+	}
+	
+	public void bookEvent(HttpServletRequest req) throws UnknownHostException {
+		Map<String, String[]> reqParamMap = req.getParameterMap();
+		
+		BasicDBObject queryObj = new BasicDBObject();
+		ObjectId objId = ObjectId.massageToObjectId(reqParamMap.get("book_eventid")[0]);
+		System.out.println("event objectId=" + objId);
+		queryObj.put("_id", objId);
+		DBUtil dbUtil = new DBUtil();
+		JSONObject event = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
+		JSONArray attendeeList = new JSONArray();
+		if(event.containsKey("attendees")) {
+			attendeeList = (JSONArray) event.get("attendees");
+		}
+		
+		// Form Json object for new attendee
+
+		
+		JSONObject newAttendee = new JSONObject();
+		newAttendee.put("uId", reqParamMap.get("book_uid")[0]);
+		newAttendee.put("stripePayment", reqParamMap.get("stripeToken")[0]);
+		newAttendee.put("totalGuests", reqParamMap.get("seats")[0]);
+		
+		attendeeList.add(newAttendee);
+		BasicDBObject updateQuery = new BasicDBObject();
+		updateQuery.append("$set", 
+			new BasicDBObject().append("attendees", attendeeList));
+		
+		dbUtil.updateDoc(EVENT_COLLECTION, queryObj, updateQuery);
+		return ;
 	}
 
 }

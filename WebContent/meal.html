@@ -47,7 +47,9 @@
 					   		}
 					   		if(response.result[0].address.country != null || response.result[0].address.country != undefined) {
 					   			googleFormattedAddress += ',' + response.result[0].address.country.replace(/ /g, '+');
-					   		}					   		
+					   		}
+					   		
+					   		$("#book_eventid").val(id);
 				        },
 				        // callback handler that will be called on error
 				        error: function(jqXHR, textStatus, errorThrown){
@@ -58,6 +60,12 @@
 				            );
 				        }
 				   	});
+				}
+				
+				if(document.cookie != "") {
+					var cookie = document.cookie;
+					var uid = cookie.split("=")[1];
+					$("#book_uid").val(uid);
 				}
 				
 				//$("#dialog").dialog({ autoOpen: false, width: 250 });
@@ -128,7 +136,8 @@
 						<h3>Booking details</h3>
 						<p id="date">Date: 12/03/2012</p>
 						<p id="cost">Cost: $15</p>
-						<div id="book_form">
+						<form id="book_form" action="/Learn/payment" method="POST">
+						<div id="book_form_div">
 							<label>Seats:</label>
 							<select id="booking_seats" name="seats">
 								<option value="1">1</option>
@@ -140,6 +149,9 @@
 								<input id="book_button" class="green_button" type="submit" value="Book" />
 							</div>
 						</div>
+						<input type="hidden" name="book_uid" id="book_uid" value=""/>
+						<input type="hidden" name="book_eventid" id="book_eventid" value=""/>
+						</form>
 					</div>
 					<div class="clear"></div>
 					<div id="description">

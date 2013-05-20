@@ -72,6 +72,14 @@ public class DBUtil {
 	}
 	
 	
+	public void updateDoc(String collectionName,BasicDBObject searchObj, BasicDBObject updateObj) throws UnknownHostException
+	{
+		DBCollection coll = getCollection(collectionName);
+		
+		coll.update(searchObj, updateObj);
+		
+	}
+	
 	private DBCollection getCollection(String collectionName) throws UnknownHostException
 	{
 		Mongo m = null;
