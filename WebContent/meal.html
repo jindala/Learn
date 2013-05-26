@@ -7,17 +7,24 @@
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
     	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-    	
+    	<script src="https://checkout.stripe.com/v2/checkout.js"></script>
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+  		    	
 		<script>
 			$(document).ready(function(){
 				var param = window.location.search;
 				var id = param.split("=")[1];
+				var dinnerTitle;
+				var baseAmount;
+				
 				if(id != "" && id != undefined)
 				{  	
 				   	$.ajax({
 				   		url:"/Learn/event?id="+id,
 				   		type: "get",
 				   		success: function(response, textStatus, jqXHR){
+				   			dinnerTitle = response.result[0].title;
+				   			baseAmount = response.result[0].price;
 					   		$("#dinnerTitle").html("<h2>" + response.result[0].title + "</h2>");
 					   		$("#date").html("<p id='date'>Date: " + response.result[0].date + "</p>");
 					   		$("#cost").html("<p id='cost'>Cost: $" + response.result[0].price + "</p>");
@@ -40,7 +47,9 @@
 					   		}
 					   		if(response.result[0].address.country != null || response.result[0].address.country != undefined) {
 					   			googleFormattedAddress += ',' + response.result[0].address.country.replace(/ /g, '+');
-					   		}					   		
+					   		}
+					   		
+					   		$("#book_eventid").val(id);
 				        },
 				        // callback handler that will be called on error
 				        error: function(jqXHR, textStatus, errorThrown){
@@ -53,16 +62,37 @@
 				   	});
 				}
 				
-				$("#dialog").dialog({ autoOpen: false, width: 250 });
-				$("#form_submit input").click(function() {
-					$("#dialog").dialog("open");
-					$("#form_submit input").attr("disabled", "disabled");
-					$("#paymentFormDiv").show();
-					return false;
-					  //$("#book_form").slideToggle('fast', function() {
-						//  $("#book_form").html($('select.seats option:selected').val() + "<h3> Confirmed!</h3>")
-					  //});
-					});
+				if(document.cookie != "") {
+					var cookie = document.cookie;
+					var uid = cookie.split("=")[1];
+					$("#book_uid").val(uid);
+				}
+				
+				//$("#dialog").dialog({ autoOpen: false, width: 250 });
+				$("#book_button").click(function() {
+					//$("#dialog").dialog("open");
+					//$("#form_submit input").attr("disabled", "disabled");
+					
+					// Code to support Stripe payment
+					var token = function(res){
+				        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+				        $('form').append($input).submit();
+				      };
+
+				      var numCustomers = $('#booking_seats option:selected').val();
+				      var totalAmount = parseInt(baseAmount)*parseInt(numCustomers)*100;
+				      StripeCheckout.open({
+				        key:         'pk_test_z3R9pRnlmZhzOymJfAuSc0L1',
+				        address:     true,
+				        amount:      totalAmount,
+				        name:        dinnerTitle,
+				        description: 'Secure payment through SocialFood',
+				        panelLabel:  'Pay',
+				        token:       token
+				      });
+
+				      return false;
+				});
 				
 				$("#submitFeedbackBtn").click(function(){
 				   	/*var orgEmail = $("#organizerEmail").val();
@@ -85,7 +115,7 @@
 		</script>
 	</head>
 	<body>
-		<div id="dialog" title="Your dinner seats are confirmed">Enjoy your meal!</div>
+		<!-- <div id="dialog" title="Your dinner seats are confirmed">Enjoy your meal!</div>-->
 		<div id="header_color">
 			<div id="header_wrapper">
 				<div id="header">
@@ -97,36 +127,6 @@
 				</div>
 			</div>
 		</div>
-		<div id="paymentFormDiv">
-			<form action="" method="POST" id="payment-form">
-			  <span class="payment-errors"></span>
-			
-			  <div class="form-row">
-			    <label>
-			      <span>Card Number</span>
-			      <input type="text" size="20" data-stripe="number"/>
-			    </label>
-			  </div>
-			
-			  <div class="form-row">
-			    <label>
-			      <span>CVC</span>
-			      <input type="text" size="4" data-stripe="cvc"/>
-			    </label>
-			  </div>
-			
-			  <div class="form-row">
-			    <label>
-			      <span>Expiration (MM/YYYY)</span>
-			      <input type="text" size="2" data-stripe="exp-month"/>
-			    </label>
-			    <span> / </span>
-			    <input type="text" size="4" data-stripe="exp-year"/>
-			  </div>
-			
-			  <button type="submit">Submit Payment</button>
-			</form>
-		</div>
 		<div id="wrapper">
 			<div id="content">
 				<div id="content_left">
@@ -136,17 +136,21 @@
 						<h3>Booking details</h3>
 						<p id="date">Date: 12/03/2012</p>
 						<p id="cost">Cost: $15</p>
-						<form action="#" id="book_form">
+						<form id="book_form" action="/Learn/payment" method="POST">
+						<div id="book_form_div">
 							<label>Seats:</label>
-							<select name="seats">
+							<select id="booking_seats" name="seats">
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
 								<option value="4">4</option>
 							</select>
 							<div id="form_submit">
-								<input class="green_button" type="submit" value="Book" />
+								<input id="book_button" class="green_button" type="submit" value="Book" />
 							</div>
+						</div>
+						<input type="hidden" name="book_uid" id="book_uid" value=""/>
+						<input type="hidden" name="book_eventid" id="book_eventid" value=""/>
 						</form>
 					</div>
 					<div class="clear"></div>
