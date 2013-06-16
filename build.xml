@@ -7,7 +7,7 @@
   <property name="build" location="${basedir}/build"/>
   <property name="build.classes" location="${basedir}/build/classes"/>
   <property name="dist"  location="${basedir}/dist"/>
-  <property name="artifact.war.name"  location="${dist}/food.war"/>
+  <property name="artifact.war.name"  location="${dist}/ROOT.war"/>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -33,7 +33,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}">
+    <javac srcdir="${src}" destdir="${build.classes}">
 	<classpath>
 	  <path refid="classpath.compile" />
 	</classpath>
@@ -45,8 +45,7 @@
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}"/>
     <war destfile="${artifact.war.name}" webxml="${basedir}/WebContent/WEB-INF/web.xml">
-        <fileset dir="${basedir}/WebContent/jsp"/>
-        <fileset dir="${basedir}/WebContent/images"/>
+        <fileset dir="${basedir}/WebContent"/>
   	<lib dir="${basedir}/struts-lib/">
   	</lib>
   	<lib dir="${basedir}/WebContent/WEB-INF/lib/">
