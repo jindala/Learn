@@ -4,13 +4,97 @@
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="style.css">
 		<title>Social Food</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>	
-		<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-        <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js"></script>	
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js"></script>
 
 		<script>
 			$(document).ready(function(){
+				// Handle Validations
+				jQuery.validator.setDefaults({
+					  success: "valid"
+					});
+				
+				// Registration form rules
+				$("#reg_form form").validate({
+					  rules: {
+						    name: {
+						      required: true
+						    },
+						    email: {
+						    	required: true,
+						    	email: true
+						    },
+						    password: {
+						    	required: true,
+						    	minlength: 6
+						    },
+						    confirm_password: {
+						    	required: true,
+						    	minlength: 6
+						    }
+						  }
+				});
+				
+				// Login form rules
+				$("#login_form form").validate({
+					  rules: {
+						    email: {
+						    	required: true,
+						    	email: true
+						    },
+						    password: {
+						    	required: true
+						    }
+						  }
+				});
+				
+				// Host form rules
+				$("#form_wrapper form").validate({
+					  rules: {
+						    food_type: {
+						    	required: true
+						    },
+						    seats: {
+						    	required: true
+						    },
+						    title: {
+						    	required: true
+						    },
+						    description: {
+						    	required: true
+						    },
+						    date: {
+						    	required: true
+						    },
+						    time: {
+						    	required: true
+						    },
+						    price: {
+						    	required: true
+						    },
+						    address: {
+						    	required: true
+						    },
+						    city: {
+						    	required: true
+						    },
+						    state: {
+						    	required: true
+						    },
+						    zip: {
+						    	required: true,
+						    	number: true,
+						    	minlength: 5,
+						    	maxlength: 5
+						    },
+						    country: {
+						    	required: true
+						    }
+					}
+				});
+				
 				var searchZIPcode, searchBy;
 				
 				if(document.cookie != "") {
@@ -35,7 +119,7 @@
 				});
 				$("#create_dinner").click(function(event){
 					$("#form_wrapper").slideDown();
-                });
+ 				});
 				$("#listEvents").click(function(event){
 				   	searchZIPcode = $("#search_Events").val();
 				   	
@@ -69,7 +153,7 @@
 				            );
 				        }
 				   	});
-                });
+				});
 				$("#listItalian, #listMexican, #listFrench, #listMediterranean, #listVegetarian").click(function(event){
 					var URL = "/Learn/event?searchBy=";
 					
@@ -102,7 +186,7 @@
 				            );
 				        }
 				   	});
-                });
+				});
 
 				$("#form_cancel").click(function(){
 					$("#form_wrapper").slideUp();
