@@ -25,10 +25,6 @@
     <filter-class>
         filters.LogFilter
     </filter-class>
-    <init-param>
-      <param-name>test-param</param-name>
-      <param-value>This parameter is for testing.</param-value>
-    </init-param>
   </filter>
   <filter-mapping>
     <filter-name>LogFilter</filter-name>
@@ -122,4 +118,25 @@
     <env-entry-type>java.lang.Integer</env-entry-type>
     <env-entry-value>10</env-entry-value>
   </env-entry>
+  <welcome-file-list>
+    <welcome-file>/jsp/index.jsp</welcome-file>
+  </welcome-file-list>
+
+
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class> org.apache.struts.action.ActionServlet </servlet-class> 
+    <init-param>
+ 	<param-name>config</param-name>
+        <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+   
+   <servlet-mapping>
+     <servlet-name>action</servlet-name>
+     <url-pattern>*.do</url-pattern>
+   </servlet-mapping>
+
+</servlet>
+
 </web-app>
