@@ -1,0 +1,59 @@
+package com.socialfood.servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.json.JSONArray;
+import org.json.simple.JSONObject;
+
+import Controller.User;
+
+public class CLoginHandler extends Action {
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) 
+                    throws IOException, ServletException
+    {
+        
+        System.out.println("Start login");
+        User user = new User();
+        
+        JSONObject userInfoMap = user.getUserInfo(request.getParameter("email"));
+        System.out.println("userInfoMap = " + userInfoMap);
+        
+        String contextPath = request.getContextPath();
+        
+//        response.setStatus(HttpServletResponse.SC_OK);
+//        response.sendRedirect(response.encodeRedirectURL(contextPath) + "/home");
+        try {
+            org.json.JSONObject myJson = new org.json.JSONObject(userInfoMap.toString());
+            org.json.JSONObject result = myJson.getJSONArray("result").getJSONObject(0) ;
+            Cookie loginCookie = new Cookie("name", result.getString("name") );
+            loginCookie.setMaxAge(-1);
+            
+            response.addCookie(loginCookie);
+        }catch(Exception e){
+            e.printStackTrace();
+            // do something here!
+        }
+        response.setCharacterEncoding("utf8");
+        response.setContentType("application/json");   
+        System.out.println("userInfo json = " + userInfoMap);
+        
+        
+        PrintWriter out = response.getWriter();
+        out.print(userInfoMap);
+        return mapping.findForward("success");
+        
+    }
+}
