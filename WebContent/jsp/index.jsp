@@ -7,18 +7,50 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>	
 		<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-        <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+ �      <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 
 		<script>
+		
+        function getCookie(c_name)
+        {
+            var c_value = document.cookie;
+            var c_start = c_value.indexOf(" " + c_name + "=");
+            if (c_start == -1)
+           	{
+            	  c_start = c_value.indexOf(c_name + "=");
+            }
+            if (c_start == -1)
+            {
+            	  c_value = null;
+            }
+            else
+            {
+            	  c_start = c_value.indexOf("=", c_start) + 1;
+            	  var c_end = c_value.indexOf(";", c_start);
+            	  if (c_end == -1)
+           		  {
+            		    c_end = c_value.length;
+            	  }
+            	  c_value = unescape(c_value.substring(c_start,c_end));
+            }
+            return c_value;
+        }
+
 			$(document).ready(function(){
 				var searchZIPcode, searchBy;
-				
-				if(document.cookie != "") {
+				var name = getCookie("name");
+				if(name) {
 					$("#btn_login").hide();
 					$("#btn_register").hide();
-					$("#btn_logout").show();
+                    $("#btn_logout").show();
+                    $("#welcome_div").show();
+                    $("#welcome_div").html('Welcome ' + name + '!');
+    
+				}else {
+                    $("#welcome_div").hide();
+                    $("#btn_login").show();
+                    $("#btn_register").show();
 				}
-				
 		  		$("#btn_hiw").click(function(event){
 		    		$("#how_it_works").slideToggle();
 				});
@@ -124,6 +156,9 @@
 				<div id="how_it_works">
 					<img src="images/howitworks_socialfoodies.png" alt="How it Works">
 				</div>
+				<div id="welcome_div">
+                    Welcome!
+                </div>
 				<div id="login_form">
 					<form action="/login.do" method="POST">
 						<div class="question">

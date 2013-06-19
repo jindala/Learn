@@ -36,6 +36,25 @@
   <listener>
     <listener-class>listeners.SessionListener</listener-class>
   </listener>
+
+
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class> 
+    <init-param>
+    <param-name>config</param-name>
+        <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    
+    <load-on-startup>1</load-on-startup>
+
+   </servlet>
+   
+   <servlet-mapping>
+     <servlet-name>action</servlet-name>
+     <url-pattern>*.do</url-pattern>
+   </servlet-mapping>
+
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>servlet.LoginServlet</servlet-class>
@@ -66,10 +85,6 @@
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>RegistrationServlet</servlet-name>
-    <url-pattern>/registration</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
     <servlet-name>FeedbackServlet</servlet-name>
     <url-pattern>/feedback</url-pattern>
   </servlet-mapping>
@@ -86,13 +101,7 @@
     <url-pattern>/saveDoc</url-pattern>
   </servlet-mapping>
   
-  <security-role>
-    <role-name>role1</role-name>
-  </security-role>
-  <security-role>
-    <role-name>tomcat</role-name>
-  </security-role>
-  
+
   <env-entry>
     <env-entry-name>minExemptions</env-entry-name>
     <env-entry-type>java.lang.Integer</env-entry-type>
@@ -122,21 +131,5 @@
     <welcome-file>/jsp/index.jsp</welcome-file>
   </welcome-file-list>
 
-
-  <servlet>
-    <servlet-name>action</servlet-name>
-    <servlet-class> org.apache.struts.action.ActionServlet </servlet-class> 
-    <init-param>
- 	<param-name>config</param-name>
-        <param-value>/WEB-INF/struts-config.xml</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-   
-   <servlet-mapping>
-     <servlet-name>action</servlet-name>
-     <url-pattern>*.do</url-pattern>
-   </servlet-mapping>
-
-</servlet>
 
 </web-app>

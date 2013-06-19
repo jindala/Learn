@@ -22,8 +22,8 @@ public class LogFilter implements Filter {
         String ipAddress = request.getRemoteAddr();
          
         //Log the IP address and current timestamp.
-        System.out.println("IP "+ipAddress + ", Time "
-                            + new Date().toString());
+        System.out.println("IP "+ipAddress + ";" + request.getRequestURI() + ", Time "
+                            + new Date().toString() );
          
         chain.doFilter(req, res);
     }
