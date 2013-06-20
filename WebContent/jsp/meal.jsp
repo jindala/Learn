@@ -5,10 +5,9 @@
 		<link rel="stylesheet" href="style.css">
 		<title>Meal Details</title>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
-    	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-    	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js"></script>	
     	<script src="https://checkout.stripe.com/v2/checkout.js"></script>
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
   		    	
 		<script>
 			$(document).ready(function(){

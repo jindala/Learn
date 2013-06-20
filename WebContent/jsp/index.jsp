@@ -243,7 +243,7 @@
 		<div id="header_color">
 			<div id="header_wrapper">
 				<div id="header">
-					<a href="index.html"><img src="images/logo.png" alt="Social Food Logo"></a>
+					<a href="/"><img src="images/logo.png" alt="Social Food Logo"></a>
 					<button id="btn_register">Register</button>
 					<button id="btn_login">Login</button>
 					<button id="btn_logout">Logout</button>

@@ -26,7 +26,13 @@
             <forward name="success" path="/meal" redirect="true" />
             <forward name="failure" path="/"/>    
         </action>
-    
+
+       	<action
+            path="/payment"
+            type="com.socialfood.servlets.CPaymentHandler" >
+            <forward name="success" path="/meal" redirect="true" />
+            <forward name="failure" path="/"/>    
+        </action>
     
     </action-mappings>
 	
