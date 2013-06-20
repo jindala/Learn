@@ -23,8 +23,15 @@
        	<action
             path="/event"
             type="com.socialfood.servlets.CEventHandler" >
-            <forward name="success" path="/meal" redirect="true" />
-            <forward name="failure" path="/"/>    
+            <forward name="success" path="/meal.do" redirect="true" />
+            <forward name="failure" path="/"/>   
+        </action>
+
+        <action
+            path="/meal"
+            type="com.socialfood.servlets.CMealHandler" >
+            <forward name="success" path="/jsp/meal.jsp" />
+            <forward name="failure" path="/"/>   
         </action>
 
        	<action

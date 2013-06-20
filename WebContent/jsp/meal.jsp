@@ -1,3 +1,6 @@
+<%
+    String id = (String) request.getParameter("id");
+%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -12,14 +15,14 @@
 		<script>
 			$(document).ready(function(){
 				var param = window.location.search;
-				var id = param.split("=")[1];
+				var id =  "<%=id%>";//param.split("=")[1];
 				var dinnerTitle;
 				var baseAmount;
 				
 				if(id != "" && id != undefined)
 				{  	
 				   	$.ajax({
-				   		url:"/event?id="+id,
+				   		url:"/event.do?id="+id,
 				   		type: "get",
 				   		success: function(response, textStatus, jqXHR){
 				   			dinnerTitle = response.result[0].title;
