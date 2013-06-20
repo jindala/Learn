@@ -3,6 +3,7 @@ package com.socialfood.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,9 +40,14 @@ public class CRegistrationHandler extends Action {
         {
             return (mapping.findForward("failure"));
         }
-        String contextPath = request.getContextPath();
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setHeader("Set-Cookie", "socialfooduid=" + userId+ "; path=/Learn");
+
+        Cookie loginCookie = new Cookie("name", request.getParameter("name") );
+        Cookie uidCookie = new Cookie("socialfooduid", userId );
+        loginCookie.setMaxAge(-1);
+        uidCookie.setMaxAge(-1);
+        
+        response.addCookie(loginCookie);
+        response.addCookie(uidCookie);
         
         System.out.println("End registration");
         return (mapping.findForward("success"));
