@@ -12,7 +12,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.json.JSONArray;
 import org.json.simple.JSONObject;
 
 import Controller.User;
@@ -30,18 +29,17 @@ public class CLoginHandler extends Action {
         
         JSONObject userInfoMap = user.getUserInfo(request.getParameter("email"));
         System.out.println("userInfoMap = " + userInfoMap);
-        
-        String contextPath = request.getContextPath();
-        
-//        response.setStatus(HttpServletResponse.SC_OK);
-//        response.sendRedirect(response.encodeRedirectURL(contextPath) + "/home");
+                
         try {
             org.json.JSONObject myJson = new org.json.JSONObject(userInfoMap.toString());
             org.json.JSONObject result = myJson.getJSONArray("result").getJSONObject(0) ;
             Cookie loginCookie = new Cookie("name", result.getString("name") );
+            Cookie uidCookie = new Cookie("socialfooduid", result.getString("unique_id") );
             loginCookie.setMaxAge(-1);
+            uidCookie.setMaxAge(-1);
             
             response.addCookie(loginCookie);
+            response.addCookie(uidCookie);
         }catch(Exception e){
             e.printStackTrace();
             // do something here!
