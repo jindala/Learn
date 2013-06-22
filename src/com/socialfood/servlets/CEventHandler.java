@@ -35,6 +35,7 @@ public class CEventHandler extends Action{
             HttpServletRequest request, HttpServletResponse response) 
                     throws IOException, ServletException
     {
+    	System.out.println("Start event handler");
         if(request.getMethod().equalsIgnoreCase("POST")) {
             return doPost(mapping, form, request, response);
         }else if(request.getMethod().equalsIgnoreCase("GET")) {
@@ -92,7 +93,9 @@ public class CEventHandler extends Action{
         
         PrintWriter out = response.getWriter();
         out.print(eventMap);
-        return mapping.findForward("failure");
+        out.flush();
+        return null;
+        //return mapping.findForward("failure");
     }
     
     

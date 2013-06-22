@@ -26,6 +26,11 @@
             <forward name="success" path="/meal.do" redirect="true" />
             <forward name="failure" path="/"/>   
         </action>
+        
+        <action
+            path="/searchEvent"
+            type="com.socialfood.servlets.CEventHandler" >
+        </action>
 
         <action
             path="/meal"

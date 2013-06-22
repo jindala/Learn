@@ -20,6 +20,7 @@ public class FileUtilities {
 		InputStream filecontent = null;
 		OutputStream outputStream = null;
 		try {
+			System.out.println("file item name" + item.getName());
             String filename = item.getName();
 			
 			filecontent = item.getInputStream();
