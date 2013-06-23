@@ -188,7 +188,7 @@
 				   	});
 				});
 				$("#listItalian, #listMexican, #listFrench, #listMediterranean, #listVegetarian").click(function(event){
-					var URL = "/event?searchBy=";
+					var URL = "/event.do?searchBy=";
 					
 					var cuisine = $(this).html();
 					if(searchZIPcode) {

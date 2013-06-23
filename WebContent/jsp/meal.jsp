@@ -70,7 +70,6 @@
 					$("#book_uid").val(uid);
 				}
 				
-				//$("#dialog").dialog({ autoOpen: false, width: 250 });
 				$("#book_button").click(function() {
 					//$("#dialog").dialog("open");
 					//$("#form_submit input").attr("disabled", "disabled");
