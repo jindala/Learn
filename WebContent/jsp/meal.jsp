@@ -96,6 +96,25 @@
 				      return false;
 				});
 				
+				$("#writeFeedbackBtn").click(function(){
+					/*var overlay = jQuery('#overlay');
+					overlay.appendTo(document.body);*/
+					
+					//$("#overlay").appendTo(document.body);
+					/*$('#overlay').fadeIn('fast',function(){
+						//$("#chef_feedback").appendTo($("#overlay"));
+						//$("#chef_feedback").appendTo(document.body);
+						$('#chef_feedback').animate({'top':'160px'},500);
+					});*/
+					
+					//WORKS (NOT):
+					//Show the overlay
+			        //$("#overlay").show();
+
+			        //Show the hidden div
+			        $("#chef_feedback").fadeIn(600);
+				});
+				
 				$("#submitFeedbackBtn").click(function(){
 				   	/*var orgEmail = $("#organizerEmail").val();
 				   	var custEmail = $("#customerEmail").val();*/
@@ -110,8 +129,18 @@
 				   		"rating":rating},function(data){
 					   		$("#feedbackPost_success").html(comment);
 				   	});
+				   	
+				   	//Clear the form after submit
+				   	$("#organizerEmail").val("");
+				   	$("#customerEmail").val("");
 				   	$("#feedbackComment").val("");
 				   	$("#feedbackRating").val("");
+				   	
+				    //Hide the feedback form
+			        $("#chef_feedback").fadeOut(600);
+				    
+				    //Update the last comment
+				    $("#lastComment").html(comment);
 			    });
 			});
 		</script>
@@ -197,29 +226,35 @@
 					<div id="chef_reviews" class="chef_class">
 						<p><h4>Reviews:</h4></p>
 						<div class="reviews">
-							<p>Laura is a great cook! Her enchiladas are great! We had a great time.</p>
+							<p id="lastComment" class="comments">Laura is a great cook! Her enchiladas are great! We had a great time.</p>
 							<p class="date">8 hours ago</p>
 							<p class="by_user">by Nora Jones</p>
 						</div>
 						<div class="reviews">
-							<p>Her tacos are the best ever! Just be carefull with the spicy salsa!</p>
+							<p id="secondLastComment" class="comments">Her tacos are the best ever! Just be carefull with the spicy salsa!</p>
 							<p class="date">1 days ago</p>
 							<p class="by_user">by John Wu</p>
 						</div>
 						<div class="reviews">
-							<p>I love Mexican food! I enjoyed a lot eating at Laura's place! She is a great host.</p>
+							<p id="thirdLastComment" class="comments">I love Mexican food! I enjoyed a lot eating at Laura's place! She is a great host.</p>
 							<p class="date">3 days ago</p>
 							<p class="by_user">by James Hy</p>
 						</div>
-						<!-- <div class="reviews" id="feedbackPost_success"></div>
-						Post Feedback:<br>
-							<!-- Organizer (reviewee): <input type="text" name="revieweeEmail" id="organizerEmail"><br>
-							Customer (reviewer): <input type="text" name="reviewerEmail" id="customerEmail"><br> 
-							Comment: <input type="text" name="comment" id="feedbackComment"><br>
-							Rating: <input type="text" name="rating" id="feedbackRating"><br>
-							<input type="submit" value="Submit" id="submitFeedbackBtn">
-						<button href="mailto:" class="small_green_button">Write a review</button>
-					</div> -->
+					</div> 
+					<div id="chef_reviews" class="chef_class">
+						<button class="small_green_button" id="writeFeedbackBtn">Write a review</button>
+					</div>
+					<div id="chef_feedback" class="chef_class" style="display:none;">
+						<div class="reviews" id="feedbackPost_success"></div>
+							Post Feedback:<br>
+							    Organizer (reviewee): <input type="text" name="revieweeEmail" id="organizerEmail"><br>
+								Customer (reviewer): <input type="text" name="reviewerEmail" id="customerEmail"><br> 
+								Comment: <input type="text" name="comment" id="feedbackComment"><br>
+								Rating: <input type="text" name="rating" id="feedbackRating"><br>
+								<input type="submit" value="Submit" id="submitFeedbackBtn">
+							 <!-- <button href="mailto:" class="small_green_button" id="writeFeedbackBtn">Write a review</button> -->
+					</div>
+					<div class="overlay" id="overlay" style="display:none;"></div>
 				</div>
 			</div>
 			<div id="footer">

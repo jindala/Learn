@@ -27,6 +27,13 @@
             <forward name="failure" path="/"/>   
         </action>
         
+       	<action
+            path="/feedback"
+            type="com.socialfood.servlets.CFeedbackHandler" >
+            <forward name="success" path="/" redirect="true" />
+            <forward name="failure" path="/"/>   
+        </action>
+        
         <action
             path="/searchEvent"
             type="com.socialfood.servlets.CEventHandler" >
