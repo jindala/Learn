@@ -123,6 +123,7 @@
 			$(document).ready(function(){
 				var searchZIPcode, searchBy;
 				var name = getCookie("name");
+				$("#host_id").val(getCookie("socialfooduid"));
 				if(name) {
 					$("#btn_login").hide();
 					$("#btn_register").hide();
@@ -426,7 +427,7 @@
 							<label for="comments">Comments</label>
 								<input type="text" name="comments"/>
 						</div>
-						<!--  input type="hidden" name ="host_id" value="images/plate06.jpg"/>-->
+						<input type="hidden" id="host_id" name ="host_id" value=""/>
 						<p>By clicking "Save and Continue," you confirm that you accept the <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>.</p>
 						<input class="small_green_button" type="submit" value="Save and continue"/>
 						<a id="form_cancel" class="small_red_button" href="">Cancel</a>

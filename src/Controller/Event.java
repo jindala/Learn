@@ -138,20 +138,28 @@ public class Event {
 			attendeeList = (JSONArray) event.get("attendees");
 		}
 		
-		// Form Json object for new attendee
-
+		boolean isAlreadyAttendee = false;
+		for(int i=0;i<attendeeList.size();i++) {
+			JSONObject eachAttendee = (JSONObject)attendeeList.get(i);
+			if(eachAttendee.get("uId").equals(reqParamMap.get("book_uid")[0])) {
+				isAlreadyAttendee = true;
+				break;
+			}
+		}
 		
-		JSONObject newAttendee = new JSONObject();
-		newAttendee.put("uId", reqParamMap.get("book_uid")[0]);
-		newAttendee.put("stripePayment", reqParamMap.get("stripeToken")[0]);
-		newAttendee.put("totalGuests", reqParamMap.get("seats")[0]);
-		
-		attendeeList.add(newAttendee);
-		BasicDBObject updateQuery = new BasicDBObject();
-		updateQuery.append("$set", 
-			new BasicDBObject().append("attendees", attendeeList));
-		
-		dbUtil.updateDoc(EVENT_COLLECTION, queryObj, updateQuery);
+		if(!isAlreadyAttendee) {
+			// Form Json object for new attendee
+			JSONObject newAttendee = new JSONObject();
+			newAttendee.put("uId", reqParamMap.get("book_uid")[0]);
+			newAttendee.put("stripePayment", reqParamMap.get("stripeToken")[0]);
+			newAttendee.put("totalGuests", reqParamMap.get("seats")[0]);
+			attendeeList.add(newAttendee);
+			BasicDBObject updateQuery = new BasicDBObject();
+			updateQuery.append("$set", 
+				new BasicDBObject().append("attendees", attendeeList));
+			
+			dbUtil.updateDoc(EVENT_COLLECTION, queryObj, updateQuery);
+		}
 		return ;
 	}
 
