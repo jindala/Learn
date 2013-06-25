@@ -26,6 +26,11 @@
             <forward name="success" path="/meal.do" redirect="true" />
             <forward name="failure" path="/"/>   
         </action>
+        
+        <action
+            path="/searchEvent"
+            type="com.socialfood.servlets.CEventHandler" >
+        </action>
 
         <action
             path="/meal"
@@ -37,8 +42,8 @@
        	<action
             path="/payment"
             type="com.socialfood.servlets.CPaymentHandler" >
-            <forward name="success" path="/meal" redirect="true" />
-            <forward name="failure" path="/"/>    
+            <forward name="success" path="/meal.do" redirect="true" />
+            <forward name="failure" path="/meal.do"/>    
         </action>
     
     </action-mappings>

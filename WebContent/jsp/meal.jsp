@@ -70,7 +70,6 @@
 					$("#book_uid").val(uid);
 				}
 				
-				//$("#dialog").dialog({ autoOpen: false, width: 250 });
 				$("#book_button").click(function() {
 					//$("#dialog").dialog("open");
 					//$("#form_submit input").attr("disabled", "disabled");
@@ -121,7 +120,7 @@
 		<div id="header_color">
 			<div id="header_wrapper">
 				<div id="header">
-					<a href="index.html"><img src="images/logo.png" alt="Social Food Logo"></a>
+					<a href="/"><img src="images/logo.png" alt="Social Food Logo"></a>
 					<div id="search">	
 						<button class="small_green_button" id="quickSearch">Go</button>
 						<h4>Find homemade food near: <input name="where" type="text" value="Zip Code, City"></h4>

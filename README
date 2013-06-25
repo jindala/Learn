@@ -1,1 +1,6 @@
 socialfood
+
+Stripe payment documentation can be read at:
+https://stripe.com/docs/tutorials/checkout
+
+Test credit card number is 4242 4242 4242 4242

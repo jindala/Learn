@@ -148,6 +148,7 @@
 		  			document.cookie = "";
 		    		$("#btn_login").show();
 		    		$("#btn_logout").hide();
+		    		$("#welcome_div").hide();
 				});
 				$("#create_dinner").click(function(event){
 					$("#form_wrapper").slideDown();
