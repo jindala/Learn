@@ -67,14 +67,14 @@
 					   		var totalEventGuests = 0;
 					   		if(attendees != null && attendees != undefined){
 					   			for(var i=0;i<attendees.length;i++) {
-					   				if(attendees[i].uid == currentUid) {
+					   				if(attendees[i].uId == currentUid) {
 					   					userRelationToEvent = "guest";
 					   					$("#form_submit input").attr("disabled", "disabled");
 					   					$("#book_button").val(attendees[i].totalGuests + " guests Confirmed");
 					   					$("#booking_seats").hide();
 					   					$("#seatsLabel").hide();
 					   				}
-					   				totalEventGuests += attendees[i].totalGuests;
+					   				totalEventGuests += parseInt(attendees[i].totalGuests);
 					   			}
 					   		}
 				   			if(currentUid == response.result[0].host_id) {
@@ -112,11 +112,7 @@
 				   	});
 				}
 				
-				if(document.cookie != "") {
-					var cookie = document.cookie;
-					var uid = cookie.split("=")[1];
-					$("#book_uid").val(uid);
-				}
+				$("#book_uid").val(currentUid);
 				
 				$("#book_button").click(function() {
 					//$("#dialog").dialog("open");
@@ -191,7 +187,7 @@
 						<h3>Booking details</h3>
 						<p id="date">Date: 12/03/2012</p>
 						<p id="cost">Cost: $15</p>
-						<form id="book_form" action="/meal/payment" method="POST">
+						<form id="book_form" action="payment.do" method="POST">
 						<div id="book_form_div">
 							<label id="seatsLabel">Seats:</label>
 							<select id="booking_seats" name="seats">

@@ -40,7 +40,7 @@
         </action>
 
        	<action
-            path="/meal/payment"
+            path="/payment"
             type="com.socialfood.servlets.CPaymentHandler" >
             <forward name="success" path="/meal.do" redirect="true" />
             <forward name="failure" path="/meal.do"/>    
