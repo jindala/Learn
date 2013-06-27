@@ -54,7 +54,7 @@
      <servlet-name>action</servlet-name>
      <url-pattern>*.do</url-pattern>
    </servlet-mapping>
-
+<!-- 
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>servlet.LoginServlet</servlet-class>
@@ -100,7 +100,7 @@
     <servlet-name>saveFileServlet</servlet-name>
     <url-pattern>/saveDoc</url-pattern>
   </servlet-mapping>
-  
+   -->
 
   <env-entry>
     <env-entry-name>minExemptions</env-entry-name>

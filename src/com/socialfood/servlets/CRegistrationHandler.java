@@ -1,6 +1,7 @@
 package com.socialfood.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -11,6 +12,9 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+
+import email.EmailHandler;
+import email.EmailTemplate;
 
 import Controller.User;
 
@@ -48,6 +52,11 @@ public class CRegistrationHandler extends Action {
         
         response.addCookie(loginCookie);
         response.addCookie(uidCookie);
+        
+        // send Email o user
+		String loginSubject = "Welcome";
+        String loginBody = EmailTemplate.getEmailTemplate("register_email");
+        EmailHandler.send(request.getParameter("email"), new ArrayList<String>() ,loginSubject, loginBody);
         
         System.out.println("End registration");
         return (mapping.findForward("success"));

@@ -10,6 +10,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 
 import Controller.Event;
 
@@ -29,9 +30,13 @@ public class CPaymentHandler extends Action {
         System.out.println("Start event payment");
         
 		Event event = new Event();
-		event.bookEvent(request);
+		String eventid = event.bookEvent(request);
                 
         System.out.println("End event payment");
-        return (mapping.findForward("success"));
+        
+        ActionRedirect redirect = new ActionRedirect(mapping.findForward("success"));
+        redirect.addParameter("id", eventid);
+        
+        return redirect;
     }
 }

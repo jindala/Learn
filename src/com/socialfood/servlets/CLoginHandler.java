@@ -27,27 +27,26 @@ public class CLoginHandler extends Action {
         System.out.println("Start login");
         User user = new User();
         
-        JSONObject userInfoMap = user.getUserInfo(request.getParameter("email"));
+        JSONObject userInfoMap = user.verifyUserInfo(request.getParameter("email"), request.getParameter("password"));
         System.out.println("userInfoMap = " + userInfoMap);
-                
-        try {
-            org.json.JSONObject myJson = new org.json.JSONObject(userInfoMap.toString());
-            org.json.JSONObject result = myJson.getJSONArray("result").getJSONObject(0) ;
-            Cookie loginCookie = new Cookie("name", result.getString("name") );
-            Cookie uidCookie = new Cookie("socialfooduid", result.getString("unique_id") );
-            loginCookie.setMaxAge(-1);
-            uidCookie.setMaxAge(-1);
-            
-            response.addCookie(loginCookie);
-            response.addCookie(uidCookie);
-        }catch(Exception e){
-            e.printStackTrace();
-            // do something here!
-        }
+        if(userInfoMap != null) {      
+	        try {
+	            org.json.JSONObject myJson = new org.json.JSONObject(userInfoMap.toString());
+	            org.json.JSONObject result = myJson.getJSONArray("result").getJSONObject(0) ;
+	            Cookie loginCookie = new Cookie("name", result.getString("name") );
+	            Cookie uidCookie = new Cookie("socialfooduid", result.getString("unique_id") );
+	            loginCookie.setMaxAge(-1);
+	            uidCookie.setMaxAge(-1);
+	            
+	            response.addCookie(loginCookie);
+	            response.addCookie(uidCookie);
+	        }catch(Exception e){
+	            e.printStackTrace();
+	            // do something here!
+	        }
+    	}
         response.setCharacterEncoding("utf8");
-        response.setContentType("application/json");   
-        System.out.println("userInfo json = " + userInfoMap);
-        
+        response.setContentType("application/json");        
         
         PrintWriter out = response.getWriter();
         out.print(userInfoMap);

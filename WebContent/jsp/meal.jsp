@@ -13,12 +13,38 @@
     	<script src="https://checkout.stripe.com/v2/checkout.js"></script>
   		    	
 		<script>
+	        function getCookie(c_name)
+	        {
+	            var c_value = document.cookie;
+	            var c_start = c_value.indexOf(" " + c_name + "=");
+	            if (c_start == -1)
+	           	{
+	            	  c_start = c_value.indexOf(c_name + "=");
+	            }
+	            if (c_start == -1)
+	            {
+	            	  c_value = null;
+	            }
+	            else
+	            {
+	            	  c_start = c_value.indexOf("=", c_start) + 1;
+	            	  var c_end = c_value.indexOf(";", c_start);
+	            	  if (c_end == -1)
+	           		  {
+	            		    c_end = c_value.length;
+	            	  }
+	            	  c_value = unescape(c_value.substring(c_start,c_end));
+	            }
+	            return c_value;
+	        }
+        
 			$(document).ready(function(){
 				var param = window.location.search;
 				var id =  "<%=id%>";//param.split("=")[1];
 				var dinnerTitle;
 				var baseAmount;
-				
+				var userRelationToEvent = "none";
+				var currentUid = getCookie("socialfooduid");
 				if(id != "" && id != undefined)
 				{  	
 				   	$.ajax({
@@ -37,6 +63,28 @@
 					   		$("#description").html("<p id='description'>" + response.result[0].description +"</p>");
 					   		$("#dinner_img").attr("src","http://localhost:8080" +response.result[0].picture1);
 					   		
+					   		var attendees = response.result[0].attendees;
+					   		var totalEventGuests = 0;
+					   		if(attendees != null && attendees != undefined){
+					   			for(var i=0;i<attendees.length;i++) {
+					   				if(attendees[i].uId == currentUid) {
+					   					userRelationToEvent = "guest";
+					   					$("#form_submit input").attr("disabled", "disabled");
+					   					$("#book_button").val(attendees[i].totalGuests + " guests Confirmed");
+					   					$("#booking_seats").hide();
+					   					$("#seatsLabel").hide();
+					   				}
+					   				totalEventGuests += parseInt(attendees[i].totalGuests);
+					   			}
+					   		}
+				   			if(currentUid == response.result[0].host_id) {
+				   				userRelationToEvent = "host";
+			   					$("#form_submit input").attr("disabled", "disabled");
+			   					$("#book_button").val(totalEventGuests + " guests Confirmed");
+			   					$("#booking_seats").hide();
+			   					$("#seatsLabel").hide();
+				   			}
+				   			
 					   		var googleFormattedAddress = "";
 					   		if(response.result[0].address.street1 != null || response.result[0].address.street1 != undefined) {
 					   			googleFormattedAddress += response.result[0].address.street1.replace(/ /g, '+');
@@ -64,16 +112,17 @@
 				   	});
 				}
 				
-				if(document.cookie != "") {
-					var cookie = document.cookie;
-					var uid = cookie.split("=")[1];
-					$("#book_uid").val(uid);
-				}
+				$("#book_uid").val(currentUid);
 				
-				//$("#dialog").dialog({ autoOpen: false, width: 250 });
 				$("#book_button").click(function() {
 					//$("#dialog").dialog("open");
 					//$("#form_submit input").attr("disabled", "disabled");
+					
+					if(currentUid == null || currentUid == undefined) {
+						alert("Please login in order to book for the event");
+						return false;
+					}
+						
 					
 					// Code to support Stripe payment
 					var token = function(res){
@@ -167,9 +216,9 @@
 						<h3>Booking details</h3>
 						<p id="date">Date: 12/03/2012</p>
 						<p id="cost">Cost: $15</p>
-						<form id="book_form" action="/payment" method="POST">
+						<form id="book_form" action="payment.do" method="POST">
 						<div id="book_form_div">
-							<label>Seats:</label>
+							<label id="seatsLabel">Seats:</label>
 							<select id="booking_seats" name="seats">
 								<option value="1">1</option>
 								<option value="2">2</option>

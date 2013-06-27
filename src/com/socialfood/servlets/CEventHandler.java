@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -95,7 +94,6 @@ public class CEventHandler extends Action{
         out.print(eventMap);
         out.flush();
         return null;
-        //return mapping.findForward("failure");
     }
     
     

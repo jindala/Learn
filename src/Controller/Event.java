@@ -19,6 +19,7 @@ import org.json.simple.JSONObject;
 import Modal.DBUtil;
 import Utilities.FileUtilities;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
 public class Event {
@@ -124,35 +125,48 @@ public class Event {
 		return dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 	}
 	
-	public void bookEvent(HttpServletRequest req) throws UnknownHostException {
+	public String bookEvent(HttpServletRequest req) throws UnknownHostException {
 		Map<String, String[]> reqParamMap = req.getParameterMap();
-		
+				
 		BasicDBObject queryObj = new BasicDBObject();
 		ObjectId objId = ObjectId.massageToObjectId(reqParamMap.get("book_eventid")[0]);
-		System.out.println("event objectId=" + objId);
+		System.out.println("event objectId=" + objId + " bookuid: " + reqParamMap.get("book_uid")[0]);
 		queryObj.put("_id", objId);
 		DBUtil dbUtil = new DBUtil();
 		JSONObject event = dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
-		JSONArray attendeeList = new JSONArray();
-		if(event.containsKey("attendees")) {
-			attendeeList = (JSONArray) event.get("attendees");
+		JSONArray eventArray = ((JSONArray)event.get("result"));
+		Map firstEvent =(Map) eventArray.get(0); 
+		
+		BasicDBList attendeeList = new BasicDBList();
+		if(firstEvent.containsKey("attendees")) {
+			System.out.println("registered attendees: " +firstEvent.get("attendees"));
+			attendeeList = (BasicDBList)firstEvent.get("attendees");
 		}
 		
-		// Form Json object for new attendee
-
+		boolean isAlreadyAttendee = false;
+		for(int i=0;i<attendeeList.size();i++) {
+			BasicDBObject eachAttendee = (BasicDBObject) attendeeList.get(i);
+			if(eachAttendee.get("uId").equals(reqParamMap.get("book_uid")[0])) {
+				isAlreadyAttendee = true;
+				break;
+			}
+		}
 		
-		JSONObject newAttendee = new JSONObject();
-		newAttendee.put("uId", reqParamMap.get("book_uid")[0]);
-		newAttendee.put("stripePayment", reqParamMap.get("stripeToken")[0]);
-		newAttendee.put("totalGuests", reqParamMap.get("seats")[0]);
-		
-		attendeeList.add(newAttendee);
-		BasicDBObject updateQuery = new BasicDBObject();
-		updateQuery.append("$set", 
-			new BasicDBObject().append("attendees", attendeeList));
-		
-		dbUtil.updateDoc(EVENT_COLLECTION, queryObj, updateQuery);
-		return ;
+		if(!isAlreadyAttendee) {
+			// Form Json object for new attendee
+			BasicDBObject newAttendee = new BasicDBObject();
+			newAttendee.put("uId", reqParamMap.get("book_uid")[0]);
+			newAttendee.put("stripePayment", reqParamMap.get("stripeToken")[0]);
+			newAttendee.put("totalGuests", reqParamMap.get("seats")[0]);
+			attendeeList.add(newAttendee);
+			BasicDBObject updateQuery = new BasicDBObject();
+			System.out.println("attendee list: " + attendeeList);
+			updateQuery.append("$set", 
+				new BasicDBObject().append("attendees", attendeeList));
+			
+			dbUtil.updateDoc(EVENT_COLLECTION, queryObj, updateQuery);
+		}
+		return objId.toString();
 	}
 
 }
