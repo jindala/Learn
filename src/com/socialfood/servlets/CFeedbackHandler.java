@@ -54,7 +54,7 @@ public class CFeedbackHandler extends Action{
 		System.out.println("End posting feedback");
 		
 		PrintWriter out = response.getWriter();
-        out.print("Success");
+        out.print(feedbackID);
         out.flush();
         return null;
     }

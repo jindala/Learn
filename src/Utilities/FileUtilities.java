@@ -12,7 +12,7 @@ import org.apache.commons.fileupload.FileItem;
 
 public class FileUtilities {
 
-	final static String FILE_LOCATION = "/Users/veersingh/Desktop/Projects/socialFood_New/Learn/files";
+	final static String FILE_LOCATION = "/Users/anupamjindal/development/tomcat/webapps/ROOT/";
 	public boolean saveFile(FileItem item) throws IOException, ServletException {
 		if(item == null)
 			return false;

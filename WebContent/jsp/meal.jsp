@@ -45,6 +45,7 @@
 				var baseAmount;
 				var userRelationToEvent = "none";
 				var currentUid = getCookie("socialfooduid");
+				var hostUid;
 				if(id != "" && id != undefined)
 				{  	
 				   	$.ajax({
@@ -77,13 +78,18 @@
 					   				totalEventGuests += parseInt(attendees[i].totalGuests);
 					   			}
 					   		}
-				   			if(currentUid == response.result[0].host_id) {
+					   		
+					   		hostUid = response.result[0].host_id;
+				   			if(currentUid == hostUid) {
 				   				userRelationToEvent = "host";
 			   					$("#form_submit input").attr("disabled", "disabled");
 			   					$("#book_button").val(totalEventGuests + " guests Confirmed");
 			   					$("#booking_seats").hide();
 			   					$("#seatsLabel").hide();
 				   			}
+				   			
+				   			$("#customer_uid").val(currentUid);
+				   			$("#organizer_uid").val(hostUid);
 				   			
 					   		var googleFormattedAddress = "";
 					   		if(response.result[0].address.street1 != null || response.result[0].address.street1 != undefined) {
@@ -171,25 +177,44 @@
 				   	var rating = $("#feedbackRating").val();
 					
 				   	//POST
-				   	$("#feedbackPost_success").load("/feedback", { 
+				   	/*$("#feedbackPost_success").load("/feedback", { 
 				   		//"revieweeEmail":orgEmail,
 				   		//"reviewerEmail":custEmail,
 				   		"comment":comment,
 				   		"rating":rating},function(data){
 					   		$("#feedbackPost_success").html(comment);
-				   	});
+				   	});*/
 				   	
-				   	//Clear the form after submit
-				   	$("#organizerEmail").val("");
-				   	$("#customerEmail").val("");
-				   	$("#feedbackComment").val("");
-				   	$("#feedbackRating").val("");
+
 				   	
 				    //Hide the feedback form
 			        $("#chef_feedback").fadeOut(600);
 				    
 				    //Update the last comment
-				    $("#lastComment").html(comment);
+				    //$("#lastComment").html(comment);
+				    
+				    
+			        var request = $.ajax({
+			        	  type: "POST",
+			        	  url: "feedback.do",
+			        	  data: { reviewee: hostUid, reviewer: currentUid,feedback: $("#feedbackComment").val(), rating:$("#feedbackRating").val()}
+			        	});
+			        request.done(function(msg) {
+			        	$("#reviewsTitle").after('<div class="reviews"><p id="'+ msg +'" class="comments">'+$("#feedbackComment").val() +'</p><p class="by_user">by '+ currentUid +'</p></div>')
+								        	
+					   	//Clear the form after submit
+					   	$("#organizerEmail").val("");
+					   	$("#customerEmail").val("");
+					   	$("#feedbackComment").val("");
+					   	$("#feedbackRating").val("");
+					   	
+					    //Hide the feedback form
+				        $("#chef_feedback").fadeOut(600);
+
+			        	});
+			        request.fail(function(jqXHR, textStatus) {
+			        	  alert( "Sorry, could not post feedback. Try later" );
+			        	});
 			    });
 			});
 		</script>
@@ -273,7 +298,7 @@
 						<h3>Rating:</h3> <img src="images/rating3.png" alt="Rating image" />
 					</div>
 					<div id="chef_reviews" class="chef_class">
-						<p><h4>Reviews:</h4></p>
+						<p id="reviewsTitle"><h4>Reviews:</h4></p>
 						<div class="reviews">
 							<p id="lastComment" class="comments">Laura is a great cook! Her enchiladas are great! We had a great time.</p>
 							<p class="date">8 hours ago</p>
@@ -296,11 +321,21 @@
 					<div id="chef_feedback" class="chef_class" style="display:none;">
 						<div class="reviews" id="feedbackPost_success"></div>
 							Post Feedback:<br>
-							    Organizer (reviewee): <input type="text" name="revieweeEmail" id="organizerEmail"><br>
-								Customer (reviewer): <input type="text" name="reviewerEmail" id="customerEmail"><br> 
-								Comment: <input type="text" name="comment" id="feedbackComment"><br>
-								Rating: <input type="text" name="rating" id="feedbackRating"><br>
-								<input type="submit" value="Submit" id="submitFeedbackBtn">
+								<div class="question">
+									<label for="feedbackComment">Description</label>
+									<textarea name="feedbackComment" id="feedbackComment"></textarea>
+								</div>
+								<div class="question">
+									<label for="feedbackRating">Rating</label>
+									<select id="feedbackRating" name="feedbackRating"/>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+									</select>
+								</div>
+								<input type="submit" class="small_green_button" value="Submit" id="submitFeedbackBtn">
 							 <!-- <button href="mailto:" class="small_green_button" id="writeFeedbackBtn">Write a review</button> -->
 					</div>
 					<div class="overlay" id="overlay" style="display:none;"></div>

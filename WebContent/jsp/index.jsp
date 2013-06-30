@@ -174,7 +174,7 @@
 				            $("#content_food").empty();
 				            for (var i=0; i<response.result.length; i++)
 				            {
-				            	$("#content_food").append('<div class="container" onclick="window.location=\'/meal.do?id='+ response.result[i].unique_id +'\'" style="float: left;" id="' + response.result[i].unique_id + '_eventSearchList"><img src="/'+ response.result[i].picture1 +'" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
+				            	$("#content_food").append('<div class="container" onclick="window.location=\'/meal.do?id='+ response.result[i].unique_id +'\'" style="float: left;" id="' + response.result[i].unique_id + '_eventSearchList"><img src="http://lcoalhost:8080'+ response.result[i].picture1 +'" alt="Empanadas"><h3>' + response.result[i].title + '</h3><h4>'+ response.result[i].address.city +', '+ response.result[i].address.state + '</h4><h4>'+ response.result[i].date + ' ('+ response.result[i].time +')</h4><h2>$'+ response.result[i].price +'</h2></div>');				            	
 				            }
 					   		
 				        },

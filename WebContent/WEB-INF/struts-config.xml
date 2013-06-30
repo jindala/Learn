@@ -30,8 +30,8 @@
        	<action
             path="/feedback"
             type="com.socialfood.servlets.CFeedbackHandler" >
-            <forward name="success" path="/" redirect="true" />
-            <forward name="failure" path="/"/>   
+            <forward name="success" path="/meal.do" redirect="true" />
+            <forward name="failure" path="/meal.do"/>   
         </action>
         
         <action

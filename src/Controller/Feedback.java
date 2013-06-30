@@ -19,18 +19,13 @@ public class Feedback {
 	{
 		DBUtil dbUtil = new DBUtil();
 		
-		Map reqParamMap = req.getParameterMap();
-		
+		Map<String, String[]> reqParamMap = req.getParameterMap();		
 		BasicDBObject feedbackDoc = new BasicDBObject();
 		
-		feedbackDoc.put("revieweeEmail", reqParamMap.get("revieweeEmail")); 		//reviewee: organizer/customer
-		feedbackDoc.put("reviewerEmail", reqParamMap.get("reviewerEmail")); 		//reviewer
-		feedbackDoc.put("comment", reqParamMap.get("comment"));
-		//To-DO: verify 'rating' is integer
-		feedbackDoc.put("rating", reqParamMap.get("rating"));						
-		feedbackDoc.put("oneLiner", reqParamMap.get("oneLiner"));					//title?
-		feedbackDoc.put("feedback_type", reqParamMap.get("feedback_type")); 		//customer or organizer
-		feedbackDoc.put("feedback_cuisine", reqParamMap.get("feedback_cuisine")); 	//feedback for a particular cuisine in general
+		feedbackDoc.put("reviewee", reqParamMap.get("reviewee")[0]); 		//reviewee: organizer/customer
+		feedbackDoc.put("reviewer", reqParamMap.get("reviewer")[0]); 		//reviewer
+		feedbackDoc.put("feedback", reqParamMap.get("feedback")[0]);
+		feedbackDoc.put("rating", reqParamMap.get("rating")[0]);						
 		
 		String id=null;
 		try {
