@@ -14,6 +14,7 @@ import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONObject;
 
 import Controller.Feedback;
+import Controller.User;
 
 public class CFeedbackHandler extends Action{
 
@@ -44,17 +45,17 @@ public class CFeedbackHandler extends Action{
     {
     	System.out.println("Save new feedback");
     	
-    	Feedback newfeedback = new Feedback();
-		String feedbackID = newfeedback.saveFeedback(request);
+    	User user = new User();
+		String reviewerId = user.addFeedback(request);
 		
-		if(feedbackID == null){
+		if(reviewerId == null){
 			return mapping.findForward("failure");
 		}
 		
 		System.out.println("End posting feedback");
 		
 		PrintWriter out = response.getWriter();
-        out.print(feedbackID);
+        out.print(reviewerId);
         out.flush();
         return null;
     }

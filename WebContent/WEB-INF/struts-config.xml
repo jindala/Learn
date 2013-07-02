@@ -53,6 +53,13 @@
             <forward name="failure" path="/meal.do"/>    
         </action>
     
+       	<action
+            path="/user"
+            type="com.socialfood.servlets.CUserHandler" >
+            <forward name="success" path="/meal.do" redirect="true" />
+            <forward name="failure" path="/meal.do"/>    
+        </action>
+        
     </action-mappings>
 	
 	

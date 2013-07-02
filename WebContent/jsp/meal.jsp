@@ -45,6 +45,7 @@
 				var baseAmount;
 				var userRelationToEvent = "none";
 				var currentUid = getCookie("socialfooduid");
+				var currentUName = getCookie("name");
 				var hostUid;
 				if(id != "" && id != undefined)
 				{  	
@@ -106,6 +107,46 @@
 					   		}
 					   		
 					   		$("#book_eventid").val(id);
+					   		
+					   		// Get host information
+					        var request = $.ajax({
+					        	  type: "GET",
+					        	  url: "user.do?uid=" + hostUid
+					        	});
+					        request.done(function(user) {
+					        	$("#hostname").html(user.result[0].name);
+								var feedback = user.result[0].feedback;
+								var alreadyReviewed = false;
+								var totalRating = 0;
+						   		if(feedback != null && feedback != undefined){
+						   			for(var i=0;i<feedback.length;i++) {
+								        $("#reviewsTitle").after('<div class="reviews"><p id="'+ feedback[i].reviewer +'_comment" class="comments">'+feedback[i].comment +'</p><p class="by_user">by '+ feedback[i].reviewerName +'</p></div>');
+								        if(feedback[i].reviewer == currentUid) {
+								        	alreadyReviewed = true;
+								        }
+								        totalRating += parseInt(feedback[i].rating);
+						   			}
+							   		var avgRating = totalRating/feedback.length;
+							   		console.log("average rating: " + avgRating);
+						   		}
+
+						   		//Hide Write Review button
+						   		if(alreadyReviewed==true || userRelationToEvent != "guest") {
+						   			$("#writeFeedbackBtn").hide();
+						   		}
+						   		
+						   		// Fill Contact button info
+						   		if(userRelationToEvent == "guest") {
+						   			$("#contactHost_button").show();
+						   			$("#contactHost_button").attr("href", "mailto:" + user.result[0].email);
+						   		}
+						   		else {
+						   			$("#contactHost_button").hide();
+						   		}
+					        });
+					        request.fail(function(jqXHR, textStatus) {
+					        	  console.log( "could not get host information" );
+					        });
 				        },
 				        // callback handler that will be called on error
 				        error: function(jqXHR, textStatus, errorThrown){
@@ -170,37 +211,17 @@
 			        $("#chef_feedback").fadeIn(600);
 				});
 				
-				$("#submitFeedbackBtn").click(function(){
-				   	/*var orgEmail = $("#organizerEmail").val();
-				   	var custEmail = $("#customerEmail").val();*/
-				   	var comment = $("#feedbackComment").val();
-				   	var rating = $("#feedbackRating").val();
-					
-				   	//POST
-				   	/*$("#feedbackPost_success").load("/feedback", { 
-				   		//"revieweeEmail":orgEmail,
-				   		//"reviewerEmail":custEmail,
-				   		"comment":comment,
-				   		"rating":rating},function(data){
-					   		$("#feedbackPost_success").html(comment);
-				   	});*/
-				   	
-
-				   	
+				$("#submitFeedbackBtn").click(function(){ 	
 				    //Hide the feedback form
 			        $("#chef_feedback").fadeOut(600);
-				    
-				    //Update the last comment
-				    //$("#lastComment").html(comment);
-				    
 				    
 			        var request = $.ajax({
 			        	  type: "POST",
 			        	  url: "feedback.do",
-			        	  data: { reviewee: hostUid, reviewer: currentUid,feedback: $("#feedbackComment").val(), rating:$("#feedbackRating").val()}
+			        	  data: { reviewee: hostUid, reviewer: currentUid, reviewerName: currentUName, feedback: $("#feedbackComment").val(), rating:$("#feedbackRating").val()}
 			        	});
 			        request.done(function(msg) {
-			        	$("#reviewsTitle").after('<div class="reviews"><p id="'+ msg +'" class="comments">'+$("#feedbackComment").val() +'</p><p class="by_user">by '+ currentUid +'</p></div>')
+			        	$("#reviewsTitle").after('<div class="reviews"><p id="'+ msg +'_comment" class="comments">'+$("#feedbackComment").val() +'</p><p class="by_user">by '+ currentUName +'</p></div>');
 								        	
 					   	//Clear the form after submit
 					   	$("#organizerEmail").val("");
@@ -210,12 +231,17 @@
 					   	
 					    //Hide the feedback form
 				        $("#chef_feedback").fadeOut(600);
+				        $("#writeFeedbackBtn").hide();
 
 			        	});
 			        request.fail(function(jqXHR, textStatus) {
 			        	  alert( "Sorry, could not post feedback. Try later" );
 			        	});
 			    });
+				
+				$("#cancel_feedback_button").click(function(){
+					$("#chef_feedback").fadeOut(600);
+				});
 			});
 		</script>
 	</head>
@@ -287,8 +313,8 @@
 					<p><h2>Meet your chef</h2></p>
 					<div id="chef_profile" class="chef_class">
 						<img src="images/chef_image.jpg" alt="Chef Name" class="profile_img">
-						<p>Laura Sauceda</p>
-						<button href="mailto:" class="small_green_button">Contact</button>
+						<p id="hostname">Laura Sauceda</p>
+						<button href="mailto:" id="contactHost_button" class="small_green_button">Contact</button>
 					</div>
 					<div id="chef_desc" class="chef_class">
 						<h4>About the host<meta>:</h4>
@@ -299,21 +325,6 @@
 					</div>
 					<div id="chef_reviews" class="chef_class">
 						<p id="reviewsTitle"><h4>Reviews:</h4></p>
-						<div class="reviews">
-							<p id="lastComment" class="comments">Laura is a great cook! Her enchiladas are great! We had a great time.</p>
-							<p class="date">8 hours ago</p>
-							<p class="by_user">by Nora Jones</p>
-						</div>
-						<div class="reviews">
-							<p id="secondLastComment" class="comments">Her tacos are the best ever! Just be carefull with the spicy salsa!</p>
-							<p class="date">1 days ago</p>
-							<p class="by_user">by John Wu</p>
-						</div>
-						<div class="reviews">
-							<p id="thirdLastComment" class="comments">I love Mexican food! I enjoyed a lot eating at Laura's place! She is a great host.</p>
-							<p class="date">3 days ago</p>
-							<p class="by_user">by James Hy</p>
-						</div>
 					</div> 
 					<div id="chef_reviews" class="chef_class">
 						<button class="small_green_button" id="writeFeedbackBtn">Write a review</button>
@@ -335,8 +346,8 @@
 										<option value="5">5</option>
 									</select>
 								</div>
-								<input type="submit" class="small_green_button" value="Submit" id="submitFeedbackBtn">
-							 <!-- <button href="mailto:" class="small_green_button" id="writeFeedbackBtn">Write a review</button> -->
+								<input type="submit" class="small_green_button" value="Submit" id="submitFeedbackBtn" />
+								<input type="button" id="cancel_feedback_button" class="small_red_button" value="Cancel" />
 					</div>
 					<div class="overlay" id="overlay" style="display:none;"></div>
 				</div>
