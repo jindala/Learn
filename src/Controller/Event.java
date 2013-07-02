@@ -94,6 +94,12 @@ public class Event {
 		return dbUtil.queryDocs(EVENT_COLLECTION, queryObj);
 	}
 	
+	public JSONObject getAllEvents() throws UnknownHostException {
+		DBUtil dbUtil = new DBUtil();
+		
+		return dbUtil.getAllDocs(EVENT_COLLECTION);
+	}
+	
 	public JSONObject getEventsByZip(String zip) throws UnknownHostException
 	{
 		BasicDBObject queryObj = new BasicDBObject();

@@ -28,23 +28,32 @@ public class DBUtil {
 		return id.toString();
 	}
 	
-	public Map getAllDocs(String collectionName) throws UnknownHostException
+	public JSONObject getAllDocs(String collectionName) throws UnknownHostException
 	{
 		DBCollection coll = getCollection(collectionName);
 		DBCursor cursor = coll.find();
 		List<DBObject> dbObjectList = cursor.toArray();
 		try {
+			JSONObject resultJSON = new JSONObject();
+			JSONArray resultArray = new JSONArray();
+			
             for(DBObject dbObject: dbObjectList) {
+            	ObjectId id = (ObjectId)dbObject.get("_id");
+            	
                 Map resultMap = dbObject.toMap();
                 System.out.println("full map " + resultMap);
-                return resultMap;
+                resultMap.remove("_id");
+                resultMap.put("unique_id", id.toString());
+                resultArray.add(resultMap);
             }
+            resultJSON.put("result", resultArray);
+            System.out.println("result: "+ resultArray);
+            return resultJSON;
         } finally {
             cursor.close();
         }
 		
-		return null;
-	}
+}
 	
 	public JSONObject queryDocs(String collectionName,BasicDBObject basicdbObject) throws UnknownHostException
 	{
@@ -64,7 +73,6 @@ public class DBUtil {
             }
             resultJSON.put("result", resultArray);
             System.out.println("result: "+ resultArray);
-            //return JSONValue.toJSONString(resultJSON);
             return resultJSON;
         } finally {
             cursor.close();
